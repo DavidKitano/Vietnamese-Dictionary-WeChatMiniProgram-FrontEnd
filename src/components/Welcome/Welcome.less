@@ -1,0 +1,130 @@
+.welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    // border: solid #8f8f94;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+.logo {
+    height: 250rpx;
+    width: 250rpx;
+    margin: auto auto 50rpx auto;
+    clip-path: circle(50%);
+    animation: Z-rotation 4.5s infinite;
+    transform-style: preserve-3d;
+    transition: 4.5s linear;
+}
+
+@keyframes Z-rotation {
+    0% {
+        transform: rotateZ(0deg);
+    }
+
+    5% {
+        transform: rotateZ(0deg);
+    }
+
+    20% {
+        transform: rotateZ(80deg);
+    }
+
+    55% {
+        transform: rotateZ(-55deg);
+    }
+
+    75% {
+        transform: rotateZ(40deg);
+    }
+
+    85% {
+        transform: rotateZ(-35deg);
+    }
+
+    90% {
+        transform: rotateZ(21deg);
+    }
+
+    92% {
+        transform: rotateZ(-14deg);
+    }
+
+    93% {
+        transform: rotateZ(8deg);
+    }
+
+    94% {
+        transform: rotateZ(-3deg);
+    }
+
+    98% {
+        transform: rotateZ(360deg);
+    }
+
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
+
+
+.text-area {
+    display: flex;
+    justify-content: center;
+}
+
+.welcome-title {
+    font-size: 36rpx;
+    color: #8f8f94;
+}
+
+.welcome-button {
+    justify-content: center;
+    margin-top: 40rpx;
+    margin-bottom: 200rpx;
+    display: flex;
+    width: 240rpx;
+    height: 95rpx;
+    line-height: 95rpx;
+    color: whitesmoke;
+    font-size: 34rpx;
+    border-radius: 15rpx;
+    background: linear-gradient(to right, rgb(69, 213, 33), rgb(6, 160, 9));
+    box-shadow: 0rpx 7rpx 11rpx 0rpx #8f8f94;
+}
+
+.welcome-button-tapped {
+    animation: welcomeButton-tap 0.08s;
+    transform-style: preserve-3d;
+    transition: 0.08s linear;
+    opacity: 0.7;
+}
+
+@keyframes welcomeButton-tap {
+    0% {
+        opacity: 0.7;
+        background: linear-gradient(to right, rgb(69, 213, 33), rgb(6, 160, 9));
+    }
+
+    2% {
+        opacity: 0.7;
+        background: linear-gradient(to right, rgb(178, 237, 143), rgb(6, 160, 9));
+    }
+
+    50% {
+        opacity: 0.7;
+        background: linear-gradient(to right, rgb(69, 213, 33), rgb(178, 237, 143), rgb(6, 160, 9));
+    }
+
+    98% {
+        opacity: 0.7;
+        background: linear-gradient(to right, rgb(69, 213, 33), rgb(178, 237, 143))
+    }
+
+    100% {
+        opacity: 0.7;
+        background: linear-gradient(to right, rgb(69, 213, 33), rgb(6, 160, 9));
+    }
+}

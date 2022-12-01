@@ -1,0 +1,69 @@
+// :root {
+//     --
+// }
+
+.MyInfos {
+    width: 100%;
+    height: 500rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .background {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        text-align: center;
+        z-index: -999; // 绝对最底层
+        filter: blur(60rpx);
+        opacity: 0.75;
+
+        .backgroundImage {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .loginBtn {
+        width: 300rpx;
+        height: 80rpx;
+        background: linear-gradient(to right, #b4ebef, #90ced3);
+        box-shadow: 0rpx 7rpx 11rpx 0rpx #8f8f94;
+        color: whitesmoke;
+        font-size: 36rpx;
+        line-height: 80rpx;
+        text-align: center;
+        border-radius: 15rpx;
+        font-weight: 800;
+    }
+
+    .loginBtnTapped {
+        box-shadow: 0rpx 5rpx 9rpx 0rpx #8f8f94;
+        opacity: 0.7;
+        width: 290rpx;
+        height: 70rpx;
+        line-height: 70rpx;
+        font-size: 34rpx;
+    }
+
+    .avatar {
+        width: 160rpx;
+        height: 160rpx;
+        border-radius: 50%;
+        border: solid 4rpx #e6e6e6;
+        margin-top: 20rpx;
+    }
+
+    .username {
+        margin-top: 30rpx;
+        color: #ffffff;
+        font-size: 44rpx;
+        text-shadow: 2rpx 2rpx 2rpx #bfbfbf;
+    }
+}

@@ -1,0 +1,84 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 首页"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 登录"
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 我的"
+			}
+		},
+		{
+			"path": "pages/review/review",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 复习"
+			}
+		},
+		{
+			"path": "pages/overview/overview",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 概览"
+			}
+		},
+		{
+			"path": "pages/news/news",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 新闻"
+			}
+		},
+		{
+			"path": "pages/u_settings/u_settings",
+			"style": {
+				"navigationBarTitleText": "我的设置"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "越南单词本",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"usingComponents": {},
+	"tabBar": {
+		"color": "#A6D6FA",
+		"selectedColor": "#62BEFF",
+		"backgroundColor": "#f8ece9b4",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "/static/images/tab-learn-A6D6FA.png",
+				"selectedIconPath": "/static/images/tab-learn-62BEFF.png"
+			},
+			{
+				"pagePath": "pages/news/news",
+				"text": "新闻",
+				"iconPath": "/static/images/tab-news-A6D6FA.png",
+				"selectedIconPath": "/static/images/tab-news-62BEFF.png"
+			},
+			{
+				"pagePath": "pages/overview/overview",
+				"text": "概览",
+				"iconPath": "/static/images/tab-overview-A6D6FA.png",
+				"selectedIconPath": "/static/images/tab-overview-62BEFF.png"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"text": "我的",
+				"iconPath": "/static/images/tab-user-A6D6FA.png",
+				"selectedIconPath": "/static/images/tab-user-62BEFF.png"
+			}
+		]
+	}
+}
