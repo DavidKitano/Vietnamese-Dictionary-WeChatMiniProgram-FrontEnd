@@ -38,6 +38,7 @@
 <script>
 const app = getApp();
 const userApi = require('../../utils/userApi.js');
+const utils = require('../../utils/utils');
 
 export default {
   name: "MySettings",
@@ -65,7 +66,7 @@ export default {
       }
       this.isLogin = isLogin
       this.userInfo = userInfo
-      console.log("用户信息", this.userInfo)
+      // console.log("用户信息", this.userInfo)
     },
     logoutConfirm: function (e) {
       let _this = this;
@@ -119,22 +120,10 @@ export default {
       }
     },
     underConstruction: function (e) {
-      console.log(e);
-      uni.showToast({
-        title: '开发中',
-        icon: "error",
-        duration: 1500,
-        mask: true
-      })
+      utils.underConstruction(e);
     },
     error: function (e) {
-      console.log(e);
-      uni.showToast({
-        title: '内部错误，请重试',
-        icon: "error",
-        duration: 1500,
-        mask: true
-      })
+      utils.errorFound(e);
     },
     clearAllCache: function (e) {
       let _this = this;

@@ -4,6 +4,27 @@
     width: 100%;
     height: 100%;
 
+    .settingsTitle {
+        width: 100%;
+        height: 120rpx;
+        padding-left: 45rpx;
+        line-height: 120rpx;
+        display: flex;
+
+        .settingsTitleName {
+            font-weight: 600;
+            font-size: 45rpx;
+        }
+
+        image {
+            width: 65rpx;
+            height: 65rpx;
+            margin-left: 20rpx;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+    }
+
     .optionList {
         width: 100%;
         background-color: #f6f6f6;
@@ -16,8 +37,10 @@
         }
 
         .option {
-            width: 670rpx;
+            box-sizing: border-box;
+            width: 100%;
             height: 100rpx;
+            line-height: 100rpx;
             padding: 0 40rpx;
             background-color: #ffffff;
             display: flex;
@@ -26,19 +49,16 @@
             font-weight: 600;
 
             .optionName {
-                width: 600rpx;
+                width: 50%;
                 margin-left: 30rpx;
-                color: #515151;
-                font-weight: 600;
-                font-size: 32rpx;
+                // border: solid 1px red;
             }
 
-            .optionAct {
-                width: 600rpx;
-                // margin-right: 30rpx;
-                color: #515151;
-                font-weight: 600;
-                font-size: 32rpx;
+            .optionValue {
+                margin-right: 30rpx;
+                width: 50%;
+                text-align: right;
+                // border: solid 1px red;
 
                 button {
                     width: 200rpx !important;
@@ -48,16 +68,27 @@
                     text-indent: 20rpx;
                     letter-spacing: 20rpx;
                     text-align: center;
+                    float: right;
                 }
             }
-        }
 
-        // .optionTapped {
-        //     background-color: #e6e6e6;
-        // }
+            .optionTapped {
+                background-color: #e6e6e6 !important;
+            }
+
+            .optionName,
+            .optionValue {
+                color: #515151;
+                font-weight: 600;
+                font-size: 32rpx;
+            }
+        }
     }
 
+
 }
+
+
 
 .split {
     width: 100%;

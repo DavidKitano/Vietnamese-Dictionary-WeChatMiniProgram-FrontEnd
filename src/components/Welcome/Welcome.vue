@@ -37,7 +37,11 @@ export default {
 
   // 组件周期函数--监听组件挂载完毕
   mounted() {
-    uni.hideTabBar();
+    try {
+      uni.hideTabBar();
+    } catch {
+      console.log("无tabbar可关，或出现错误");
+    }
     console.log("加载了welcome组件");
     var tmp = 0;
     setInterval(() => {
@@ -64,7 +68,11 @@ export default {
   deactivated() { },
   // 组件周期函数--监听组件销毁之前
   beforeDestroy() {
-    uni.showTabBar();
+    try {
+      uni.showTabBar();
+    } catch {
+      console.log("有tabbar显示错误")
+    }
   },
 
   onLoad() {
@@ -75,7 +83,11 @@ export default {
       // console.log("点击了好耶");
       this.closeWelcomeFlag = true;
       if (this.closeWelcomeFlag) {
-        uni.showTabBar();
+        try {
+          uni.showTabBar();
+        } catch {
+          console.log("有tabbar显示错误")
+        }
       }
     },
 

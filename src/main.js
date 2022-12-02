@@ -2,6 +2,7 @@ import {
 	createSSRApp
 } from "vue";
 import './utils/userApi.js'
+import './utils/utils.js'
 import { promisifyAll } from 'miniprogram-api-promise'
 import App from "./App.vue";
 

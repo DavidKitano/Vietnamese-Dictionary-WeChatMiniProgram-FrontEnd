@@ -40,10 +40,14 @@ export default {
         return false;
       } else {
         console.log("检测到新用户或清理过缓存");
-        console.log(openId + " " + flag);
+        // console.log(openId + " " + flag);
         this.newComer = false;
         uni.setStorageSync("newComerFlag", "notNew" + openId);
-        uni.hideTabBar();
+        try {
+          uni.hideTabBar();
+        } catch {
+          console.log("无tabbar可关，或出现错误");
+        }
         return true;
       }
     },

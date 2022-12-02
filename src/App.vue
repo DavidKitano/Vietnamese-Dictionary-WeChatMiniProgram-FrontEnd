@@ -1,5 +1,6 @@
 <script>
 const userApi = require('./utils/userApi.js');
+
 export default {
   globalData: {
     /**
@@ -32,6 +33,11 @@ export default {
   },
   onLaunch: function () {
     this.globalData.isFirstTimeLaunch = true;
+    try {
+      uni.hideTabBar();
+    } catch {
+      console.log("有tabbar隐藏错误")
+    }
     if (this.globalData.isFirstTimeLaunch) {
       console.log("App Launch");
       this.flushStatus();
@@ -43,7 +49,18 @@ export default {
       console.log("App Show");
       this.flushStatus();
     }
-    // console.log(this.globalData)s
+    setTimeout(() => {
+      console.log("wait for 2s")
+      try {
+        uni.showTabBar();
+      } catch {
+        console.log("有tabbar显示错误")
+      }
+    }, 1000)
+
+
+
+    // console.log(this.globalData)
   },
   onHide: function () {
     console.log("App Hide");

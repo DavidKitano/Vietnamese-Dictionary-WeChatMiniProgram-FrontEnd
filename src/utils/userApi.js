@@ -1,3 +1,5 @@
+const utils = require('./utils.js')
+
 async function registerApi(d) {
     uni.showLoading({
         title: '注册中',
@@ -19,7 +21,7 @@ async function registerApi(d) {
             uni.hideLoading()
         }, 1500)
     }
-    return statusCodeExplain(res)
+    return utils.statusCodeExplain(res)
 };
 
 async function loginApi(d) {
@@ -42,7 +44,7 @@ async function loginApi(d) {
             uni.hideLoading()
         }, 1500)
     }
-    return statusCodeExplain(res)
+    return utils.statusCodeExplain(res)
 }
 
 async function wxLoginApi(c) {
@@ -66,7 +68,7 @@ async function wxLoginApi(c) {
             uni.hideLoading()
         }, 1500)
     }
-    return statusCodeExplain(res)
+    return utils.statusCodeExplain(res)
 }
 
 
@@ -91,13 +93,14 @@ async function logoutApi(t) {
             uni.hideLoading()
         }, 1500)
     }
-    return statusCodeExplain(res)
+    return utils.statusCodeExplain(res)
 }
 
 async function getProfilesApi(t) {
     try {
         uni.hideTabBar();
-    } catch {//nothing
+    } catch {
+        console.log("无tabbar可关，或出现错误");
     }
     uni.showLoading({
         title: '资料加载中',
@@ -112,45 +115,52 @@ async function getProfilesApi(t) {
     })
     if (res) {
         setTimeout(function () {
-            uni.hideLoading();
-            uni.showTabBar();
+            try {
+                uni.hideLoading({
+                    success() {
+                        try {
+                            uni.showTabBar();
+                        } catch {
+                            console.log("有tabbar显示错误")
+                        }
+                    },
+                    fail() {
+                        console.log("有隐藏加载条的错误")
+                        // uni.showToast({
+                        //     title: "未知错误",
+                        //     mask: true,
+                        //     icon: "none",
+                        //     duration: 4000
+                        // })
+                    }
+                });
+            } catch {
+                uni.showToast({
+                    title: "未知错误",
+                    mask: true,
+                    icon: "none",
+                    duration: 4000
+                })
+            }
         }, 2200)
         // console.log("获取个人信息结果", res)
     }
     return res;
 }
 
-function statusCodeExplain(result) {
-    try {
-        switch (result.code) {
-            default: return "非法操作";
-            case 0:
-            case 400:
-                if (result.hasOwnProperty('data')) {
-                    // console.log("结果是个对象");
-                    return {
-                        msg: result.msg,
-                        data: result.data
-                    }
-                }
-                else {
-                    // console.log("结果是个String");
-                    return result.msg;
-                }
-            case 402:
-                return "输入不合法";
-            case 403:
-                return "权限不足";
-            case 500:
-                return "非法操作或内部错误";
-            case 401:
-                return "未登录或登录状态已失效";
-        }
-    }
-    catch {
-        return "非法操作";
-    }
+async function modUserSettingsApi(obj, t) {
+    console.log("传入参数检查", obj, t);
+    const { data: res } = await wx.p.request({
+        method: 'PUT',
+        url: 'http://vi.wzf666.top/user/information',
+        header: {
+            token: t
+        },
+        data: obj
+    })
+    return (utils.statusCodeExplain(res));
 }
+
 
 module.exports = {
     register: registerApi,
@@ -158,4 +168,5 @@ module.exports = {
     logout: logoutApi,
     getProfiles: getProfilesApi,
     wxLogin: wxLoginApi,
+    modUserSettings: modUserSettingsApi
 }
