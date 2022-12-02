@@ -123,18 +123,19 @@ export default {
         if (uni.getStorageSync('token')) {
           app.globalData.token = uni.getStorageSync('token');
         }
-        uni.showToast({
-          title: res, icon: "none", duration: 3000, mask: true
-        })
+
         setTimeout(function () {
-          app.onShow();
-          uni.reLaunch({
-            url: '../index/index'
+          uni.showToast({
+            title: res, icon: "none", duration: 3000, mask: true
           })
         }, 3000)
+        app.onShow();
+        uni.reLaunch({
+          url: '../index/index'
+        })
       }
       uni.showToast({
-        title: res, icon: "none", duration: 1500, mask: true
+        title: res, icon: "none", duration: 3000, mask: true
       })
 
     },
@@ -199,7 +200,7 @@ export default {
                         app.globalData.token = uni.getStorageSync('token');
                       }
                       uni.showToast({
-                        title: fin_res, icon: "none", duration: 3000, mask: true
+                        title: fin_res, icon: "none", duration: 3500, mask: true
                       })
                       setTimeout(function () {
                         app.onShow();
@@ -209,7 +210,7 @@ export default {
                       }, 3000)
                     }
                     uni.showToast({
-                      title: fin_res, icon: "none", duration: 1500, mask: true
+                      title: fin_res, icon: "none", duration: 3500, mask: true
                     })
                   })
                 } else {

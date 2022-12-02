@@ -1,25 +1,33 @@
 <template>
   <view class="MySettings">
     <view class="optionList">
-      <view class="option" hover-class="optionTapped" @tap="changeAvatar">
-        <image src="../../static/images/svgs/profile.svg"></image>
-        <view class="optionName">更改头像</view>
+      <view class="optionListLogin" :wx:if="isLogin">
+        <view class="option" hover-class="optionTapped" @tap="changeAvatar">
+          <image src="../../static/images/svgs/profile.svg"></image>
+          <view class="optionName">更改头像</view>
+        </view>
+        <view class="option" hover-class="optionTapped" data-type="username" @tap="changeName">
+          <image src="../../static/images/svgs/card_fill.svg"></image>
+          <view class="optionName">更改昵称</view>
+        </view>
+        <view class="option" hover-class="optionTapped" data-type="pwd" :wx:if="!userInfo.isWxUser"
+          @tap="changePassword">
+          <image src="../../static/images/svgs/subtitle_block_light-dark.svg"></image>
+          <view class="optionName">修改密码</view>
+        </view>
+        <view class="split"></view>
+        <view class="option" hover-class="optionTapped" @tap="goSettings">
+          <image src="../../static/images/svgs/more.svg"></image>
+          <view class="optionName">更多详细设定</view>
+        </view>
+        <view class="split"></view>
       </view>
-      <view class="option" hover-class="optionTapped" data-type="username" @tap="changeName">
-        <image src="../../static/images/svgs/card_fill.svg"></image>
-        <view class="optionName">更改昵称</view>
+
+      <view class="option" hover-class="optionTapped" @tap="clearAllCache">
+        <image src="../../static/images/svgs/trashbin.svg"></image>
+        <view class="optionName">清除缓存</view>
       </view>
-      <view class="option" hover-class="optionTapped" data-type="pwd" :wx:if="!userInfo.wx_user" @tap="changePassword">
-        <image src="../../static/images/svgs/subtitle_block_light-dark.svg"></image>
-        <view class="optionName">修改密码</view>
-      </view>
-      <view class="split"></view>
-      <view class="option" hover-class="optionTapped" @tap="goSettings">
-        <image src="../../static/images/svgs/more.svg"></image>
-        <view class="optionName">更多详细设定</view>
-      </view>
-      <view class="split"></view>
-      <view class="option" hover-class="optionTapped" @tap="exitManually">
+      <view class="option" hover-class="optionTapped" @tap="exitManuallyConfirm">
         <image src="../../static/images/svgs/exit.svg"></image>
         <view class="optionName">正常关闭小程序</view>
       </view>
@@ -28,7 +36,6 @@
   </view>
 </template>
 <script>
-
 const app = getApp();
 const userApi = require('../../utils/userApi.js');
 
@@ -53,7 +60,7 @@ export default {
           avatar_pic: app.globalData.userInfo.avatar_pic,
           username: app.globalData.userInfo.username,
           user_id: app.globalData.userInfo.user_id,
-          wx_user: app.globalData.userInfo.wx_user,
+          isWxUser: app.globalData.userInfo.isWxUser,
         }
       }
       this.isLogin = isLogin
@@ -109,6 +116,97 @@ export default {
         app.globalData.isLogin = false;
       }
     },
+    underConstruction: function (e) {
+      console.log(e);
+      uni.showToast({
+        title: '开发中',
+        icon: "error",
+        duration: 1500,
+        mask: true
+      })
+    },
+    error: function (e) {
+      console.log(e);
+      uni.showToast({
+        title: '内部错误，请重试',
+        icon: "error",
+        duration: 1500,
+        mask: true
+      })
+    },
+    clearAllCache: function (e) {
+      let _this = this;
+      try {
+        let cache = uni.getStorageInfoSync();
+        let warning = '缓存占用' + cache.currentSize + 'KB';
+        // console.log(cache);
+        if (cache.currentSize <= cache.limitSize) {
+          warning = warning + "，在限制范围内";
+        } else if (cache.currentSize > cache.limitSize) {
+          warning = warning + "，超过程序限制";
+        } else {
+          warning = "内部错误";
+          this.error();
+        }
+        uni.showModal({
+          title: warning,
+          content: '确认要清除所有缓存吗？该操作会退出登录，清除缓存内容并重新加载小程序',
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定清除缓存')
+              try {
+                uni.showLoading();
+                uni.clearStorageSync();
+                app.globalData.isFirstTimeLaunch = false;
+                app.globalData.token = undefined;
+                app.globalData.isLogin = false;
+                app.globalData.userInfo = { settings: {} };
+                uni.hideLoading();
+                uni.showToast({
+                  title: "清除成功",
+                  icon: "none",
+                  duration: 1800,
+                  mask: true
+                })
+                setTimeout(function () {
+                  uni.reLaunch({
+                    url: '../index/index'
+                  })
+                }, 2000)
+              } catch (e) {
+                _this.error();
+              }
+            } else if (res.cancel) {
+              console.log('用户点击取消清除缓存')
+            }
+          }
+        })
+      } catch {
+        uni.showToast({
+          title: "操作失败，请重试", icon: "none", duration: 3000, mask: true
+        });
+      }
+    },
+    exitManuallyConfirm: function (e) {
+      let _this = this;
+      let warning = ""
+      if (this.isLogin) {
+        warning = "本次退出不会直接注销登录，";
+      }
+      uni.showModal({
+        title: '提示',
+
+        content: '您可以通过下滑微信重新进入，' + warning + '确认要关闭小程序吗？',
+        success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            _this.exitManually();
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    },
     exitManually: function (e) {
       uni.exitMiniProgram({
         success: function () {
@@ -120,15 +218,6 @@ export default {
             title: "操作失败，请尝试右上角退出", icon: "none", duration: 3000, mask: true
           });
         }
-      })
-    },
-    underConstruction: function (e) {
-      console.log(e);
-      uni.showToast({
-        title: '开发中',
-        icon: "error",
-        duration: 1500,
-        mask: true
       })
     },
 
@@ -145,7 +234,9 @@ export default {
     },
 
     goSettings: function (e) {
-      this.underConstruction(e);
+      uni.navigateTo({
+        url: '../../pages/u_settings/u_settings'
+      });
     }
 
 

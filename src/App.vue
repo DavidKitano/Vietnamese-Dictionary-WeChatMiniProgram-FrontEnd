@@ -2,9 +2,14 @@
 const userApi = require('./utils/userApi.js');
 export default {
   globalData: {
+    /**
+     * 
+     * 可以用MobX进行管理
+     * 
+     */
+    isFirstTimeLaunch: false,
     token: undefined,
     isLogin: false,
-    tryingLogin: true,
     userInfo: {
 
       // user_id: 2,
@@ -27,19 +32,20 @@ export default {
         // review_third_m: 'recallTrans',
       }
     },
-    updatedForIndex: false,
-    updatedForOverview: false,
-    forChangeAvatar: {
-      change: false,
-      tempImgSrc: '',
-      imgSrc: '',
-    }
   },
   onLaunch: function () {
-    this.flushStatus();
+    this.globalData.isFirstTimeLaunch = true;
+    if (this.globalData.isFirstTimeLaunch) {
+      console.log("App Launch");
+      this.flushStatus();
+      this.globalData.isFirstTimeLaunch = false;
+    }
   },
   onShow: function () {
-    this.flushStatus();
+    if (this.globalData.isFirstTimeLaunch) {
+      console.log("App Show");
+      this.flushStatus();
+    }
     // console.log(this.globalData)
   },
   onHide: function () {
@@ -47,6 +53,24 @@ export default {
   },
   components: {},
   methods: {
+    underConstruction: function (e) {
+      console.log(e);
+      uni.showToast({
+        title: '开发中',
+        icon: "error",
+        duration: 1500,
+        mask: true
+      })
+    },
+    err: function (e) {
+      console.log(e);
+      uni.showToast({
+        title: '内部错误，请重试',
+        icon: "error",
+        duration: 1500,
+        mask: true
+      })
+    },
     flushStatus: function (e) {
       this.globalData.token = uni.getStorageSync('token');
       if (this.globalData.token) {
@@ -80,7 +104,7 @@ export default {
         try { this.globalData.userInfo.avatar_pic = profile.avatar; } catch { console.log("在初始化头像时出现错误") }
         try { this.globalData.userInfo.username = profile.username; } catch { console.log("在初始化用户名时出现错误") }
         try { this.globalData.userInfo.user_id = profile.user_id; } catch { console.log("在初始化用户id时出现错误") }
-        try { this.globalData.userInfo.wx_user = profile.wx_user; } catch { console.log("在初始化微信用户时出现错误") }
+        try { this.globalData.userInfo.isWxUser = profile.is_wx_user; } catch { console.log("在初始化微信用户时出现错误") }
         try {
           this.globalData.userInfo.settings.firstType = settings.firstType; //第一次学习类型
         } catch { console.log("在第一次学习类型时出现错误"); }
