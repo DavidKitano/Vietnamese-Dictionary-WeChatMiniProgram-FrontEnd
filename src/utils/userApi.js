@@ -13,7 +13,7 @@ async function registerApi(d) {
             password: d.password
         }
     })
-    console.log(res);
+    // console.log(res);
     if (res) {
         setTimeout(function () {
             uni.hideLoading()
@@ -28,7 +28,6 @@ async function loginApi(d) {
         mask: true
     })
     console.log("进入登录交互")
-    console.log(d.password);
     const { data: res } = await wx.p.request({
         method: 'POST',
         url: 'https://vi.wzf666.top/user/login',
@@ -96,7 +95,10 @@ async function logoutApi(t) {
 }
 
 async function getProfilesApi(t) {
-    uni.hideTabBar();
+    try {
+        uni.hideTabBar();
+    } catch {//nothing
+    }
     uni.showLoading({
         title: '资料加载中',
         mask: true
@@ -113,7 +115,7 @@ async function getProfilesApi(t) {
             uni.hideLoading();
             uni.showTabBar();
         }, 2200)
-        console.log(res)
+        // console.log("获取个人信息结果", res)
     }
     return res;
 }
@@ -125,14 +127,14 @@ function statusCodeExplain(result) {
             case 0:
             case 400:
                 if (result.hasOwnProperty('data')) {
-                    console.log("结果是个对象");
+                    // console.log("结果是个对象");
                     return {
                         msg: result.msg,
                         data: result.data
                     }
                 }
                 else {
-                    console.log("结果是个String");
+                    // console.log("结果是个String");
                     return result.msg;
                 }
             case 402:

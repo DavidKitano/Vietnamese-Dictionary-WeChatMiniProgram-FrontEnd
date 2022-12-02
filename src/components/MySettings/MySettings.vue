@@ -13,7 +13,7 @@
         <view class="option" hover-class="optionTapped" data-type="pwd" :wx:if="!userInfo.isWxUser"
           @tap="changePassword">
           <image src="../../static/images/svgs/subtitle_block_light-dark.svg"></image>
-          <view class="optionName">修改密码</view>
+          <view class="optionName">修改密码{{ userInfo.isWxUser }}</view>
         </view>
         <view class="split"></view>
         <view class="option" hover-class="optionTapped" @tap="goSettings">
@@ -54,17 +54,18 @@ export default {
   methods: {
     flushStatus: function (e) {
       let isLogin = app.globalData.isLogin
+      // console.log("登录状态", isLogin)
       let userInfo = {}
       if (isLogin) {
         userInfo = {
           avatar_pic: app.globalData.userInfo.avatar_pic,
           username: app.globalData.userInfo.username,
-          user_id: app.globalData.userInfo.user_id,
           isWxUser: app.globalData.userInfo.isWxUser,
         }
       }
       this.isLogin = isLogin
       this.userInfo = userInfo
+      console.log("用户信息", this.userInfo)
     },
     logoutConfirm: function (e) {
       let _this = this;
@@ -98,6 +99,7 @@ export default {
           })
           setTimeout(function () {
             app.onShow();
+            app.globalData.ifFirstTimeLaunch = true;
             uni.reLaunch({
               url: '../my/my'
             })
@@ -165,10 +167,11 @@ export default {
                 uni.showToast({
                   title: "清除成功",
                   icon: "none",
-                  duration: 1800,
+                  duration: 2100,
                   mask: true
                 })
                 setTimeout(function () {
+                  app.globalData.ifFirstTimeLaunch = true;
                   uni.reLaunch({
                     url: '../index/index'
                   })

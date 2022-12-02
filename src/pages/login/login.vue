@@ -119,25 +119,39 @@ export default {
       if (String(res).trim() == "操作成功") {
         res = "登录成功，3秒后即将跳转";
         app.globalData.isLogin = true;
+        // app.globalData.userInfo.isWxUser = false;
         this.isLogin = true;
+        // if (uni.getStorageSync('token')) {
+        //   app.globalData.token = uni.getStorageSync('token');
+        // }
+
+        // setTimeout(function () {
+        //   uni.showToast({
+        //     title: res, icon: "none", duration: 3000, mask: true
+        //   })
+        // }, 3000)
+        // app.onShow();
+        // app.globalData.ifFirstTimeLaunch = true;
+        // uni.reLaunch({
+        //   url: '../index/index'
+        // })
         if (uni.getStorageSync('token')) {
           app.globalData.token = uni.getStorageSync('token');
         }
-
+        uni.showToast({
+          title: res, icon: "none", duration: 3500, mask: true
+        })
         setTimeout(function () {
-          uni.showToast({
-            title: res, icon: "none", duration: 3000, mask: true
+          app.onShow();
+          app.globalData.ifFirstTimeLaunch = true;
+          uni.reLaunch({
+            url: '../index/index'
           })
         }, 3000)
-        app.onShow();
-        uni.reLaunch({
-          url: '../index/index'
-        })
       }
       uni.showToast({
-        title: res, icon: "none", duration: 3000, mask: true
+        title: res, icon: "none", duration: 3500, mask: true
       })
-
     },
     getWxUserInfo: function () {
       return new Promise((resolve, reject) => {
@@ -200,10 +214,11 @@ export default {
                         app.globalData.token = uni.getStorageSync('token');
                       }
                       uni.showToast({
-                        title: fin_res, icon: "none", duration: 3500, mask: true
+                        title: fin_res, icon: "none", duration: 4000, mask: true
                       })
                       setTimeout(function () {
                         app.onShow();
+                        app.globalData.ifFirstTimeLaunch = true;
                         uni.reLaunch({
                           url: '../index/index'
                         })
@@ -332,6 +347,7 @@ export default {
     if (this.isLogin) {
       console.log("非法访问");
       app.onShow();
+      app.globalData.ifFirstTimeLaunch = true;
       uni.reLaunch({
         url: '../index/index'
       });

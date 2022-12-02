@@ -46,8 +46,7 @@ export default {
         userInfo = {
           avatar_pic: app.globalData.userInfo.avatar_pic,
           username: app.globalData.userInfo.username,
-          user_id: app.globalData.userInfo.user_id,
-          wx_user: app.globalData.userInfo.wx_user,
+          isWxUser: app.globalData.userInfo.isWxUser,
         }
       }
       this.isLogin = isLogin

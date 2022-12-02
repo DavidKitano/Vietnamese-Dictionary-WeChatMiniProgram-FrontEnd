@@ -11,9 +11,6 @@ export default {
     token: undefined,
     isLogin: false,
     userInfo: {
-
-      // user_id: 2,
-      // l_book_id: 2,
       settings: {
         // learn_repeat_t: 3,
         // group_size: 10,
@@ -42,11 +39,11 @@ export default {
     }
   },
   onShow: function () {
-    if (this.globalData.isFirstTimeLaunch) {
+    if (!this.globalData.isFirstTimeLaunch) {
       console.log("App Show");
       this.flushStatus();
     }
-    // console.log(this.globalData)
+    // console.log(this.globalData)s
   },
   onHide: function () {
     console.log("App Hide");
@@ -86,7 +83,6 @@ export default {
     },
     getProfiles: async function (e) {
       let res = await userApi.getProfiles(this.globalData.token);
-      // console.log(res)
       if (res.code == 0 && res.msg == "操作成功") {
         console.log("从服务器获取设置和个人信息中")
         let profile = res.data.user;
@@ -103,8 +99,8 @@ export default {
 
         try { this.globalData.userInfo.avatar_pic = profile.avatar; } catch { console.log("在初始化头像时出现错误") }
         try { this.globalData.userInfo.username = profile.username; } catch { console.log("在初始化用户名时出现错误") }
-        try { this.globalData.userInfo.user_id = profile.user_id; } catch { console.log("在初始化用户id时出现错误") }
-        try { this.globalData.userInfo.isWxUser = profile.is_wx_user; } catch { console.log("在初始化微信用户时出现错误") }
+        // try { this.globalData.userInfo.user_id = profile.user_id; } catch { console.log("在初始化用户id时出现错误") }
+        try { this.globalData.userInfo.isWxUser = profile.isWxUser; } catch { console.log("在初始化微信用户时出现错误") }
         try {
           this.globalData.userInfo.settings.firstType = settings.firstType; //第一次学习类型
         } catch { console.log("在第一次学习类型时出现错误"); }
@@ -120,9 +116,9 @@ export default {
         try {
           this.globalData.userInfo.settings.timingDuration = settings.timingDuration; //看词识义 看义识词持续时间
         } catch { console.log("在看义识词持续时间时出现错误"); }
+        // console.log("全局变量", this.globalData)
+        // console.log("获取到的信息", profile)
       }
-      // console.log(this.globalData)
-
       else {
         this.globalData.token = undefined;
         this.globalData.isLogin = false;
