@@ -1,20 +1,32 @@
 <template>
-  <div class="settings">
+  <scroll-view class="settings">
     <view class="settingsTitle">
-      <view class="settingsTitleName">设置</view>
       <image src="../../static/images/svgs/settings-blue.svg" mode="scaleToFill" />
+      <view class="settingsTitleName">设置</view>
     </view>
-    <scroll-view class="optionList">
-      <view :wx:if="isWxUser" class="option">
-        <view class="optionName">同步微信头像</view>
+    <view class="optionList">
+      <view :wx:if="isWxUser" class="optionDisabled">
+        <view class="optionName">
+          <view>同步微信头像</view>
+          <view @tap="newPolicyWarning">
+            <image class="optionDisabledImg" src="../../static/images/svgs/notice.svg" mode="scaleToFill" />
+          </view>
+        </view>
         <view class="optionValue">
-          <button @tap="wxAvatarSync">同步</button>
+          <!-- <button @tap="wxAvatarSync">同步</button> -->
+          <button disabled="true">同步</button>
         </view>
       </view>
-      <view :wx:if="isWxUser" class="option">
-        <view class="optionName">同步微信昵称</view>
+      <view :wx:if="isWxUser" class="optionDisabled">
+        <view class="optionName">
+          <view>同步微信昵称</view>
+          <view @tap="newPolicyWarning">
+            <image class="optionDisabledImg" src="../../static/images/svgs/notice.svg" mode="scaleToFill" />
+          </view>
+        </view>
         <view class="optionValue">
-          <button @tap="wxNicknameSync">同步</button>
+          <!-- <button @tap="wxNicknameSync">同步</button> -->
+          <button disabled="true">同步</button>
         </view>
       </view>
       <view :wx:if="isWxUser" class="split"></view>
@@ -58,35 +70,39 @@
 
       <view class="split"></view>
 
-      <view :wx:if="isWxUser" class="option" @tap="underConstruction()">
-        <view class="optionName">看义识词持续时间</view>
-        <view class="optionValue">{{ picker.timingDuration }}···</view>
-      </view>
+      <picker header-text="看义识词持续时间" mode="selector" :range="timingDurationRange" :value="timingDurationIndex"
+        data-type='timing_duration' @change="bindPickerChange">
+        <view class="option" hover-class="optionTapped">
+          <view class="optionName">看义识词持续时间</view>
+          <view class="optionValue">{{ timingDurationRange[timingDurationIndex] }}&nbsp;&nbsp;···</view>
+        </view>
+      </picker>
 
       <view class="split"></view>
 
-      <view :wx:if="isWxUser" class="option" @tap="default_ize()">
+      <view :wx:if="isWxUser" class="option" @tap="default_ize($event)">
         <view class="optionName">还原默认</view>
         <view class="optionValue">···</view>
       </view>
 
       <view class="split"></view>
 
-      <view :wx:if="isWxUser" class="option" @tap="underConstruction()">
+      <view :wx:if="isWxUser" class="option" @tap="underConstruction($event)">
         <view class="optionName">绑定邮箱</view>
         <view class="optionValue">···</view>
       </view>
 
       <view class="split"></view>
 
-      <view :wx:if="isWxUser" class="option" @tap="underConstruction()">
+      <view :wx:if="isWxUser" class="option" @tap="underConstruction($event)">
         <view class="optionName">反馈 & 建议</view>
         <view class="optionValue">···</view>
       </view>
-      <view :wx:if="isWxUser" class="option" @tap="underConstruction()">
+      <view :wx:if="isWxUser" class="option" @tap="underConstruction($event)">
         <view class="optionName">关于我们</view>
         <view class="optionValue">···</view>
       </view>
+
 
       <!-- under construction -->
       <!-- <page-container :show="isCustomize" :duration="500" :overlay="true" position="bottom" :round="true"
@@ -98,8 +114,8 @@
           <view class="btn" hover-class="optionTapped" @tap="confirmCustomize">确认</view>
         </view>
       </page-container> -->
-    </scroll-view>
-  </div>
+    </view>
+  </scroll-view>
 </template>
 
 <script>
@@ -114,7 +130,9 @@ export default {
   data() {
     return {
       token: undefined,
-      groupSizeRange: [10, 15, 20, 25, 30, 35, 40, '自定义'],
+      timingDurationRange: [1000, 1500, 2000, 2500, 3000, 3500, 4000],
+      timingDurationIndex: 3,
+      groupSizeRange: [10, 15, 20, 25, 30, 35, 40],
       groupSizeRangeObj: [
         { id: 0, value: 10 },
         { id: 1, value: 15 },
@@ -122,8 +140,7 @@ export default {
         { id: 3, value: 25 },
         { id: 4, value: 30 },
         { id: 5, value: 35 },
-        { id: 6, value: 40 },
-        { id: 7, value: '自定义' },
+        { id: 6, value: 40 }
       ],
       groupSizeIndex: 0,
       modeNameRange: ['看词选义', '看词识义', '看义识词'],
@@ -145,6 +162,18 @@ export default {
     },
     error: function (e) {
       utils.errorFound(e);
+    },
+    newPolicyWarning: function (e) {
+      try {
+        uni.showModal({
+          title: "新政策通知",
+          content: "由于微信官方调整业务策略，头像和昵称的获取皆无法自动完成，若有需要请手动更换头像和昵称。",
+          showCancel: false,
+          confirmText: "我知道啦"
+        })
+      } catch {
+        console.log("policy警告加载失败")
+      }
     },
     flushStatus: function (e) {
       // console.log("公共变量", app.globalData)
@@ -171,9 +200,28 @@ export default {
           { this.groupSizeIndex = 5; break; }
         case 40:
           { this.groupSizeIndex = 6; break; }
-        case "自定义":
-          { this.groupSizeIndex = 7; break; }
+        // case "自定义":
+        //   { this.groupSizeIndex = 7; break; }
         default: this.groupSizeIndex = 0;
+      }
+      switch (picker.timingDuration) {
+        case 1000:
+          { this.timingDurationIndex = 0; break; }
+        case 1500:
+          { this.timingDurationIndex = 1; break; }
+        case 2000:
+          { this.timingDurationIndex = 2; break; }
+        case 2500:
+          { this.timingDurationIndex = 3; break; }
+        case 3000:
+          { this.timingDurationIndex = 4; break; }
+        case 3500:
+          { this.timingDurationIndex = 5; break; }
+        case 4000:
+          { this.timingDurationIndex = 6; break; }
+        // case "自定义":
+        //   { this.groupSizeIndex = 7; break; }
+        default: this.timingDurationIndex = 0;
       }
       this.isLogin = isLogin
       this.token = app.globalData.token;
@@ -190,6 +238,7 @@ export default {
         timingDuration: 2500
       }
       let default_gsIndex = 2;
+      let default_tdIndex = 3;
       let _this = this;
       wx.showModal({
         title: '确认',
@@ -197,6 +246,7 @@ export default {
         success(res) {
           if (res.confirm) {
             _this.groupSizeIndex = default_gsIndex;
+            _this.timingDurationIndex = default_tdIndex;
             _this.picker = default_obj;
             console.log('用户点击确定')
           } else if (res.cancel) {
@@ -211,12 +261,12 @@ export default {
       // console.log('该picker是', e);
       // e.target.dataset.type 区别
       if (e.target.dataset.type == 'group_size') {
-        if (e.detail.value != 7) {
+        if ((e.detail.value < 7) && (e.detail.value >= 0)) {
           this.groupSizeIndex = e.detail.value;
         }
-        else if (e.detail.value == 7) {
-          console.log("进入自定义groupSize");
-        }
+        // else if (e.detail.value == 7) {
+        //   console.log("进入自定义groupSize");
+        // }
         else {
           console.log("出现预料外groupSize索引数值");
           this.groupSizeIndex = 0;
@@ -227,6 +277,14 @@ export default {
         this.picker.secondType = e.detail.value;
       } else if (e.target.dataset.type == 'third_type') {
         this.picker.thirdType = e.detail.value;
+      } else if (e.target.dataset.type == 'timing_duration') {
+        if ((e.detail.value < 7) && (e.detail.value >= 0)) {
+          this.timingDurationIndex = e.detail.value;
+        }
+        else {
+          console.log("出现预料外timingDuration索引数值");
+          this.timingDurationIndex = 0;
+        }
       }
       else {
         console.log("picker出现预料外的值")
@@ -257,7 +315,7 @@ export default {
     let newSecondTypeName = this.modeNameRange[newSecondType];
     let newThirdType = this.picker.thirdType;
     let newThirdTypeName = this.modeNameRange[newThirdType];
-    let newTimingDuration = this.picker.timingDuration;
+    let newTimingDuration = this.timingDurationRange[this.timingDurationIndex];
     console.log("将保存以下数据：\ngroupSize:", newGroupSize,
       "\n依次123学习类型:", newFirstTypeName, "(", newFirstType, ")", newSecondTypeName, "(", newSecondType, ")", newThirdTypeName, "(", newThirdType, ")",
       "\n持续时间", newTimingDuration)

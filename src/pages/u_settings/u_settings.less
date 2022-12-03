@@ -2,7 +2,7 @@
 .settings {
     background-color: #f6f6f6;
     width: 100%;
-    height: 100%;
+    height: 135vh;
 
     .settingsTitle {
         width: 100%;
@@ -14,6 +14,7 @@
         .settingsTitleName {
             font-weight: 600;
             font-size: 45rpx;
+            margin-left: 20rpx;
         }
 
         image {
@@ -36,7 +37,9 @@
             opacity: 0.35;
         }
 
-        .option {
+
+        .option,
+        .optionDisabled {
             box-sizing: border-box;
             width: 100%;
             height: 100rpx;
@@ -51,6 +54,7 @@
             .optionName {
                 width: 50%;
                 margin-left: 30rpx;
+                display: flex;
                 // border: solid 1px red;
             }
 
@@ -70,6 +74,16 @@
                     text-align: center;
                     float: right;
                 }
+            }
+
+            .optionDisabledImg {
+                margin-top: auto;
+                margin-bottom: auto;
+                margin-left: 10rpx;
+                line-height: 100rpx;
+                width: 35rpx !important;
+                height: 35rpx !important;
+                opacity: 0.35 !important;
             }
 
             .optionTapped {
