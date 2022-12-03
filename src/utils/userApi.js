@@ -1,5 +1,20 @@
 const utils = require('./utils.js')
 
+module.exports = {
+    register: registerApi,
+    login: loginApi,
+    logout: logoutApi,
+    getProfiles: getProfilesApi,
+    wxLogin: wxLoginApi,
+    modUserSettings: modUserSettingsApi
+}
+
+/**
+ * 用户注册API
+ * 
+ * @param {*} d 包含邮箱和密码的对象体
+ * @returns 标准化的结果
+ */
 async function registerApi(d) {
     uni.showLoading({
         title: '注册中',
@@ -24,6 +39,12 @@ async function registerApi(d) {
     return utils.statusCodeExplain(res)
 };
 
+/**
+ * 用户登录API 
+ * 
+ * @param {*} d 包含邮箱和密码的对象体
+ * @returns 标准化的结果
+ */
 async function loginApi(d) {
     uni.showLoading({
         title: '登录中',
@@ -47,6 +68,12 @@ async function loginApi(d) {
     return utils.statusCodeExplain(res)
 }
 
+/**
+ * 微信登录API
+ * 
+ * @param {*} c 微信官方接口给出的唯一openId code值
+ * @returns 标准化的结果
+ */
 async function wxLoginApi(c) {
     var result = {};
     var re_r = {};
@@ -71,10 +98,12 @@ async function wxLoginApi(c) {
     return utils.statusCodeExplain(res)
 }
 
-
-
-
-
+/**
+ * 退出登录API
+ * 
+ * @param {*} t token
+ * @returns 标准化的结果
+ */
 async function logoutApi(t) {
     uni.showLoading({
         title: '退出登录中',
@@ -96,6 +125,12 @@ async function logoutApi(t) {
     return utils.statusCodeExplain(res)
 }
 
+/**
+ * 获取账号个人信息及设置信息API
+ * 
+ * @param {*} t token
+ * @returns 普通结果
+ */
 async function getProfilesApi(t) {
     try {
         uni.hideTabBar();
@@ -148,6 +183,13 @@ async function getProfilesApi(t) {
     return res;
 }
 
+/**
+ * 修改用户设置API
+ * 
+ * @param {*} obj  包含完整设置内容的对象体
+ * @param {*} t token
+ * @returns 标准化的结果
+ */
 async function modUserSettingsApi(obj, t) {
     console.log("传入参数检查", obj, t);
     const { data: res } = await wx.p.request({
@@ -159,14 +201,4 @@ async function modUserSettingsApi(obj, t) {
         data: obj
     })
     return (utils.statusCodeExplain(res));
-}
-
-
-module.exports = {
-    register: registerApi,
-    login: loginApi,
-    logout: logoutApi,
-    getProfiles: getProfilesApi,
-    wxLogin: wxLoginApi,
-    modUserSettings: modUserSettingsApi
 }

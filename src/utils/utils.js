@@ -1,3 +1,8 @@
+/**
+ * 开发中提示框
+ * 
+ * @param {*} e 源
+ */
 function underConstructionFunc(e) {
     console.log(e);
     uni.showToast({
@@ -8,6 +13,11 @@ function underConstructionFunc(e) {
     })
 }
 
+/**
+ * 内部错误提示框
+ * 
+ * @param {*} e 源
+ */
 function errorFunc(e) {
     console.log(e);
     uni.showToast({
@@ -18,6 +28,13 @@ function errorFunc(e) {
     })
 }
 
+/**
+ * 检查两个Object(对象)类型变量是否全等
+ * 
+ * @param {*} a Object(对象) 1
+ * @param {*} b Object(对象) 2
+ * @returns 结果，布尔值
+ */
 function isObjectValueEqualFunc(a, b) {
     // console.log("传参检查", a, b);
     let aType = typeof a;
@@ -39,6 +56,12 @@ function isObjectValueEqualFunc(a, b) {
     return true;
 }
 
+/**
+ * 返回状态/结果标准化
+ * 
+ * @param {*} result 获取到的普通结果
+ * @returns 标准化后的结果
+ */
 function statusCodeExplainFunc(result) {
     try {
         switch (result.code) {
