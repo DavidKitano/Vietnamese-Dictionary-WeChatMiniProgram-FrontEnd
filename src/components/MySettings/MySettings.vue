@@ -1,7 +1,7 @@
 <template>
   <view class="MySettings">
     <view class="optionList">
-      <view class="optionListLogin" :wx:if="isLogin">
+      <view class="optionListLogin" :wx-if="isLogin">
         <view class="option" hover-class="optionTapped" @tap="changeAvatar">
           <image src="../../static/images/svgs/profile.svg"></image>
           <view class="optionName">更改头像</view>
@@ -10,7 +10,7 @@
           <image src="../../static/images/svgs/card_fill.svg"></image>
           <view class="optionName">更改昵称</view>
         </view>
-        <view class="option" hover-class="optionTapped" data-type="pwd" :wx:if="!userInfo.isWxUser"
+        <view class="option" hover-class="optionTapped" data-type="pwd" :wx-if="!userInfo.isWxUser"
           @tap="changePassword">
           <image src="../../static/images/svgs/subtitle_block_light-dark.svg"></image>
           <view class="optionName">修改密码{{ userInfo.isWxUser }}</view>
@@ -31,7 +31,7 @@
         <image src="../../static/images/svgs/exit.svg"></image>
         <view class="optionName">正常关闭小程序</view>
       </view>
-      <view class="logoutBtn" hover-class="optionTapped" @tap="logoutConfirm" :wx:if="isLogin">退出登录</view>
+      <view class="logoutBtn" hover-class="optionTapped" @tap="logoutConfirm" :wx-if="isLogin">退出登录</view>
     </view>
   </view>
 </template>

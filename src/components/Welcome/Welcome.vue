@@ -1,5 +1,5 @@
 <template>
-  <view :wx:if="(!closeWelcomeFlag)" class="welcome">
+  <view :wx-if="(!closeWelcomeFlag)" class="welcome">
     <view data-welcomeType="welcomeLogo">
       <image class="logo" src="/static/logo.jpg"></image>
     </view>

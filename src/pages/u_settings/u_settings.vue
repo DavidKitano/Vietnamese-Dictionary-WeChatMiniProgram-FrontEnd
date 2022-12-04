@@ -5,7 +5,7 @@
       <view class="settingsTitleName">设置</view>
     </view>
     <view class="optionList">
-      <view :wx:if="isWxUser" class="optionDisabled">
+      <view :wx-if="isWxUser" class="optionDisabled">
         <view class="optionName">
           <view>同步微信头像</view>
           <view @tap="newPolicyWarning">
@@ -17,7 +17,7 @@
           <button disabled="true">同步</button>
         </view>
       </view>
-      <view :wx:if="isWxUser" class="optionDisabled">
+      <view :wx-if="isWxUser" class="optionDisabled">
         <view class="optionName">
           <view>同步微信昵称</view>
           <view @tap="newPolicyWarning">
@@ -29,7 +29,7 @@
           <button disabled="true">同步</button>
         </view>
       </view>
-      <view :wx:if="isWxUser" class="split"></view>
+      <view :wx-if="isWxUser" class="split"></view>
       <!-- 每组单词数量 -->
 
       <picker header-text="每组单词数量" mode="selector" :range="groupSizeRange" :value="groupSizeIndex"
@@ -80,25 +80,25 @@
 
       <view class="split"></view>
 
-      <view :wx:if="isWxUser" class="option" @tap="default_ize($event)">
+      <view :wx-if="isWxUser" class="option" @tap="default_ize($event)">
         <view class="optionName">还原默认</view>
         <view class="optionValue">···</view>
       </view>
 
       <view class="split"></view>
 
-      <view :wx:if="isWxUser" class="option" @tap="underConstruction($event)">
+      <view :wx-if="isWxUser" class="option" @tap="underConstruction($event)">
         <view class="optionName">绑定邮箱</view>
         <view class="optionValue">···</view>
       </view>
 
       <view class="split"></view>
 
-      <view :wx:if="isWxUser" class="option" @tap="underConstruction($event)">
+      <view :wx-if="isWxUser" class="option" @tap="underConstruction($event)">
         <view class="optionName">反馈 & 建议</view>
         <view class="optionValue">···</view>
       </view>
-      <view :wx:if="isWxUser" class="option" @tap="underConstruction($event)">
+      <view :wx-if="isWxUser" class="option" @tap="underConstruction($event)">
         <view class="optionName">关于我们</view>
         <view class="optionValue">···</view>
       </view>

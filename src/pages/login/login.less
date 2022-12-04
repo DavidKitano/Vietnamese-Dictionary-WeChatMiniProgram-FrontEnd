@@ -1,9 +1,15 @@
+.container {
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(45deg, rgb(213, 228, 235), rgb(147, 233, 255), rgba(84, 234, 199, 0.855));
+}
+
 .wrapper {
     width: 80%;
     height: 500rpx;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 300rpx;
+    padding-top: 300rpx;
     margin-bottom: auto;
 
     .title {
@@ -12,7 +18,11 @@
         font-size: 56rpx;
         text-align: center;
         font-weight: 800;
-        color: #819c4b;
+        letter-spacing: 15rpx;
+        // 利用背景颜色裁切 + 文字透明来获取渐变色
+        background-image: linear-gradient(45deg, #f6e4c6, rgb(251, 182, 113), rgb(255, 94, 0), red);
+        background-clip: text;
+        color: transparent;
     }
 
     .inputField {
@@ -21,6 +31,7 @@
         background-color: rgba(255, 255, 255, 0.7);
         padding-left: 20rpx;
         border: solid 4rpx #e2e2e2;
+        margin-bottom: 10rpx;
     }
 
     .email {
@@ -53,8 +64,11 @@
             height: 40rpx;
             font-size: 28rpx;
             line-height: 40rpx;
-            color: #819c4b;
-            font-weight: 500;
+            font-weight: 600;
+            // 利用背景颜色裁切 + 文字透明来获取渐变色
+            background-image: linear-gradient(45deg, rgb(251, 182, 113), rgb(255, 94, 0), red);
+            background-clip: text;
+            color: transparent;
         }
 
         .loginBtn {
@@ -86,7 +100,6 @@
         color: white;
         background-color: #b9ce8e;
     }
-
 }
 
 
@@ -128,7 +141,7 @@
 }
 
 
-.wasTaped {
+.wasTapped {
     filter: grayscale(30%);
 }
 

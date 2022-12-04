@@ -2,7 +2,7 @@ const utils = require('./utils.js');
 const userApi = require('./userApi.js');
 
 module.exports = {
-    getDailySentence: getDailySentenceApi,
+    getDailySentences: getDailySentencesApi,
     getWordsLearnNeeded: getWordsLearnNeededApi,
     getWordDetails: getWordDetailsApi,
     favoriteWord: favoriteWordApi,
@@ -10,13 +10,15 @@ module.exports = {
     getFavoriteCollection: getFavoriteCollectionApi
 }
 
+// TO-DO 除了延时、蒙版以外还可以应用的防抖操作
+
 /** 首页模块 */
 /**
  * 获取每日例句
  * 
  * @returns 标准化的结果 
  */
-async function getDailySentenceApi() {
+async function getDailySentencesApi() {
     const { data: res } = await wx.p.request({
         method: 'GET',
         url: 'https://vi.wzf666.top/learn/home/dailySentence',

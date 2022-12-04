@@ -7,14 +7,14 @@
       </view>
 
       <!-- 如果还未登录 -->
-      <view class="loginBtn" hover-class="loginBtnTapped" @tap="login" :wx:if="(!isLogin)">登&nbsp;&nbsp;&nbsp;录
+      <view class="loginBtn" hover-class="loginBtnTapped" @tap="login" :wx-if="(!isLogin)">登&nbsp;&nbsp;&nbsp;录
       </view>
 
       <!-- 如果已经登录 -->
       <image class="avatar" :src="userInfo.avatar_pic" @tap="previewAvatar" background-size="cover" mode="widthFix"
-        :wx:if="(isLogin)">
+        :wx-if="(isLogin)">
       </image>
-      <view class="username" :wx:if="(isLogin)">{{ userInfo.username }}</view>
+      <view class="username" :wx-if="(isLogin)">{{ userInfo.username }}</view>
 
     </view>
   </div>

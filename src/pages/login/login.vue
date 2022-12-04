@@ -1,41 +1,43 @@
 <template>
-  <div class="login">
-    <view class="wrapper" :wx:if="(tab == 1)">
-      <view class="title">登录</view>
-      <input type="text" class="inputField email" placeholder="请输入邮箱" data-inputtype="email" @input="handleInput"
-        confirm-type='next' @blur='checkEmail' />
-      <input type="text" class="inputField pwd" password="true" placeholder="请输入密码" data-inputtype="password"
-        @input="handleInput" confirm-type='done' />
-      <view class="btnWrapper registerBtnWrapper">
-        <view class="changeBtn registerBtn" @tap='changeType'>注册</view>
+  <view class="container">
+    <div class="login">
+      <view class="wrapper" :wx-if="(tab == 1)">
+        <view class="title">登录</view>
+        <input type="text" class="inputField email" placeholder="请输入邮箱" data-inputtype="email" @input="handleInput"
+          confirm-type='next' @blur='checkEmail' />
+        <input type="text" class="inputField pwd" password="true" placeholder="请输入密码" data-inputtype="password"
+          @input="handleInput" confirm-type='done' />
+        <view class="btnWrapper registerBtnWrapper">
+          <view class="changeBtn registerBtn" @tap='changeType'>注册</view>
+        </view>
+        <view class="errmsg">{{ errmsg[errtype] }}</view>
+        <button class="submit" type="primary" @tap="login" hover-class="wasTapped">确定</button>
       </view>
-      <view class="errmsg">{{ errmsg[errtype] }}</view>
-      <button class="submit" type="primary" @tap="login" hover-class="wasTaped">确定</button>
-    </view>
 
-    <view class="wrapper" wx:else>
-      <view class="title">注册</view>
-      <input type="text" class="inputField email" placeholder="请输入邮箱" data-inputtype="email" @input="handleInput"
-        confirm-type='next' @blur='checkEmail' />
-      <input type="text" class="inputField middlePwd" password="true" placeholder="请输入密码" data-inputtype="password"
-        @input="handleInput" confirm-type='next' @blur='checkPwd' />
-      <input type="text" class="inputField pwd" password="true" placeholder="确认密码" data-inputtype="confirm_password"
-        @input="handleInput" confirm-type='done' @blur='checkPwd' />
-      <view class="btnWrapper">
-        <view class="changeBtn loginBtn" @tap='changeType'>登录</view>
+      <view class="wrapper" wx:else>
+        <view class="title">注册</view>
+        <input type="text" class="inputField email" placeholder="请输入邮箱" data-inputtype="email" @input="handleInput"
+          confirm-type='next' @blur='checkEmail' />
+        <input type="text" class="inputField middlePwd" password="true" placeholder="请输入密码" data-inputtype="password"
+          @input="handleInput" confirm-type='next' @blur='checkPwd' />
+        <input type="text" class="inputField pwd" password="true" placeholder="确认密码" data-inputtype="confirm_password"
+          @input="handleInput" confirm-type='done' @blur='checkPwd' />
+        <view class="btnWrapper">
+          <view class="changeBtn loginBtn" @tap='changeType'>登录</view>
+        </view>
+        <view class="errmsg">{{ errmsg[errtype] }}</view>
+        <button class="submit" type="primary" @tap="register" hover-class="wasTapped">确定</button>
       </view>
-      <view class="errmsg">{{ errmsg[errtype] }}</view>
-      <button class="submit" type="primary" @tap="register" hover-class="wasTaped">确定</button>
-    </view>
 
-    <view class="wxLoginWrapper">
-      <view class="loginBtn" hover-class="wasTaped" @tap='wxLogin'>
-        <image class="logo" src='../../static/images/logo.png' mode='aspectFit'></image>
+      <view class="wxLoginWrapper">
+        <view class="loginBtn" hover-class="wasTapped" @tap='wxLogin'>
+          <image class="logo" src='../../static/images/logo.png' mode='aspectFit'></image>
+        </view>
+        <view class="wxLoginTip">微信登录无需注册哦~</view>
       </view>
-      <view class="wxLoginTip">微信登录无需注册哦~</view>
-    </view>
 
-  </div>
+    </div>
+  </view>
 </template>
 
 <script>

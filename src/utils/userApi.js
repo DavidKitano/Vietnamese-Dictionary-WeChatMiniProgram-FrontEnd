@@ -9,6 +9,9 @@ module.exports = {
     modUserSettings: modUserSettingsApi
 }
 
+// TODO 除了延时、蒙版以外还可以应用的防抖操作
+// TODO API方法获取标准化（把除了获取以外的内容都搬出去）
+
 /**
  * 用户注册API
  * 
@@ -191,7 +194,7 @@ async function getProfilesApi(t) {
  * @returns 标准化的结果
  */
 async function modUserSettingsApi(obj, t) {
-    console.log("传入参数检查", obj, t);
+    // console.log("传入参数检查", obj);
     const { data: res } = await wx.p.request({
         method: 'PUT',
         url: 'http://vi.wzf666.top/user/information',

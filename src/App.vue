@@ -31,28 +31,28 @@ export default {
       }
     },
   },
-  onLaunch: function () {
+  onLaunch: async function () {
     this.globalData.isFirstTimeLaunch = true;
     try {
-      uni.hideTabBar();
+      await uni.hideTabBar();
     } catch {
       console.log("有tabbar隐藏错误")
     }
     if (this.globalData.isFirstTimeLaunch) {
       console.log("App Launch");
-      this.flushStatus();
+      await this.flushStatus();
       this.globalData.isFirstTimeLaunch = false;
     }
   },
-  onShow: function () {
+  onShow: async function () {
     if (!this.globalData.isFirstTimeLaunch) {
       console.log("App Show");
-      this.flushStatus();
+      await this.flushStatus();
     }
-    setTimeout(() => {
+    setTimeout(async () => {
       console.log("wait for 2s")
       try {
-        uni.showTabBar();
+        await uni.showTabBar();
       } catch {
         console.log("有tabbar显示错误")
       }
@@ -85,11 +85,11 @@ export default {
         mask: true
       })
     },
-    flushStatus: function (e) {
+    flushStatus: async function (e) {
       this.globalData.token = uni.getStorageSync('token');
       if (this.globalData.token) {
         this.globalData.isLogin = true;
-        this.getProfiles();
+        await this.getProfiles();
         console.log("检测到已登录状态")
         // console.log(this)
       }
