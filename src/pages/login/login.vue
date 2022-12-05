@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <div class="login">
+    <view class="login">
       <view class="wrapper" :wx-if="(tab == 1)">
         <view class="title">登录</view>
         <input type="text" class="inputField email" placeholder="请输入邮箱" data-inputtype="email" @input="handleInput"
@@ -36,7 +36,7 @@
         <view class="wxLoginTip">微信登录无需注册哦~</view>
       </view>
 
-    </div>
+    </view>
   </view>
 </template>
 

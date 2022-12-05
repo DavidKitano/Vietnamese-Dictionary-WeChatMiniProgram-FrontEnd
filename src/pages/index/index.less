@@ -1,5 +1,7 @@
 .container {
-    background: linear-gradient(45deg, rgb(255, 255, 255), rgb(203, 239, 255), rgb(147, 233, 255), rgba(84, 234, 199, 0.855));
+    // 阴间配色 取消！！
+    // background: linear-gradient(45deg, rgb(255, 255, 255), rgb(203, 239, 255), rgb(147, 233, 255), rgba(84, 234, 199, 0.855));
+    background: linear-gradient(180deg, #62C6AC, #62C6AC, #62C6AC, white);
     width: 100%;
     height: 100%;
 
@@ -27,24 +29,28 @@
     }
 
     .contentContainer {
+        // width: 85%;
         margin-top: 20rpx;
-        margin-bottom: 120rpx;
+        margin-bottom: 60rpx;
         margin-left: 30rpx;
         margin-right: 30rpx;
-        border: solid 4px #e6e6e6;
+        border: solid 4px #F5F7F696;
         border-radius: 120rpx;
         padding: 40rpx 10rpx;
-        background: transparent;
+        background: #F5F7F6;
         backdrop-filter: blur(200rpx);
-        box-shadow: 4rpx 4rpx 4rpx 4rpx #979797a7;
+        box-shadow: 6rpx 6rpx 6rpx 6rpx #979797a7;
 
         .contentTitle {
-            text-align: center;
+            text-align: left;
             font-size: 60rpx;
             font-weight: 800;
             letter-spacing: 15rpx;
-            // 利用背景颜色裁切 + 文字透明来获取渐变色
-            background-image: linear-gradient(45deg, #f6e4c6, rgb(251, 182, 113), rgb(255, 94, 0), red);
+            margin: 30rpx 70rpx;
+            margin-bottom: 0rpx;
+            // 利用背景颜色裁切 + 文字透明来获取渐变色 配色太阴间 取消！！
+            // background-image: linear-gradient(45deg, #f6e4c6, rgb(251, 182, 113), rgb(255, 94, 0), red);
+            background: rgb(64, 64, 64);
             background-clip: text;
             color: transparent;
         }
@@ -66,6 +72,7 @@
                 height: 90%;
                 margin-top: auto;
                 margin-bottom: auto;
+                color: rgb(64, 64, 64);
             }
 
             .chSentence {
@@ -88,10 +95,25 @@
     }
 
     .header {
+        border: solid 4px #F5F7F696;
+        border-radius: 120rpx;
         display: flex;
         justify-content: space-between;
-        padding: 60rpx;
+        margin-top: 60rpx;
+        margin-left: 30rpx;
+        margin-right: 30rpx;
+        margin-bottom: 60rpx;
         align-items: center;
+        color: rgb(64, 64, 64);
+        font-weight: 600;
+        padding: 30rpx 80rpx;
+        background: #F5F7F6;
+        backdrop-filter: blur(200rpx);
+        box-shadow: 6rpx 6rpx 6rpx 6rpx #979797a7;
+
+        .headerInfoTitle {
+            width: 450rpx;
+        }
 
         .searchBtn {
             text-align: right;

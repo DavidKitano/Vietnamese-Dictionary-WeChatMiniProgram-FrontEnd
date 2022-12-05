@@ -23,7 +23,7 @@ async function getDailySentencesApi() {
         method: 'GET',
         url: 'https://vi.wzf666.top/learn/home/dailySentence',
     })
-    console.log("每日例句的结果获取", res);
+    // console.log("每日例句的结果获取", res);
     return utils.statusCodeExplain(res);
 }
 

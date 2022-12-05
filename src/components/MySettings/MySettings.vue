@@ -237,7 +237,7 @@ export default {
 
   // 组件周期函数--监听组件挂载完毕
   mounted() {
-    console.log("调用了MySettings组件")
+    // console.log("调用了MySettings组件")
     this.flushStatus();
   },
   // 组件周期函数--监听组件数据更新之前

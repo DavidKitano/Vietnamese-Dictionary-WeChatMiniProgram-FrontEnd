@@ -42,7 +42,7 @@ export default {
     } catch {
       console.log("无tabbar可关，或出现错误");
     }
-    console.log("加载了welcome组件");
+    // console.log("加载了welcome组件");
     var tmp = 0;
     setInterval(() => {
       tmp++;

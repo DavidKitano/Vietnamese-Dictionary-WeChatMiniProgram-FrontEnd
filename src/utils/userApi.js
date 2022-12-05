@@ -23,7 +23,7 @@ async function registerApi(d) {
         title: '注册中',
         mask: true
     })
-    console.log("进入注册交互");
+    // console.log("进入注册交互");
     // console.log(d);
     const { data: res } = await wx.p.request({
         method: 'POST',
@@ -53,7 +53,7 @@ async function loginApi(d) {
         title: '登录中',
         mask: true
     })
-    console.log("进入登录交互")
+    // console.log("进入登录交互")
     const { data: res } = await wx.p.request({
         method: 'POST',
         url: 'https://vi.wzf666.top/user/login',
@@ -112,7 +112,7 @@ async function logoutApi(t) {
         title: '退出登录中',
         mask: true
     })
-    console.log("进入登录交互")
+    // console.log("进入登出交互")
     const { data: res } = await wx.p.request({
         method: 'DELETE',
         url: 'http://vi.wzf666.top/user/logout',

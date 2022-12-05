@@ -1,7 +1,8 @@
 .container {
     height: 100vh;
     width: 100%;
-    background: linear-gradient(45deg, rgb(213, 228, 235), rgb(147, 233, 255), rgba(84, 234, 199, 0.855));
+    // background: linear-gradient(45deg, rgb(213, 228, 235), rgb(147, 233, 255), rgba(84, 234, 199, 0.855));
+    background: linear-gradient(180deg, #62C6AC, #62C6AC, #62C6AC, white);
 }
 
 .wrapper {
@@ -18,9 +19,12 @@
         font-size: 56rpx;
         text-align: center;
         font-weight: 800;
-        letter-spacing: 15rpx;
+        letter-spacing: 50rpx;
+        text-indent: 50rpx;
         // 利用背景颜色裁切 + 文字透明来获取渐变色
-        background-image: linear-gradient(45deg, #f6e4c6, rgb(251, 182, 113), rgb(255, 94, 0), red);
+        // 阴间颜色退退退
+        // background-image: linear-gradient(45deg, #f6e4c6, rgb(251, 182, 113), rgb(255, 94, 0), red);
+        background: rgb(64, 64, 64);
         background-clip: text;
         color: transparent;
     }
@@ -66,7 +70,7 @@
             line-height: 40rpx;
             font-weight: 600;
             // 利用背景颜色裁切 + 文字透明来获取渐变色
-            background-image: linear-gradient(45deg, rgb(251, 182, 113), rgb(255, 94, 0), red);
+            background: rgb(133, 132, 132);
             background-clip: text;
             color: transparent;
         }
@@ -97,8 +101,12 @@
     .submit {
         margin-top: 0rpx;
         width: 100%;
-        color: white;
-        background-color: #b9ce8e;
+        color: rgb(64, 64, 64);
+        font-weight: 600;
+        letter-spacing: 30rpx;
+        text-indent: 30rpx;
+        font-size: larger;
+        background-color: #fedc5c; //#b9ce8e
     }
 }
 

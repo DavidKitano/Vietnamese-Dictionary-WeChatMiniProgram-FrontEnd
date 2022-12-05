@@ -40,15 +40,21 @@
 		{
 			"path": "pages/u_settings/u_settings",
 			"style": {
-				"navigationBarTitleText": "我的设置"
+				"navigationBarTitleText": "越南单词本 - 设置"
+			}
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 单词搜索"
 			}
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "越南单词本",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#62C6AC",
+		"backgroundColor": "#62C6AC"
 	},
 	"usingComponents": {},
 	"tabBar": {

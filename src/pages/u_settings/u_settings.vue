@@ -316,9 +316,9 @@ export default {
     let newThirdType = this.picker.thirdType;
     let newThirdTypeName = this.modeNameRange[newThirdType];
     let newTimingDuration = this.timingDurationRange[this.timingDurationIndex];
-    console.log("将保存以下数据：\ngroupSize:", newGroupSize,
-      "\n依次123学习类型:", newFirstTypeName, "(", newFirstType, ")", newSecondTypeName, "(", newSecondType, ")", newThirdTypeName, "(", newThirdType, ")",
-      "\n持续时间", newTimingDuration)
+    // console.log("将保存以下数据：\ngroupSize:", newGroupSize,
+    //   "\n依次123学习类型:", newFirstTypeName, "(", newFirstType, ")", newSecondTypeName, "(", newSecondType, ")", newThirdTypeName, "(", newThirdType, ")",
+    //   "\n持续时间", newTimingDuration)
     let newObj = {
       firstType: newFirstType,
       secondType: newSecondType,
@@ -335,7 +335,7 @@ export default {
     async function modTmp(t) {
       let res = await userApi.modUserSettings(newObj, t);
       if (res) {
-        console.log("修改用户设置结果为", res)
+        // console.log("修改用户设置结果为", res)
         if (res == "操作成功") {
           app.onShow();
         }

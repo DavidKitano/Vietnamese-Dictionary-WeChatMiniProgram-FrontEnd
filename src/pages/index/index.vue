@@ -6,7 +6,10 @@
     <view class="realContent">
       <view class="header">
         <view class="headerInfo">
-          <view :wx-if="isLogin">欢迎回来，{{ userInfo.username }}</view>
+          <view class="headerInfoTitle" :wx-if="isLogin">
+            <view>欢迎回来，</view>
+            <view>{{ userInfo.username }}</view>
+          </view>
           <view :wx-if="!isLogin">您好，请登录！</view>
         </view>
         <view class="searchBtn" data-type="search">
@@ -22,11 +25,10 @@
         <swiper class="swiperContainer" autoplay="true" interval="15000" duration="500" circular="true"
           easing-function="easeInOutCubic" current="0" indicator-dots="true" @change="changeSentence">
           <swiper-item :wx:for="dailySentences" wx:for-item="ds" wx:for-index="dsIndex" wx:key="dsIndex">
-            <view class="dailySentencesContent" :data-index="dailySentences[presentDailySentence].index"
-              @tap="playVoice">
+            <view class="dailySentencesContent" :data-index="dailySentences[presentDailySentence].index">
               <view class="chSentence">{{ dailySentences[presentDailySentence].chSentence }}</view>
               <view class="voice">
-                <image src="../../static/images/svgs/voice.svg" mode="scaleToFill"></image>
+                <image @tap="playVoice" src="../../static/images/svgs/voice.svg" mode="scaleToFill"></image>
               </view>
               <view class="viSentence">
                 {{ dailySentences[presentDailySentence].viSentence }}
@@ -52,6 +54,7 @@ import Welcome from "@/components/Welcome/Welcome.vue";
 
 const studyApi = require("../../utils/studyApi");
 const app = getApp();
+let innerAudioContext = null;
 
 export default {
   data() {
@@ -83,19 +86,38 @@ export default {
             index: i,
             chSentence: res.data[i].chSentence,
             viSentence: res.data[i].viSentence,
+            audio: "https://vi.wzf666.top" + res.data[i].audio
           })
 
         }
       }
-      console.log("例句列表", list)
+      // console.log("例句列表", list)
       return list;
     },
     changeSentence: function (e) {
       // console.log(e.target, "滑动");
       this.presentDailySentence = e.target.current;
     },
+    playVoice: function (e) {
+      // console.log("点击了声音播放事件", e);
+      console.log(innerAudioContext.paused)
+      let sentenceAudio = this.dailySentences[this.presentDailySentence].audio;
+
+      if (innerAudioContext.paused) {
+        innerAudioContext.onError(function (res) {
+        })
+        if ((sentenceAudio == '') || (sentenceAudio == undefined)) {
+          return;
+        } else {
+          innerAudioContext.src = sentenceAudio //设置音频地址
+          innerAudioContext.play()
+        }
+      } else {
+        innerAudioContext.stop()
+      }
+    },
     toSearch: function (e) {
-      console.log("点击了搜索事件", e)
+      // console.log("点击了搜索事件", e)
     },
     login: function (e) {
       console.log("点击了登录，目前登录状态为" + this.isLogin);
@@ -147,6 +169,15 @@ export default {
     // // 预加载登录页
     // this.$preload('../my/my.vue');
     console.log("加载主页")
+    innerAudioContext = uni.createInnerAudioContext({
+      useWebAudioImplement: false
+    });
+    innerAudioContext.onPlay(() => {//监听播放事件
+    })
+    innerAudioContext.onStop(() => {//监听停止事件
+    })
+    innerAudioContext.onPause(() => {//监听暂停事件
+    })
     this.newComer = this.newComerCheck();
     this.flushStatus();
   },
@@ -161,6 +192,10 @@ export default {
   // 页面周期函数--监听页面隐藏
   onHide() {
     // this.flushStatus();
+    innerAudioContext.stop();
+  },
+  onUnload() {
+    innerAudioContext.destroy();
   }
 };
 </script>
