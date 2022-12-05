@@ -36,7 +36,7 @@ function errorFunc(e) {
  * @returns 结果，布尔值
  */
 function isObjectValueEqualFunc(a, b) {
-    // console.log("传参检查", a, b);
+    console.log("传参检查", a, b);
     let aType = typeof a;
     let bType = typeof b;
     if (aType !== bType) {

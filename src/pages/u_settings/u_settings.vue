@@ -183,7 +183,8 @@ export default {
       let picker = {};
       if (isLogin && uni.getStorageInfoSync('token')) {
         isWxUser = app.globalData.userInfo.isWxUser;
-        picker = app.globalData.userInfo.settings;
+        // 深拷贝
+        picker = { ...app.globalData.userInfo.settings };
       }
       switch (picker.groupSize) {
         case 10:
@@ -256,9 +257,9 @@ export default {
       })
     },
     bindPickerChange: function (e) {
-      // console.log("picker的值为", this.picker, "\n可选范围为", this.groupSizeRange)
-      // console.log('picker发送选择改变，携带值为', e.detail.value)
-      // console.log('该picker是', e);
+      console.log("picker的值为", this.picker, "\n可选范围为", this.groupSizeRange)
+      console.log('picker发送选择改变，携带值为', e.detail.value)
+      console.log('该picker是', e);
       // e.target.dataset.type 区别
       if (e.target.dataset.type == 'group_size') {
         if ((e.detail.value < 7) && (e.detail.value >= 0)) {
