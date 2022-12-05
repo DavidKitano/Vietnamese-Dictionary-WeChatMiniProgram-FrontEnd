@@ -11,7 +11,7 @@
           <view class="changeBtn registerBtn" @tap='changeType'>注册</view>
         </view>
         <view class="errmsg">{{ errmsg[errtype] }}</view>
-        <button class="submit" type="primary" @tap="login" hover-class="wasTapped">确定</button>
+        <button class="submit" type="primary" @tap="login" hover-stay-time="50" hover-class="wasTapped">确定</button>
       </view>
 
       <view class="wrapper" wx:else>
@@ -26,11 +26,11 @@
           <view class="changeBtn loginBtn" @tap='changeType'>登录</view>
         </view>
         <view class="errmsg">{{ errmsg[errtype] }}</view>
-        <button class="submit" type="primary" @tap="register" hover-class="wasTapped">确定</button>
+        <button class="submit" type="primary" @tap="register" hover-stay-time="50" hover-class="wasTapped">确定</button>
       </view>
 
       <view class="wxLoginWrapper">
-        <view class="loginBtn" hover-class="wasTapped" @tap='wxLogin'>
+        <view class="loginBtn" hover-stay-time="50" hover-class="wasTapped" @tap='wxLogin'>
           <image class="logo" src='../../static/images/logo.png' mode='aspectFit'></image>
         </view>
         <view class="wxLoginTip">微信登录无需注册哦~</view>

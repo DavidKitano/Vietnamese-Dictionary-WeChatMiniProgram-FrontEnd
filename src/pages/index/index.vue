@@ -1,8 +1,8 @@
 <template>
+  <view :wx-if="newComer">
+    <Welcome></Welcome>
+  </view>
   <scroll-view class="container">
-    <view :wx-if="newComer">
-      <Welcome></Welcome>
-    </view>
     <view class="realContent">
       <view class="header">
         <view class="headerInfo">
@@ -13,7 +13,8 @@
           <view :wx-if="!isLogin">您好，请登录！</view>
         </view>
         <view class="searchBtn" data-type="search">
-          <image @tap="toSearch" hover-class="wasTapped" src="../../static/images/svgs/search.svg" mode="scaleToFill">
+          <image @tap="toSearch" hover-stay-time="50" hover-class="wasTapped" src="../../static/images/svgs/search.svg"
+            mode="scaleToFill">
           </image>
         </view>
       </view>
@@ -63,9 +64,10 @@ export default {
       isLogin: false,
       userInfo: {},
       dailySentences: [{
-        "index": 0,
-        "chSentence": "加载中...",
-        "viSentence": "Loading..."
+        index: 0,
+        chSentence: "加载中...",
+        viSentence: "Loading...",
+        audio: undefined
       }],
       presentDailySentence: 0
     };
@@ -97,6 +99,7 @@ export default {
     changeSentence: function (e) {
       // console.log(e.target, "滑动");
       this.presentDailySentence = e.target.current;
+      innerAudioContext.stop();
     },
     playVoice: function (e) {
       // console.log("点击了声音播放事件", e);
@@ -110,17 +113,30 @@ export default {
           return;
         } else {
           innerAudioContext.src = sentenceAudio //设置音频地址
-          innerAudioContext.play()
+          innerAudioContext.play();
         }
       } else {
-        innerAudioContext.stop()
+        innerAudioContext.stop();
       }
     },
     toSearch: function (e) {
       // console.log("点击了搜索事件", e)
+      if (!this.isLogin) {
+        uni.showToast({
+          title: "您还未登录",
+          icon: "error",
+          mask: true,
+          duration: 1500
+        })
+      }
+      else {
+        uni.navigateTo({
+          url: '../../pages/search/search',
+        })
+      }
     },
     login: function (e) {
-      console.log("点击了登录，目前登录状态为" + this.isLogin);
+      // console.log("点击了登录，目前登录状态为" + this.isLogin);
       if (this.isLogin == false) {
         console.log("即将跳转到登录页");
         uni.navigateTo({

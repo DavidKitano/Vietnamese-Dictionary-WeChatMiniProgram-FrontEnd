@@ -101,7 +101,7 @@ export default {
     getProfiles: async function (e) {
       let res = await userApi.getProfiles(this.globalData.token);
       if (res.code == 0 && res.msg == "操作成功") {
-        console.log("从服务器获取设置和个人信息中")
+        console.log("从服务器获取设置和个人信息中", res)
         let profile = res.data.user;
         let settings = res.data.userConfig;
 

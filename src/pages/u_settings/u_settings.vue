@@ -34,7 +34,7 @@
 
       <picker header-text="每组单词数量" mode="selector" :range="groupSizeRange" :value="groupSizeIndex"
         data-type='group_size' @change="bindPickerChange">
-        <view class="option" hover-class="optionTapped">
+        <view class="option" hover-stay-time="50" hover-class="optionTapped">
           <view class="optionName">每组单词数量</view>
           <view class="optionValue">{{ groupSizeRange[groupSizeIndex] }}&nbsp;&nbsp;···</view>
         </view>
@@ -45,7 +45,7 @@
 
       <picker header-text="第一次学习方式" mode="selector" :range="modeNameRange" :value="picker.firstType"
         data-type='first_type' @change="bindPickerChange">
-        <view class="option" hover-class="optionTapped">
+        <view class="option" hover-stay-time="50" hover-class="optionTapped">
           <view class="optionName">第一次学习方式</view>
           <view class="optionValue">{{ modeNameRange[picker.firstType] }}&nbsp;&nbsp;···</view>
         </view>
@@ -54,7 +54,7 @@
 
       <picker header-text="第二次学习方式" mode="selector" :range="modeNameRange" :value="picker.secondType"
         data-type='second_type' @change="bindPickerChange">
-        <view class="option" hover-class="optionTapped">
+        <view class="option" hover-stay-time="50" hover-class="optionTapped">
           <view class="optionName">第二次学习方式</view>
           <view class="optionValue">{{ modeNameRange[picker.secondType] }}&nbsp;&nbsp;···</view>
         </view>
@@ -62,7 +62,7 @@
 
       <picker header-text="第三次学习方式" mode="selector" :range="modeNameRange" :value="picker.thirdType"
         data-type='third_type' @change="bindPickerChange">
-        <view class="option" hover-class="optionTapped">
+        <view class="option" hover-stay-time="50" hover-class="optionTapped">
           <view class="optionName">第三次学习方式</view>
           <view class="optionValue">{{ modeNameRange[picker.thirdType] }}&nbsp;&nbsp;···</view>
         </view>
@@ -72,7 +72,7 @@
 
       <picker header-text="看义识词持续时间" mode="selector" :range="timingDurationRange" :value="timingDurationIndex"
         data-type='timing_duration' @change="bindPickerChange">
-        <view class="option" hover-class="optionTapped">
+        <view class="option" hover-stay-time="50" hover-class="optionTapped">
           <view class="optionName">看义识词持续时间</view>
           <view class="optionValue">{{ timingDurationRange[timingDurationIndex] }}&nbsp;&nbsp;···</view>
         </view>
@@ -111,7 +111,7 @@
           <input type="text" class="customValue" :value="inputValue" :always-embed="true" :placeholder="placeholder"
             placeholder-class="placeHolder" :focus="focus" @input="handleInput" confirm-type="done"
             @confirm="onConfirmInput" />
-          <view class="btn" hover-class="optionTapped" @tap="confirmCustomize">确认</view>
+          <view class="btn" hover-stay-time="50" hover-class="optionTapped" @tap="confirmCustomize">确认</view>
         </view>
       </page-container> -->
     </view>

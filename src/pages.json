@@ -48,6 +48,12 @@
 			"style": {
 				"navigationBarTitleText": "越南单词本 - 单词搜索"
 			}
+		},
+		{
+			"path": "pages/word/word",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 单词详情"
+			}
 		}
 	],
 	"globalStyle": {

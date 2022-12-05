@@ -2,36 +2,38 @@
   <view class="MySettings">
     <view class="optionList">
       <view class="optionListLogin" :wx-if="isLogin">
-        <view class="option" hover-class="optionTapped" @tap="changeAvatar">
+        <view class="option" hover-stay-time="150" hover-class="optionTapped" @tap="changeAvatar">
           <image src="../../static/images/svgs/profile.svg"></image>
           <view class="optionName">更改头像</view>
         </view>
-        <view class="option" hover-class="optionTapped" data-type="username" @tap="changeName">
+        <view class="option" hover-stay-time="150" hover-class="optionTapped" data-type="username" @tap="changeName">
           <image src="../../static/images/svgs/card_fill.svg"></image>
           <view class="optionName">更改昵称</view>
         </view>
-        <view class="option" hover-class="optionTapped" data-type="pwd" :wx-if="!userInfo.isWxUser"
-          @tap="changePassword">
+        <view class="option" hover-stay-time="150" hover-class="optionTapped" data-type="pwd"
+          :wx-if="!userInfo.isWxUser" @tap="changePassword">
           <image src="../../static/images/svgs/subtitle_block_light-dark.svg"></image>
           <view class="optionName">修改密码{{ userInfo.isWxUser }}</view>
         </view>
         <view class="split"></view>
-        <view class="option" hover-class="optionTapped" @tap="goSettings">
+        <view class="option" hover-stay-time="150" hover-class="optionTapped" @tap="goSettings">
           <image src="../../static/images/svgs/more.svg"></image>
           <view class="optionName">更多详细设定</view>
         </view>
         <view class="split"></view>
       </view>
 
-      <view class="option" hover-class="optionTapped" @tap="clearAllCache">
+      <view class="option" hover-stay-time="150" hover-class="optionTapped" @tap="clearAllCache">
         <image src="../../static/images/svgs/trashbin.svg"></image>
         <view class="optionName">清除缓存</view>
       </view>
-      <view class="option" hover-class="optionTapped" @tap="exitManuallyConfirm">
+      <view class="option" hover-stay-time="150" hover-class="optionTapped" @tap="exitManuallyConfirm">
         <image src="../../static/images/svgs/exit.svg"></image>
         <view class="optionName">正常关闭小程序</view>
       </view>
-      <view class="logoutBtn" hover-class="optionTapped" @tap="logoutConfirm" :wx-if="isLogin">退出登录</view>
+      <view class="logoutBtn" hover-stay-time="150" hover-class="optionTapped" @tap="logoutConfirm" :wx-if="isLogin">
+        退出登录
+      </view>
     </view>
   </view>
 </template>

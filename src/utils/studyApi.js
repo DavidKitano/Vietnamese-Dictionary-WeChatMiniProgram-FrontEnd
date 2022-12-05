@@ -7,7 +7,10 @@ module.exports = {
     getWordDetails: getWordDetailsApi,
     favoriteWord: favoriteWordApi,
     deFavoriteWord: deFavoriteWordApi,
-    getFavoriteCollection: getFavoriteCollectionApi
+    getFavoriteCollection: getFavoriteCollectionApi,
+
+
+    getSearchContent: getSearchContentApi,
 }
 
 // TO-DO 除了延时、蒙版以外还可以应用的防抖操作
@@ -63,16 +66,12 @@ async function getWordDetailsApi(_id, t) {
     // 用onLoad: function(options){}获得参数，必要时可以通过this.setData({query:options})将参数全局化
     const { data: res } = await wx.p.request({
         method: 'GET',
-        url: 'https://vi.wzf666.top/learn/word/',
+        url: 'https://vi.wzf666.top/learn/word/' + _id,
         header: {
             token: t
-        },
-        data: {
-            id: _id
         }
-
     })
-    console.log("单词获取的具体信息", res);
+    // console.log("单词获取的具体信息", res);
     return utils.statusCodeExplain(res);
 }
 
@@ -148,7 +147,36 @@ async function getFavoriteCollectionApi(t) {
 
 
 /** 词书模块 */
-
+/**
+ * 查找单词
+ * 
+ * @param {*} keyword 查询关键词
+ * @param {*} currentPage 当前页
+ * @param {*} pageSize 页大小
+ * @param {*} type 类型 0 为全词库检索 1为选择的词书中检索
+ * @param {*} t token
+ * @return 标准化的结果
+ */
+async function getSearchContentApi(keyword, currentPage, pageSize, type, t) {
+    if (keyword == "") {
+        return;
+    }
+    const { data: res } = await wx.p.request({
+        method: 'GET',
+        url: 'https://vi.wzf666.top/learn/book/word/search',
+        header: {
+            token: t
+        },
+        data: {
+            keyWord: keyword,
+            currentPage: currentPage,
+            pageSize: pageSize,
+            type: type
+        }
+    })
+    console.log("搜索单词结果", res);
+    return utils.statusCodeExplain(res);
+}
 
 
 

@@ -8,7 +8,7 @@
     </view>
     <view data-welcomeType="welcomeButton">
       <button @on-click="welcomeBtnTap" @tap="welcomeBtnTap" hover-class="welcome-button-tapped"
-        hover-stop-propagation="false" class="welcome-button">
+        :hover-stop-propagation=false class="welcome-button">
         {{ welcomeButton }}
       </button>
     </view>
