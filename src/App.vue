@@ -114,7 +114,7 @@ export default {
          * 
          * **/
 
-        try { this.globalData.userInfo.avatar_pic = profile.avatar; } catch { console.log("在初始化头像时出现错误") }
+        try { this.globalData.userInfo.avatar_pic = "https://vi.wzf666.top" + profile.avatar; } catch { console.log("在初始化头像时出现错误") }
         try { this.globalData.userInfo.username = profile.username; } catch { console.log("在初始化用户名时出现错误") }
         // try { this.globalData.userInfo.user_id = profile.user_id; } catch { console.log("在初始化用户id时出现错误") }
         try { this.globalData.userInfo.isWxUser = profile.isWxUser; } catch { console.log("在初始化微信用户时出现错误") }

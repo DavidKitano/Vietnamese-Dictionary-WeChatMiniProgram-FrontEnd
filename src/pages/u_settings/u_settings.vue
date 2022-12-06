@@ -80,25 +80,25 @@
 
       <view class="split"></view>
 
-      <view :wx-if="isWxUser" class="option" @tap="default_ize($event)">
+      <view class="option" @tap="default_ize($event)">
         <view class="optionName">还原默认</view>
         <view class="optionValue">···</view>
       </view>
 
       <view class="split"></view>
 
-      <view :wx-if="isWxUser" class="option" @tap="underConstruction($event)">
+      <view class="option" @tap="underConstruction($event)">
         <view class="optionName">绑定邮箱</view>
         <view class="optionValue">···</view>
       </view>
 
       <view class="split"></view>
 
-      <view :wx-if="isWxUser" class="option" @tap="underConstruction($event)">
+      <view class="option" @tap="underConstruction($event)">
         <view class="optionName">反馈 & 建议</view>
         <view class="optionValue">···</view>
       </view>
-      <view :wx-if="isWxUser" class="option" @tap="underConstruction($event)">
+      <view class="option" @tap="underConstruction($event)">
         <view class="optionName">关于我们</view>
         <view class="optionValue">···</view>
       </view>

@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     width: 100vw;
-    // height: 100vh;
+    height: 100%;
     background: linear-gradient(180deg, #62C6AC, #62C6AC, #62C6AC, white);
     overflow: hidden;
     box-sizing: border-box;
@@ -26,7 +26,9 @@
         margin-left: 80rpx;
         margin-right: 80rpx;
 
-        .wordTitle {
+        .wordTitle,
+        .wordTitleLong,
+        .wordTitleTooLong {
             width: 620rpx;
             height: 140rpx;
             font-weight: 600;
@@ -36,6 +38,14 @@
             margin-bottom: auto;
             display: flex;
             align-items: flex-end;
+        }
+
+        .wordTitleLong {
+            font-size: 42rpx;
+        }
+
+        .wordTitleTooLong {
+            font-size: 32rpx;
         }
     }
 
@@ -64,15 +74,29 @@
         font-weight: 600;
         display: flex;
         align-items: flex-end;
+        justify-content: left;
 
-        .wordCh {
+        .wordCh,
+        .wordChLong,
+        .wordChTooLong {
             font-size: 45rpx;
             margin-right: 15rpx;
         }
 
-        .wordEn {
+        .wordChLong {
+            font-size: 38rpx;
+        }
+
+        .wordChTooLong {
             font-size: 30rpx;
         }
+
+        .wordEn {
+            font-size: 26rpx;
+        }
+
+
+
     }
 
     .wordBox,

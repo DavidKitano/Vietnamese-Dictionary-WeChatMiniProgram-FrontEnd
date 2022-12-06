@@ -1,18 +1,38 @@
 <template>
   <scroll-view class="word">
     <view class="wordHeader">
-      <view class="wordTitle">{{ wordInfo.vi }}</view>
-
+      <view class="wordTitle" :wx-if="(wordInfo.vi.length < 100)">
+        {{ wordInfo.vi }}
+      </view>
+      <view class="wordTitleLong" :wx-if="(wordInfo.vi.length < 120) && (wordInfo.vi.length > 100)">
+        {{ wordInfo.vi }}
+      </view>
+      <view class="wordTitleTooLong" :wx-if="(wordInfo.vi.length > 120)">
+        {{ wordInfo.vi }}
+      </view>
     </view>
     <view class="wordDetailContainer">
       <view class="wordFunctionBox">
-        <image @tap="addFavorite" src="../../static/images/svgs/star-black.svg" mode="scaleToFill" />
-        <image @tap="playAudio" src="../../static/images/svgs/voice.svg" mode="scaleToFill"></image>
+        <image :wx-if="!isFavorite" @tap="addFavorite" src="../../static/images/svgs/star-black.svg"
+          mode="scaleToFill" />
+        <image :wx-if="isFavorite" @tap="removeFavorite" src="../../static/images/svgs/star-red.svg"
+          mode="scaleToFill" />
+        <image @tap="playVoice" src="../../static/images/svgs/voice.svg" mode="scaleToFill"></image>
       </view>
       <view class="split"></view>
       <view class="wordBox">
-        <view class="wordCh">{{ wordInfo.translationCh }}</view>
-        <view class="wordEn">{{ wordInfo.translationEn }}</view>
+        <view class="wordCh" :wx-if="(wordInfo.translationCh.length < 15)">
+          {{ wordInfo.translationCh }}
+        </view>
+        <view class="wordChLong" :wx-if="(wordInfo.translationCh.length < 25) && (wordInfo.translationCh.length > 15)">
+          {{ wordInfo.translationCh }}
+        </view>
+        <view class="wordChTooLong" :wx-if="(wordInfo.translationCh.length > 25)">
+          {{ wordInfo.translationCh }}
+        </view>
+        <view class="wordEn">
+          {{ wordInfo.translationEn }}
+        </view>
       </view>
       <view class="split"></view>
       <view class="exampleSentenceBox">
@@ -48,6 +68,7 @@ export default {
       isLogin: false,
       wordId: undefined,
       wordInfo: {
+        isFavorite: false,
         id: undefined,
         vi: "Loading...",
         chSentence: "加载中...",
@@ -91,6 +112,9 @@ export default {
         if (res.data.viSentence) {
           res.data.viSentence = res.data.viSentence.replace(/&amp;/g, "&");
         }
+        if (res.data.pronunciation) {
+          res.data.pronunciation = "https://vi.wzf666.top" + res.data.pronunciation;
+        }
         this.wordInfo = res.data;
       }
       else {
@@ -109,13 +133,91 @@ export default {
           })
         }
       }
+    },
+    playVoice: function (e) {
+      // console.log("点击了声音播放事件", e);
+      console.log(innerAudioContext.paused)
+      let sentenceAudio = this.wordInfo.pronunciation;
+
+      if (innerAudioContext.paused) {
+        innerAudioContext.onError(function (res) {
+        })
+        if ((sentenceAudio == '') || (sentenceAudio == undefined)) {
+          return;
+        } else {
+          innerAudioContext.src = sentenceAudio //设置音频地址
+          innerAudioContext.play();
+        }
+      } else {
+        innerAudioContext.stop();
+      }
+    },
+    addFavorite: async function (e) {
+      const res = await studyApi.favoriteWord(this.wordId, uni.getStorageSync("token"));
+      if (res == "未登录或登录状态已失效") {
+        this.token = undefined;
+        app.globalData.token = undefined;
+        this.isLogin = false;
+        app.globalData.isLogin = false;
+        setTimeout(function () {
+          uni.showToast({
+            title: '登录已失效',
+            icon: 'error',
+            mask: true
+          })
+        }, 1000)
+        uni.reLaunch({
+          url: '../login/login'
+        })
+      }
+      if (res.msg == "操作成功") {
+        this.isFavorite = true;
+        setTimeout(function () {
+          uni.showLoading({
+            mask: true
+          })
+        }, 1000)
+        uni.hideLoading({
+          onConflict: true
+        })
+      }
+    },
+    removeFavorite: async function (e) {
+      const res = await studyApi.deFavoriteWord(this.wordId, uni.getStorageSync("token"));
+      if (res == "未登录或登录状态已失效") {
+        this.token = undefined;
+        app.globalData.token = undefined;
+        this.isLogin = false;
+        app.globalData.isLogin = false;
+        setTimeout(function () {
+          uni.showToast({
+            title: '登录已失效',
+            icon: 'error',
+            mask: true
+          })
+        }, 1000)
+        uni.reLaunch({
+          url: '../login/login'
+        })
+      }
+      if (res.msg == "操作成功") {
+        this.isFavorite = false;
+        setTimeout(function () {
+          uni.showLoading({
+            mask: true
+          })
+        }, 1000)
+        uni.hideLoading({
+          onConflict: true
+        })
+      }
     }
   },
   watch: {},
 
   // 页面周期函数--监听页面加载
   onLoad(options) {
-    console.log(options);
+    // console.log(options);
     this.wordId = options.id;
     this.flushStatus();
     innerAudioContext = uni.createInnerAudioContext({
@@ -135,9 +237,13 @@ export default {
 
   },
   // 页面周期函数--监听页面隐藏
-  onHide() { },
+  onHide() {
+    innerAudioContext.stop();
+  },
   // 页面周期函数--监听页面卸载
-  onUnload() { },
+  onUnload() {
+    innerAudioContext.destroy();
+  },
   // 页面处理函数--监听用户下拉动作
   // onPullDownRefresh() { uni.stopPullDownRefresh(); },
   // 页面处理函数--监听用户上拉触底

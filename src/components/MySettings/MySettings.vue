@@ -1,5 +1,19 @@
 <template>
   <view class="MySettings">
+    <view class="float changePwdModal" :wx-if="isChangePwd">
+      <view class='floatContent'>
+        <view class="floatTitle">修改密码</view>
+        <image src='' class='ruleHide' @tap="hideFloat">X</image>
+      </view>
+    </view>
+
+    <view class="float changePwdModal" :wx-if="isChangeProfile">
+      <view class='floatContent'>
+        <view class="floatTitle">修改信息</view>
+        <image src='' class='ruleHide' @tap="hideFloat">X</image>
+      </view>
+    </view>
+
     <view class="optionList">
       <view class="optionListLogin" :wx-if="isLogin">
         <view class="option" hover-stay-time="150" hover-class="optionTapped" @tap="changeAvatar">
@@ -13,7 +27,7 @@
         <view class="option" hover-stay-time="150" hover-class="optionTapped" data-type="pwd"
           :wx-if="!userInfo.isWxUser" @tap="changePassword">
           <image src="../../static/images/svgs/subtitle_block_light-dark.svg"></image>
-          <view class="optionName">修改密码{{ userInfo.isWxUser }}</view>
+          <view class="optionName">修改密码</view>
         </view>
         <view class="split"></view>
         <view class="option" hover-stay-time="150" hover-class="optionTapped" @tap="goSettings">
@@ -48,6 +62,8 @@ export default {
   data() {
     return {
       isLogin: false,
+      isChangeProfile: false,
+      isChangePwd: false,
       userInfo: {
 
       }
@@ -56,6 +72,8 @@ export default {
   computed: {},
   methods: {
     flushStatus: function (e) {
+      this.isChangePwd = false;
+      this.isChangeProfile = false;
       let isLogin = app.globalData.isLogin
       // console.log("登录状态", isLogin)
       let userInfo = {}
@@ -232,15 +250,25 @@ export default {
     },
 
     changeAvatar: function (e) {
-      this.underConstruction(e);
+      // this.underConstruction(e);
+      this.isChangeProfile = true;
     },
 
     changeName: function (e) {
-      this.underConstruction(e);
+      // this.underConstruction(e);
+      this.isChangeProfile = true;
     },
 
     changePassword: function (e) {
-      this.underConstruction(e);
+      // this.underConstruction(e);
+      // console.log("点击修改密码事件", e)
+      this.isChangePwd = true;
+      // console.log(this.isChangePwd)
+    },
+
+    hideFloat: function (e) {
+      this.isChangePwd = false;
+      this.isChangeProfile = false;
     },
 
     goSettings: function (e) {
@@ -260,13 +288,11 @@ export default {
   },
   // 组件周期函数--监听组件数据更新之前
   beforeUpdate() {
-    this.flushStatus();
   },
   // 组件周期函数--监听组件数据更新之后
   updated() { },
   // 组件周期函数--监听组件激活(显示)
   activated() {
-    this.flushStatus();
   },
   // 组件周期函数--监听组件停用(隐藏)
   deactivated() { },
@@ -277,4 +303,5 @@ export default {
 
 <style lang="less" scoped>
 @import "./MySettings.less";
+@import "./modals.less";
 </style>
