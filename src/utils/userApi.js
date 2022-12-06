@@ -6,7 +6,8 @@ module.exports = {
     logout: logoutApi,
     getProfiles: getProfilesApi,
     wxLogin: wxLoginApi,
-    modUserSettings: modUserSettingsApi
+    modUserSettings: modUserSettingsApi,
+    changePwd: changePwdApi
 }
 
 // TODO 除了延时、蒙版以外还可以应用的防抖操作
@@ -200,6 +201,28 @@ async function modUserSettingsApi(obj, t) {
             token: t
         },
         data: obj
+    })
+    return (utils.statusCodeExplain(res));
+}
+
+/**
+ * 修改密码API
+ * 
+ * @param {*} obj 包含新旧密码内容的对象体
+ * @param {*} t token
+ */
+async function changePwdApi(obj, t) {
+    let _obj = {
+        oldPassword: obj.oldPassword,
+        newPassword: obj.newPassword
+    }
+    const { data: res } = await wx.p.request({
+        method: 'PUT',
+        url: 'http://vi.wzf666.top/user/password',
+        header: {
+            token: t
+        },
+        data: _obj
     })
     return (utils.statusCodeExplain(res));
 }

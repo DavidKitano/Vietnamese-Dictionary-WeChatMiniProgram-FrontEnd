@@ -3,14 +3,28 @@
     <view class="float changePwdModal" :wx-if="isChangePwd">
       <view class='floatContent'>
         <view class="floatTitle">修改密码</view>
-        <image src='' class='ruleHide' @tap="hideFloat">X</image>
+        <view class="floatInputBox">
+          <input class="floatInput" type="password" placeholder="请输入原来的密码" @input="handleInputChangePwd"
+            data-inputtype="oldPassword" />
+          <input class="floatInput" type="password" placeholder="请输入新的密码" @input="handleInputChangePwd" @blur='checkPwd'
+            data-inputtype="newPassword" />
+          <input class="floatInput" type="password" placeholder="请确认新的密码" @input="handleInputChangePwd" @blur='checkPwd'
+            data-inputtype="newPasswordConfirm" />
+        </view>
+        <view class="errmsg">{{ errmsg[errtype] }}</view>
+        <view class="floatFunc">
+          <button type="primary" class="floatSubmit" @tap="changePwdFunc">提交</button>
+          <button type="default" class="floatExit" @tap="hideFloat">取消</button>
+        </view>
       </view>
     </view>
 
     <view class="float changePwdModal" :wx-if="isChangeProfile">
       <view class='floatContent'>
         <view class="floatTitle">修改信息</view>
-        <image src='' class='ruleHide' @tap="hideFloat">X</image>
+        <view class="floatFunc"> <button class="floatSubmit" @tap="changeProfileFunc">提交</button>
+          <button class="floatExit" @tap="hideFloat">取消</button>
+        </view>
       </view>
     </view>
 
@@ -52,6 +66,8 @@
   </view>
 </template>
 <script>
+import { toInteger } from 'lodash';
+import studyApi from '../../utils/studyApi';
 const app = getApp();
 const userApi = require('../../utils/userApi.js');
 const utils = require('../../utils/utils');
@@ -65,15 +81,26 @@ export default {
       isChangeProfile: false,
       isChangePwd: false,
       userInfo: {
-
-      }
+      },
+      changePwd: {
+        newPassword: "",
+        oldPassword: "",
+        newPasswordConfirm: ""
+      },
+      errmsg: [
+        "",
+        "非法错误",
+        "请填写信息",
+        "请输入可用的，正确格式的邮箱地址",
+        "请输入正确的密码，长度大于6并小于50",
+        "两次密码不一致，请重新输入"
+      ],
+      errtype: 0,
     }
   },
   computed: {},
   methods: {
     flushStatus: function (e) {
-      this.isChangePwd = false;
-      this.isChangeProfile = false;
       let isLogin = app.globalData.isLogin
       // console.log("登录状态", isLogin)
       let userInfo = {}
@@ -87,6 +114,76 @@ export default {
       this.isLogin = isLogin
       this.userInfo = userInfo
       // console.log("用户信息", this.userInfo)
+    },
+    setErrType: function (num) {
+      // 对错误进行定义
+      try {
+        this.errtype = toInteger(num);
+      }
+      catch {
+        this.errtype = 1;
+      }
+    },
+    checkEmptyField: function (e) {
+      // 检查非空
+      console.log("开始检查")
+      if (this.isChangePwd == true) {
+        let obj = this.changePwd;
+        console.log("检查对象", obj)
+        if (String(obj.oldPassword).trim() != "" && obj.oldPassword != null && typeof obj.oldPassword !== undefined) {
+          if (String(obj.newPassword).trim() != "" && obj.newPassword != null && typeof obj.newPassword !== undefined) {
+            if (String(obj.newPasswordConfirm).trim() != "" && obj.newPasswordConfirm != null && typeof obj.newPasswordConfirm !== undefined) {
+              this.setErrType(0);
+              return true;
+            }
+          }
+        }
+      }
+      if (this.isChangeProfile) {
+        // TODO 更改信息的非空判断
+        this.setErrType(0);
+        return true;
+      }
+      this.setErrType(2)
+      return false
+    },
+    checkPwd: function (e) {
+      // 检查密码以及再次输入密码
+      let pw = this.changePwd.newPassword;
+      if (String(pw).trim() != "" && pw != null && typeof pw !== undefined) {
+        let length = pw.length;
+        if (length > 6 && length < 50) {
+          if (this.tab !== 1) {
+            let pw_c = this.changePwd.newPasswordConfirm;
+            if (String(pw_c).trim() != "" && pw_c != null && typeof pw_c !== undefined) {
+              if (String(pw_c) === String(pw)) {
+                this.setErrType(0);
+                return true;
+              }
+              else {
+                this.setErrType(5);
+                return false;
+              }
+            }
+            else {
+              return false;
+            }
+          }
+          else {
+            this.setErrType(0);
+            return true;
+          }
+        }
+        this.setErrType(4);
+      }
+      return false
+    },
+    handleInputChangePwd: function (e) {
+      // 监听输入框
+      let inputtype = e.target.dataset.inputtype;
+      let value = e.detail.value;
+      this.changePwd[inputtype] = value;
+      // console.log("更改密码输入情况", this.changePwd)
     },
     logoutConfirm: function (e) {
       let _this = this;
@@ -104,7 +201,7 @@ export default {
       })
     },
     logout: async function (e) {
-      console.log('点击了登出');
+      console.log('登出');
       let res = null;
       if (this.isLogin && (app.globalData.token == uni.getStorageSync('token'))) {
         res = await userApi.logout(uni.getStorageSync('token'));
@@ -248,29 +345,75 @@ export default {
         }
       })
     },
-
+    // 打开模态框
     changeAvatar: function (e) {
       // this.underConstruction(e);
       this.isChangeProfile = true;
+      this.isChangePwd = false;
+      this.changePwd = {
+        newPassword: "",
+        oldPassword: "",
+        newPasswordConfirm: ""
+      };
     },
-
+    // 打开模态框
     changeName: function (e) {
       // this.underConstruction(e);
       this.isChangeProfile = true;
+      this.isChangePwd = false;
+      this.changePwd = {
+        newPassword: "",
+        oldPassword: "",
+        newPasswordConfirm: ""
+      };
     },
-
+    // 打开模态框
     changePassword: function (e) {
       // this.underConstruction(e);
       // console.log("点击修改密码事件", e)
       this.isChangePwd = true;
+      this.isChangeProfile = false;
       // console.log(this.isChangePwd)
     },
-
+    // 关闭模态框
     hideFloat: function (e) {
       this.isChangePwd = false;
       this.isChangeProfile = false;
     },
+    // 实质上修改密码
+    changePwdFunc: async function (e) {
+      if (!(this.checkEmptyField())) {
+        // 优先级
+        return;
+      }
+      if (!(this.checkPwd())) {
+        return;
+      }
+      let res = await userApi.changePwd(this.changePwd, uni.getStorageSync('token'));
+      console.log("修改密码结果", res);
+      if (res == "操作成功") {
+        setTimeout(function () {
+          uni.showToast({
+            title: "修改成功",
+            icon: "success",
+            duration: 1500,
+            mask: true
+          })
+        }, 1500)
+        this.logout();
+      }
+      else {
+        uni.showToast({
+          title: res,
+          icon: "error",
+          duration: 1500,
+          mask: true
+        })
+      }
 
+
+      return;
+    },
     goSettings: function (e) {
       uni.navigateTo({
         url: '../../pages/u_settings/u_settings'
@@ -283,16 +426,20 @@ export default {
 
   // 组件周期函数--监听组件挂载完毕
   mounted() {
+    this.isChangePwd = false;
+    this.isChangeProfile = false;
     // console.log("调用了MySettings组件")
     this.flushStatus();
   },
   // 组件周期函数--监听组件数据更新之前
   beforeUpdate() {
+    this.flushStatus();
   },
   // 组件周期函数--监听组件数据更新之后
   updated() { },
   // 组件周期函数--监听组件激活(显示)
   activated() {
+    this.flushStatus();
   },
   // 组件周期函数--监听组件停用(隐藏)
   deactivated() { },

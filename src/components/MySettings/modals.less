@@ -1,28 +1,73 @@
 .float {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2;
+    z-index: 20;
     top: 0;
     left: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .floatContent {
-    padding: 20rpx 0;
-    width: 80%;
-    height: 300rpx;
+    box-sizing: border-box;
+    padding: 60rpx 60rpx;
+    width: 80vw;
+    height: 80vh;
     background: #fff;
-    margin: 40% auto;
-    border-radius: 20rpx;
+    border-radius: 25rpx;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    position: relative;
+    overflow: hidden;
+}
+
+.floatInputBox {
+    box-sizing: border-box;
 }
 
 .floatTitle {
     font-weight: 600;
     font-size: 40rpx;
+    color: #62C6AC;
+    margin-bottom: 40rpx;
+    margin-top: 40rpx;
+}
+
+.floatInput {
+    font-size: 34rpx;
+    border: solid 3px #62C6AC;
+    width: 400rpx;
+    height: 80rpx;
+    border-radius: 10rem;
+    margin-bottom: 25rpx;
+    padding: 0rpx 20rpx;
+}
+
+.floatFunc {
+    display: flex;
+    width: 450rpx;
+    justify-content: space-between;
+    box-sizing: border-box;
+
+    .floatSubmit,
+    .floatExit {
+        width: 200rpx;
+        height: 70rpx;
+        font-size: 30rpx;
+    }
+}
+
+.errmsg {
+    height: 100rpx;
+    width: 100%;
+    text-align: center;
+    line-height: 50rpx;
+    font-size: 30rpx;
+    color: #f76260;
 }

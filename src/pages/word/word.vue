@@ -13,9 +13,9 @@
     </view>
     <view class="wordDetailContainer">
       <view class="wordFunctionBox">
-        <image :wx-if="!isFavorite" @tap="addFavorite" src="../../static/images/svgs/star-black.svg"
+        <image :wx-if="!wordInfo.isFavorite" @tap="addFavorite" src="../../static/images/svgs/star-black.svg"
           mode="scaleToFill" />
-        <image :wx-if="isFavorite" @tap="removeFavorite" src="../../static/images/svgs/star-red.svg"
+        <image :wx-if="wordInfo.isFavorite" @tap="removeFavorite" src="../../static/images/svgs/star-red.svg"
           mode="scaleToFill" />
         <image @tap="playVoice" src="../../static/images/svgs/voice.svg" mode="scaleToFill"></image>
       </view>
@@ -171,7 +171,7 @@ export default {
         })
       }
       if (res.msg == "操作成功") {
-        this.isFavorite = true;
+        this.wordInfo.isFavorite = true;
         setTimeout(function () {
           uni.showLoading({
             mask: true
@@ -201,7 +201,7 @@ export default {
         })
       }
       if (res.msg == "操作成功") {
-        this.isFavorite = false;
+        this.wordInfo.isFavorite = false;
         setTimeout(function () {
           uni.showLoading({
             mask: true
