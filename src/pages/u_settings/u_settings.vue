@@ -328,17 +328,33 @@ export default {
       timingDuration: newTimingDuration
     }
     if (!utils.isObjectValueEqual(newObj, app.globalData.userInfo.settings)) {
-      modTmp(this.token);
+      modTmp(this.token, this);
     }
     else {
       console.log("未作出任何设置改动");
     }
-    async function modTmp(t) {
+    async function modTmp(t, _this) {
       let res = await userApi.modUserSettings(newObj, t);
       if (res) {
         // console.log("修改用户设置结果为", res)
         if (res == "操作成功") {
           app.onShow();
+        }
+        if (res == "未登录或登录状态已失效") {
+          _this.token = undefined;
+          app.globalData.token = undefined;
+          _this.isLogin = false;
+          app.globalData.isLogin = false;
+          setTimeout(function () {
+            uni.showToast({
+              title: '登录已失效',
+              icon: 'error',
+              mask: true
+            })
+          }, 1000)
+          uni.reLaunch({
+            url: '../login/login'
+          })
         }
       }
     }

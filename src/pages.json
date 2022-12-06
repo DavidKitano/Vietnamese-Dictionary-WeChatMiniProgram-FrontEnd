@@ -46,6 +46,7 @@
 		{
 			"path": "pages/search/search",
 			"style": {
+				"onReachBottomDistance": 50,
 				"navigationBarTitleText": "越南单词本 - 单词搜索"
 			}
 		},

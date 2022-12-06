@@ -50,9 +50,6 @@ export default {
 
   // 页面周期函数--监听页面加载
   onLoad() {
-    uni.setNavigationBarTitle({
-      title: '越南单词本 - 我的',
-    })
 
   },
   // 页面周期函数--监听页面初次渲染完成

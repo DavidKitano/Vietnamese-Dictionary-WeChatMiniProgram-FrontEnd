@@ -78,8 +78,6 @@ async function loginApi(d) {
  * @returns 标准化的结果
  */
 async function wxLoginApi(c) {
-    var result = {};
-    var re_r = {};
     uni.showLoading({
         title: '快速登录中',
         mask: true

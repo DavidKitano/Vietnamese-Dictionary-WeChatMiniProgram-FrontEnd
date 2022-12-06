@@ -1,9 +1,15 @@
 .search {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
+    min-height: 105vh;
     background: linear-gradient(180deg, #62C6AC, #62C6AC, #62C6AC, white);
+    overflow: hidden;
+    padding-bottom: 20rpx;
+    padding-top: 20rpx;
 
     .searchContainer {
+        box-sizing: border-box;
+        // padding-top: 50rpx;
         margin-top: 20rpx;
         margin-bottom: 60rpx;
         margin-left: 30rpx;
@@ -34,6 +40,11 @@
                 width: 15vw;
                 height: 15vw;
             }
+        }
+
+        .searchContent {
+            height: max-content;
+            box-sizing: border-box;
         }
     }
 }

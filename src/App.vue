@@ -141,6 +141,13 @@ export default {
         this.globalData.isLogin = false;
         uni.removeStorageSync('token');
         console.log("无法从服务器获取设置和个人信息，可能是token过期，非法操作或服务器错误，请重新登录")
+        setTimeout(function () {
+          uni.showToast({
+            title: '登录已失效',
+            icon: 'error',
+            mask: true
+          })
+        }, 1000)
       }
     }
   }

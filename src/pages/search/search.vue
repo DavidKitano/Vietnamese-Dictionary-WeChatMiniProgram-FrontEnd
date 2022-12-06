@@ -1,19 +1,22 @@
 <template>
-  <scroll-view scroll-y class="search">
+  <view class="search">
     <view class="searchContainer">
       <view class="searchHeader">
-        <input type="text" :value="searchWords" :always-embed="true" placeholder="请输入想查询的单词"
-          placeholder-class="placeHolder" @input="handleInput" />
-        <image src="../../static/images/svgs/search-puppy-62C6AC.svg" mode="scaleToFill" @tap="search" />
+        <input type="text" :value="searchWords" :focus="true" :always-embed="true" placeholder="请输入想查询的单词"
+          placeholder-class="placeHolder" @input="handleInput" @confirm="search" />
+        <image src="../../static/images/svgs/search-puppy-62C6AC.svg" mode="scaleToFill" @tap="search"></image>
       </view>
     </view>
     <view class="searchContainer">
       <view :wx-if="!isHasContent">
         <noContent></noContent>
       </view>
-      <view :wx-if="isHasContent">
+      <view :wx-if="isHasContent" class="searchContent">
         <view class="tooMuchContainer" :wx-if="(searchContent.total > 100)">
           <tooManyContent>{{ searchContent.total }}</tooManyContent>
+        </view>
+        <view class="foundContainer" :wx-if="(searchContent.total <= 100 && searchContent.total > 0)">
+          <foundContent>{{ searchContent.total }}</foundContent>
         </view>
         <view v-for="dl in searchContent.dataList" wx:key="id">
           <view class="dailySentencesContent" data-index="id">
@@ -27,10 +30,11 @@
         </view>
       </view>
     </view>
-  </scroll-view>
+  </view>
 </template>
 <script>
 import noContent from "@/components/noContent/noContent.vue";
+import foundContent from "@/components/foundContent/foundContent.vue";
 import tooManyContent from "@/components/tooManyContent/tooManyContent.vue";
 import wordBox from "@/components/word-box/word-box.vue";
 
@@ -41,10 +45,11 @@ const utils = require('../../utils/utils');
 
 export default {
   name: "search",
-  components: { noContent, tooManyContent, wordBox },
+  components: { noContent, foundContent, tooManyContent, wordBox },
   props: {},
   data() {
     return {
+      isLoading: false, // 节流阀
       isLogin: false,
       currentPage: 1,
       searchWords: "",
@@ -80,7 +85,24 @@ export default {
           })
         }
         else {
+          this.currentPage = 1;
           const res = await studyApi.getSearchContent(this.searchWords, 1, 10, 0, app.globalData.token);
+          if (res == "未登录或登录状态已失效") {
+            _this.token = undefined;
+            app.globalData.token = undefined;
+            _this.isLogin = false;
+            app.globalData.isLogin = false;
+            setTimeout(function () {
+              uni.showToast({
+                title: '登录已失效',
+                icon: 'error',
+                mask: true
+              })
+            }, 1000)
+            uni.reLaunch({
+              url: '../login/login'
+            })
+          }
           if (res.data.total == 0) {
             this.isHasContent = false;
             return;
@@ -105,6 +127,76 @@ export default {
         url: '../../pages/word/word?id=' + id
       })
     },
+    flushLoadNewPage: async function (e) {
+      const res = await studyApi.getSearchContent(this.searchWords, this.currentPage + 1, 10, 0, app.globalData.token);
+      return res;
+    },
+    loadNewPage: async function (e) {
+      if (this.isLoading) {
+        return;
+      }
+      let _this = this;
+      if (this.isHasContent) {
+        this.isLoading = true;
+        let res = await this.flushLoadNewPage();
+        if (res == "未登录或登录状态已失效") {
+          _this.token = undefined;
+          app.globalData.token = undefined;
+          _this.isLogin = false;
+          app.globalData.isLogin = false;
+          setTimeout(function () {
+            uni.showToast({
+              title: '登录已失效',
+              icon: 'error',
+              mask: true
+            })
+          }, 1000)
+          uni.reLaunch({
+            url: '../login/login'
+          })
+        }
+        // console.log(res);
+        let result = res.data.dataList;
+        // let result = res
+        console.log(result.length)
+        if (result.length == 0) {
+          uni.showLoading({
+            mask: true
+          });
+          setTimeout(function () {
+            uni.hideLoading({
+              noConflict: true
+            });
+
+            uni.showToast({
+              mask: true,
+              title: "没有其它结果啦~",
+              icon: "success"
+            });
+          }, 1000)
+          uni.hideToast();
+          this.isLoading = false;
+        }
+        else {
+          uni.showLoading({
+            mask: true
+          });
+          setTimeout(function () {
+            uni.hideLoading();
+          }, 1000)
+          this.currentPage++;
+          console.log("上拉触底第" + this.currentPage + "页");
+          this.isLoading = false;
+          this.searchContent.dataList = this.searchContent.dataList.concat(result)
+        }
+      }
+      else {
+        uni.showLoading();
+        this.isLoading = false;
+        uni.hideLoading();
+        return;
+      }
+    },
     handleInput: function (e) {
       // 监听输入框
       let value = e.detail.value;
@@ -120,6 +212,11 @@ export default {
     }
   },
   watch: {},
+
+  // 上拉触底监听
+  onReachBottom(e) {
+    this.loadNewPage();
+  },
 
   // 页面周期函数--监听页面加载
   onLoad() {

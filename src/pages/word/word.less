@@ -1,0 +1,119 @@
+.word {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    // height: 100vh;
+    background: linear-gradient(180deg, #62C6AC, #62C6AC, #62C6AC, white);
+    overflow: hidden;
+    box-sizing: border-box;
+
+    .split {
+        box-sizing: border-box;
+        overflow: hidden;
+        margin: 50rpx 0rpx;
+        width: 100%;
+        height: 10rpx;
+        background-color: #62C6AC;
+        border-radius: 50rem;
+    }
+
+    .wordHeader {
+        box-sizing: border-box;
+        width: 620rpx;
+        height: 140rpx;
+        margin-top: 220rpx;
+        margin-bottom: 40rpx;
+        margin-left: 80rpx;
+        margin-right: 80rpx;
+
+        .wordTitle {
+            width: 620rpx;
+            height: 140rpx;
+            font-weight: 600;
+            font-size: 50rpx;
+            text-align: left;
+            margin-top: auto;
+            margin-bottom: auto;
+            display: flex;
+            align-items: flex-end;
+        }
+    }
+
+    .wordDetailContainer {
+        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+        border-top-left-radius: 120rpx;
+        border-top-right-radius: 120rpx;
+        background-color: #F5F7F6;
+        padding: 50rpx 60rpx;
+    }
+
+    .wordFunctionBox {
+        display: flex;
+
+        image {
+            width: 60rpx;
+            height: 60rpx;
+            margin-right: 20rpx;
+            margin-left: 20rpx;
+        }
+    }
+
+    .wordBox {
+        font-weight: 600;
+        display: flex;
+        align-items: flex-end;
+
+        .wordCh {
+            font-size: 45rpx;
+            margin-right: 15rpx;
+        }
+
+        .wordEn {
+            font-size: 30rpx;
+        }
+    }
+
+    .wordBox,
+    .exampleSentenceBox,
+    .wordTagBox {
+        margin-top: 10rpx;
+        margin-left: 20rpx;
+        margin-right: 20rpx;
+        margin-bottom: 10rpx;
+
+        .title {
+            font-weight: 600;
+            font-size: 40rpx;
+            margin-bottom: 25rpx;
+        }
+
+
+
+    }
+
+    .exampleSentenceBox {
+        .chSentence {
+            text-indent: 2rem;
+            margin-bottom: 10rpx;
+            font-size: 28rpx;
+            font-weight: 500;
+        }
+
+        .viSentence,
+        .warningSentence {
+            text-indent: 2rem;
+            font-size: 28rpx;
+            font-weight: 500;
+        }
+    }
+
+    .wordTagBox {
+        .wordTag {
+            text-indent: 2rem;
+            font-size: 28rpx;
+            font-weight: 500;
+        }
+    }
+}

@@ -64,6 +64,7 @@ async function getWordsLearnNeededApi(t) {
  */
 async function getWordDetailsApi(_id, t) {
     // 用onLoad: function(options){}获得参数，必要时可以通过this.setData({query:options})将参数全局化
+    console.log("检查传入参数", _id, t);
     const { data: res } = await wx.p.request({
         method: 'GET',
         url: 'https://vi.wzf666.top/learn/word/' + _id,
@@ -71,7 +72,7 @@ async function getWordDetailsApi(_id, t) {
             token: t
         }
     })
-    // console.log("单词获取的具体信息", res);
+    console.log("单词获取的具体信息", res);
     return utils.statusCodeExplain(res);
 }
 

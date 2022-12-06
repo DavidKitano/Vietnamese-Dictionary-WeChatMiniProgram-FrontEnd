@@ -90,6 +90,22 @@ export default {
       let res = null;
       if (this.isLogin && (app.globalData.token == uni.getStorageSync('token'))) {
         res = await userApi.logout(uni.getStorageSync('token'));
+        if (res == "未登录或登录状态已失效") {
+          this.token = undefined;
+          app.globalData.token = undefined;
+          this.isLogin = false;
+          app.globalData.isLogin = false;
+          setTimeout(function () {
+            uni.showToast({
+              title: '登录已失效',
+              icon: 'error',
+              mask: true
+            })
+          }, 1000)
+          uni.reLaunch({
+            url: '../../pages/login/login.vue'
+          })
+        }
         if (res == "操作成功") {
           uni.removeStorageSync('token');
           app.globalData.token = undefined;
