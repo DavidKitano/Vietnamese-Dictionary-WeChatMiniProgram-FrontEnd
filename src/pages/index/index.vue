@@ -23,6 +23,7 @@
       <!-- 自动切换，间隔15s，动画0.5s，循环播放，非纵向，淡入淡出，监听滑动同时改变数据内容 -->
       <view class="contentContainer">
         <view class="contentTitle">今日例句</view>
+        <view class="split"></view>
         <swiper class="swiperContainer" autoplay="true" interval="15000" duration="500" circular="true"
           easing-function="easeInOutCubic" current="0" indicator-dots="true" @change="changeSentence">
           <swiper-item :wx:for="dailySentences" wx:for-item="ds" wx:for-index="dsIndex" wx:key="dsIndex">
@@ -44,6 +45,13 @@
         <view class="loginBtn" hover-class="loginBtnTapped" @tap="login" :wx-if="(!isLogin)">登&nbsp;&nbsp;&nbsp;录
         </view>
         <view :wx-if="isLogin" class="contentTitle">学习状态总览</view>
+        <view class="split"></view>
+        <qiunDataCharts class="charts" type="ring" :opts="optsLearn" :chartData="chartDataLearn" :canvas2d="true"
+          canvasId="mIaUcjZIsRXkrfOyLHOaUoeLdaWGgCGy" />
+        <view :wx-if="isLogin" class="contentTitle">复习状态总览</view>
+        <view class="split"></view>
+        <qiunDataCharts class="charts" type="ring" :opts="optsReview" :chartData="chartDataReview" :canvas2d="true"
+          canvasId="mIaUcjZIsRXkrfOyLHOaUoeLdaWGgCG14" />
       </view>
     </view>
   </scroll-view>
@@ -51,7 +59,7 @@
 
 <script>
 import Welcome from "@/components/Welcome/Welcome.vue";
-
+import qiunDataCharts from "@/components/qiun-data-charts/qiun-data-charts";
 const studyApi = require("../../utils/studyApi");
 const app = getApp();
 let innerAudioContext = null;
@@ -68,13 +76,98 @@ export default {
         viSentence: "Loading...",
         audio: undefined
       }],
-      presentDailySentence: 0
-    };
+      presentDailySentence: 0,
+
+      // 图表数据
+      chartDataLearn: {
+        series: [{
+          data: [
+            { "name": "已学习", "value": 0 },
+            { "name": "未学习", "value": 13902 }
+          ]
+        }]
+      },
+      chartDataReview: {
+        series: [{
+          data: [
+            { "name": "已复习", "value": 0 },
+            { "name": "未复习", "value": 13902 }
+          ]
+        }]
+      },
+      // 圆环图的配置
+      optsLearn: {
+        rotate: false,
+        rotateLock: false,
+        color: ["#1890FF", "#91CB74"],
+        padding: [0, 20, 0, 20],
+        dataLabel: true,
+        legend: {
+          show: true,
+          position: "right",
+          lineHeight: 25
+        },
+        title: {
+          name: "学习状态",
+          fontSize: 15,
+          color: "#666666"
+        },
+        subtitle: {
+          name: ""
+        },
+        extra: {
+          ring: {
+            centerColor: "#ffffff",
+            ringWidth: 30,
+            activeOpacity: 0.5,
+            activeRadius: 10,
+            offsetAngle: 0,
+            labelWidth: 15,
+            border: true,
+            borderWidth: 3,
+            borderColor: "#FFFFFF"
+          }
+        }
+      },
+      optsReview: {
+        rotate: false,
+        rotateLock: false,
+        color: ["#91CB74", "#1890FF"],
+        padding: [0, 20, 0, 20],
+        dataLabel: true,
+        legend: {
+          show: true,
+          position: "right",
+          lineHeight: 25
+        },
+        title: {
+          name: "复习状态",
+          fontSize: 15,
+          color: "#666666"
+        },
+        subtitle: {
+          name: ""
+        },
+        extra: {
+          ring: {
+            centerColor: "#ffffff",
+            ringWidth: 30,
+            activeOpacity: 0.5,
+            activeRadius: 10,
+            offsetAngle: 0,
+            labelWidth: 15,
+            border: true,
+            borderWidth: 3,
+            borderColor: "#FFFFFF"
+          }
+        }
+      },
+    }
   },
   props: {
   },
   components: {
-    Welcome,
+    Welcome, qiunDataCharts
   },
   methods: {
     // 获取每日例句
