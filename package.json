@@ -48,6 +48,7 @@
     "@dcloudio/uni-mp-toutiao": "3.0.0-3060520221121001",
     "@dcloudio/uni-mp-weixin": "3.0.0-3060520221121001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-3060520221121001",
+    "@qiun/ucharts": "^2.4.5-20221130",
     "@types/wechat-miniprogram": "^3.4.1",
     "@vant/weapp": "^1.10.8",
     "css-loader": "^6.7.2",
