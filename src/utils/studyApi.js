@@ -84,11 +84,13 @@ async function getWordDetailsApi(_id, t) {
  * @returns 标准化的结果 
  */
 async function favoriteWordApi(_id, t) {
+    console.log("检查传入参数", _id, t);
     const { data: res } = await wx.p.request({
         method: 'POST',
         url: 'https://vi.wzf666.top/learn/word/collection',
         header: {
-            token: t
+            token: t,
+            'content-type': 'application/x-www-form-urlencoded'
         },
         data: {
             wordId: _id
@@ -110,7 +112,8 @@ async function deFavoriteWordApi(_id, t) {
         method: 'DELETE',
         url: 'https://vi.wzf666.top/learn/word/collection',
         header: {
-            token: t
+            token: t,
+            'content-type': 'application/x-www-form-urlencoded'
         },
         data: {
             wordId: _id

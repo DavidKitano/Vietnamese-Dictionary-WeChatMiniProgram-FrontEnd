@@ -170,16 +170,16 @@ export default {
           url: '../login/login'
         })
       }
-      if (res.msg == "操作成功") {
+      if (res.msg == "操作成功" || res == "操作成功") {
+        uni.showLoading({
+          mask: true
+        })
         this.wordInfo.isFavorite = true;
         setTimeout(function () {
-          uni.showLoading({
-            mask: true
-          })
-        }, 1000)
-        uni.hideLoading({
-          onConflict: true
-        })
+          uni.hideLoading({
+            onConflict: true
+          });
+        }, 500);
       }
     },
     removeFavorite: async function (e) {
@@ -200,16 +200,16 @@ export default {
           url: '../login/login'
         })
       }
-      if (res.msg == "操作成功") {
+      if (res.msg == "操作成功" || res == "操作成功") {
         this.wordInfo.isFavorite = false;
-        setTimeout(function () {
-          uni.showLoading({
-            mask: true
-          })
-        }, 1000)
-        uni.hideLoading({
-          onConflict: true
+        uni.showLoading({
+          mask: true
         })
+        setTimeout(function () {
+          uni.hideLoading({
+            onConflict: true
+          })
+        }, 500)
       }
     }
   },

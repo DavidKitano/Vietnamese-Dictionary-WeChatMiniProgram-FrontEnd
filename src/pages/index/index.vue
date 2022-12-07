@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import "./index.js";
 import Welcome from "@/components/Welcome/Welcome.vue";
 
 const studyApi = require("../../utils/studyApi");
@@ -78,6 +77,7 @@ export default {
     Welcome,
   },
   methods: {
+    // 获取每日例句
     getDailySentencesList: async function (e) {
       const res = await studyApi.getDailySentences();
       let list = [];
@@ -96,11 +96,13 @@ export default {
       // console.log("例句列表", list)
       return list;
     },
+    // 换句子
     changeSentence: function (e) {
       // console.log(e.target, "滑动");
       this.presentDailySentence = e.target.current;
       innerAudioContext.stop();
     },
+    // 点击播放声音
     playVoice: function (e) {
       // console.log("点击了声音播放事件", e);
       console.log(innerAudioContext.paused)
@@ -119,6 +121,7 @@ export default {
         innerAudioContext.stop();
       }
     },
+    // 去单词搜索页
     toSearch: function (e) {
       // console.log("点击了搜索事件", e)
       if (!this.isLogin) {
@@ -135,6 +138,7 @@ export default {
         })
       }
     },
+    // 去登录页
     login: function (e) {
       // console.log("点击了登录，目前登录状态为" + this.isLogin);
       if (this.isLogin == false) {
@@ -152,12 +156,14 @@ export default {
         })
       }
     },
+    // 刷新状态
     flushStatus: async function (e) {
       this.dailySentences = await this.getDailySentencesList();
       let isLogin = app.globalData.isLogin;
       this.isLogin = isLogin;
       this.userInfo = app.globalData.userInfo;
     },
+    // 检查是否是第一次进入的用户（或清过缓存的用户）
     newComerCheck: function (e) {
       let openId = uni.getStorageSync("openId");
       let flag = uni.getStorageSync("newComerFlag");

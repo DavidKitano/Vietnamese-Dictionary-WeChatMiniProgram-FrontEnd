@@ -19,10 +19,36 @@
       </view>
     </view>
 
-    <view class="float changePwdModal" :wx-if="isChangeProfile">
+    <view class="float changeProfileModal" :wx-if="isChangeProfile">
       <view class='floatContent'>
-        <view class="floatTitle">修改信息</view>
-        <view class="floatFunc"> <button class="floatSubmit" @tap="changeProfileFunc">提交</button>
+        <view class="floatTitle">修改昵称</view>
+        <view class="floatInputBox">
+          <view class="floatInputContents">
+            <view class="floatInputTitle">新的昵称</view>
+            <input class="floatInput" type="text" :value="userInfo.username" placeholder="请输入新昵称" @blur="checkUsername"
+              @input="handleInputChangeProfile" data-inputtype="newUsername" />
+          </view>
+        </view>
+        <view class="errmsg">{{ errmsg[errtype] }}</view>
+        <view class="floatFunc">
+          <button type="primary" class="floatSubmit" @tap="changeProfileFunc">提交</button>
+          <button class="floatExit" @tap="hideFloat">取消</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="float changeProfileModal" :wx-if="isChangeAvatar">
+      <view class='floatContent'>
+        <view class="floatTitle">修改头像</view>
+        <view class="floatInputBox">
+          <image class="avatar" :src="changeProfile.newAvatar" @tap="uploadImg" background-size="cover" mode="widthFix"
+            :wx-if="(isLogin)">
+          </image>
+          <view class="changeAvatarNotice">点击更换头像</view>
+        </view>
+        <view class="errmsg">{{ errmsg[errtype] }}</view>
+        <view class="floatFunc">
+          <button type="primary" class="floatSubmit" @tap="changeAvatarFunc">提交</button>
           <button class="floatExit" @tap="hideFloat">取消</button>
         </view>
       </view>
@@ -67,8 +93,8 @@
 </template>
 <script>
 import { toInteger } from 'lodash';
-import studyApi from '../../utils/studyApi';
 const app = getApp();
+const studyApi = require('../../utils/studyApi');
 const userApi = require('../../utils/userApi.js');
 const utils = require('../../utils/utils');
 
@@ -78,6 +104,7 @@ export default {
   data() {
     return {
       isLogin: false,
+      isChangeAvatar: false,
       isChangeProfile: false,
       isChangePwd: false,
       userInfo: {
@@ -87,11 +114,15 @@ export default {
         oldPassword: "",
         newPasswordConfirm: ""
       },
+      changeProfile: {
+        newUsername: "",
+        newAvatar: ""
+      },
       errmsg: [
         "",
         "非法错误",
         "请填写信息",
-        "请输入可用的，正确格式的邮箱地址",
+        "请输入正确的昵称，长度大于等于4并小于等于50",
         "请输入正确的密码，长度大于6并小于50",
         "两次密码不一致，请重新输入"
       ],
@@ -100,6 +131,7 @@ export default {
   },
   computed: {},
   methods: {
+    // 刷新状态
     flushStatus: function (e) {
       let isLogin = app.globalData.isLogin
       // console.log("登录状态", isLogin)
@@ -115,6 +147,7 @@ export default {
       this.userInfo = userInfo
       // console.log("用户信息", this.userInfo)
     },
+    // 错误值
     setErrType: function (num) {
       // 对错误进行定义
       try {
@@ -124,12 +157,12 @@ export default {
         this.errtype = 1;
       }
     },
+    // 检查非空
     checkEmptyField: function (e) {
-      // 检查非空
-      console.log("开始检查")
       if (this.isChangePwd == true) {
+        console.log("开始检查密码是否为空的情况");
         let obj = this.changePwd;
-        console.log("检查对象", obj)
+        // console.log("检查对象", obj);
         if (String(obj.oldPassword).trim() != "" && obj.oldPassword != null && typeof obj.oldPassword !== undefined) {
           if (String(obj.newPassword).trim() != "" && obj.newPassword != null && typeof obj.newPassword !== undefined) {
             if (String(obj.newPasswordConfirm).trim() != "" && obj.newPasswordConfirm != null && typeof obj.newPasswordConfirm !== undefined) {
@@ -139,14 +172,20 @@ export default {
           }
         }
       }
-      if (this.isChangeProfile) {
+      if (this.isChangeProfile == true) {
+        console.log("开始检查昵称是否为空的情况");
         // TODO 更改信息的非空判断
-        this.setErrType(0);
-        return true;
+        let obj = this.changeProfile;
+        console.log(obj);
+        if (obj.newUsername != null && typeof obj.newUsername !== undefined && String(obj.newUsername).trim() != "") {
+          this.setErrType(0);
+          return true;
+        }
       }
       this.setErrType(2)
       return false
     },
+    // 检查密码格式
     checkPwd: function (e) {
       // 检查密码以及再次输入密码
       let pw = this.changePwd.newPassword;
@@ -178,6 +217,17 @@ export default {
       }
       return false
     },
+    // 检查新用户名格式
+    checkUsername: function (e) {
+      let length = this.changeProfile.newUsername.length;
+      if (length < 4 || length > 50) {
+        this.setErrType(3);
+        return false;
+      }
+      this.setErrType(0);
+      return true;
+    },
+    // 监听密码输入框变动
     handleInputChangePwd: function (e) {
       // 监听输入框
       let inputtype = e.target.dataset.inputtype;
@@ -185,6 +235,12 @@ export default {
       this.changePwd[inputtype] = value;
       // console.log("更改密码输入情况", this.changePwd)
     },
+    // 监听昵称输入框变动
+    handleInputChangeProfile: function (e) {
+      let value = e.detail.value;
+      this.changeProfile.newUsername = value;
+    },
+    // 登出确认模态框
     logoutConfirm: function (e) {
       let _this = this;
       uni.showModal({
@@ -200,6 +256,7 @@ export default {
         }
       })
     },
+    // 登出
     logout: async function (e) {
       console.log('登出');
       let res = null;
@@ -252,12 +309,15 @@ export default {
         app.globalData.isLogin = false;
       }
     },
+    // 建设中提示框
     underConstruction: function (e) {
       utils.underConstruction(e);
     },
+    // 错误提示框
     error: function (e) {
       utils.errorFound(e);
     },
+    // 清除所有缓存
     clearAllCache: function (e) {
       let _this = this;
       try {
@@ -312,6 +372,7 @@ export default {
         });
       }
     },
+    // 退出模态框
     exitManuallyConfirm: function (e) {
       let _this = this;
       let warning = ""
@@ -332,6 +393,7 @@ export default {
         }
       })
     },
+    // 退出实质
     exitManually: function (e) {
       uni.exitMiniProgram({
         success: function () {
@@ -348,7 +410,8 @@ export default {
     // 打开模态框
     changeAvatar: function (e) {
       // this.underConstruction(e);
-      this.isChangeProfile = true;
+      this.isChangeAvatar = true;
+      this.isChangeProfile = false;
       this.isChangePwd = false;
       this.changePwd = {
         newPassword: "",
@@ -361,6 +424,7 @@ export default {
       // this.underConstruction(e);
       this.isChangeProfile = true;
       this.isChangePwd = false;
+      this.isChangeAvatar = false;
       this.changePwd = {
         newPassword: "",
         oldPassword: "",
@@ -373,12 +437,15 @@ export default {
       // console.log("点击修改密码事件", e)
       this.isChangePwd = true;
       this.isChangeProfile = false;
+      this.isChangeAvatar = false;
       // console.log(this.isChangePwd)
     },
     // 关闭模态框
     hideFloat: function (e) {
+      this.isChangeAvatar = false;
       this.isChangePwd = false;
       this.isChangeProfile = false;
+      this.changeProfile.newAvatar = this.userInfo.avatar_pic;
     },
     // 实质上修改密码
     changePwdFunc: async function (e) {
@@ -390,7 +457,7 @@ export default {
         return;
       }
       let res = await userApi.changePwd(this.changePwd, uni.getStorageSync('token'));
-      console.log("修改密码结果", res);
+      // console.log("修改密码结果", res);
       if (res == "操作成功") {
         setTimeout(function () {
           uni.showToast({
@@ -410,26 +477,127 @@ export default {
           mask: true
         })
       }
-
-
       return;
     },
+    // 实质上修改昵称
+    changeProfileFunc: async function (e) {
+      let _this = this;
+      if (!(this.checkEmptyField())) {
+        // 优先级
+        return;
+      }
+      if (!(this.checkUsername())) {
+        return;
+      }
+      let res = await userApi.changeUsername(this.changeProfile, uni.getStorageSync('token'));
+      if (res == "操作成功") {
+        app.globalData.userInfo.username = this.changeProfile.newUsername;
+        this.userInfo.username = this.changeProfile.newUsername;
+        uni.showToast({
+          title: "修改成功",
+          icon: "success",
+          duration: 1500,
+          mask: true
+        });
+        setTimeout(function () {
+          _this.changeProfile.newUsername = "";
+          _this.hideFloat();
+          uni.reLaunch({
+            url: '../../pages/my/my'
+          })
+        }, 1500)
+      }
+      else {
+        uni.showToast({
+          title: res,
+          icon: "error",
+          duration: 1500,
+          mask: true
+        })
+      }
+      return;
+    },
+    // 实质上修改头像
+    changeAvatarFunc: async function (e) {
+      let _this = this;
+      let res = await userApi.changeAvatar(this.changeProfile, uni.getStorageSync('token'));
+      if (res == "操作成功") {
+        app.globalData.userInfo.avatar_pic = this.changeProfile.newAvatar;
+        this.userInfo.avatar_pic = this.changeProfile.newAvatar;
+        uni.showToast({
+          title: "修改成功",
+          icon: "success",
+          duration: 1500,
+          mask: true
+        });
+        setTimeout(function () {
+          _this.changeProfile.newAvatar = _this.userInfo.avatar_pic;
+          _this.hideFloat();
+          uni.reLaunch({
+            url: '../../pages/my/my'
+          })
+        }, 1500)
+      }
+      else {
+        uni.showToast({
+          title: res,
+          icon: "none",
+          duration: 1500,
+          mask: true
+        })
+
+      }
+    },
+    // 上传图片方法
+    uploadImg: async function () {
+      let _this = this;
+      uni.chooseMedia({
+        count: 1,
+        mediaType: "image",
+        sourceType: ['album', 'camera'],
+        sizeType: "compressed",
+        success(res) {
+          // console.log(res.tempFiles[0].tempFilePath);
+          // console.log(res.tempFiles[0].size);
+          if (res.tempFiles[0].size >= 5242880) {
+            uni.showToast({
+              title: '请上传小于5M的文件',
+              icon: 'none',
+              mask: true
+            })
+          }
+          else {
+            _this.changeProfile.newAvatar = res.tempFiles[0].tempFilePath;
+            console.log(_this.changeProfile.newAvatar);
+          }
+        },
+        error(err) {
+          uni.showToast({
+            title: '上传失败',
+            icon: 'error',
+            mask: true
+          })
+          return;
+        }
+      })
+    },
+    // 前往详细设置
     goSettings: function (e) {
       uni.navigateTo({
         url: '../../pages/u_settings/u_settings'
       });
     }
-
-
   },
   watch: {},
 
   // 组件周期函数--监听组件挂载完毕
   mounted() {
+    this.flushStatus();
+    this.changeProfile.newAvatar = this.userInfo.avatar_pic;
     this.isChangePwd = false;
     this.isChangeProfile = false;
+    this.isChangeAvatar = false;
     // console.log("调用了MySettings组件")
-    this.flushStatus();
   },
   // 组件周期函数--监听组件数据更新之前
   beforeUpdate() {

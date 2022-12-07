@@ -1,15 +1,13 @@
-<!-- TODO 搜索历史 -->
-
 <template>
-  <view class="search">
-    <view class="searchContainer">
+  <view class="news">
+    <view class="searchContainer" :wx-if="isLogin">
       <view class="searchHeader">
-        <input type="text" :value="searchWords" :focus="true" :always-embed="true" placeholder="请输入想查询的单词"
+        <input type="text" :value="searchWords" :focus="true" :always-embed="true" placeholder="请输入想查询的新闻"
           placeholder-class="placeHolder" @input="handleInput" @confirm="search" />
         <image src="../../static/images/svgs/search-puppy-62C6AC.svg" mode="scaleToFill" @tap="search"></image>
       </view>
     </view>
-    <view class="searchContainer">
+    <view class="searchContainer" :wx-if="isLogin">
       <view :wx-if="!isHasContent">
         <noContent></noContent>
       </view>
@@ -20,52 +18,60 @@
         <view class="foundContainer" :wx-if="(searchContent.total <= 100 && searchContent.total > 0)">
           <foundContent>{{ searchContent.total }}</foundContent>
         </view>
-        <view v-for="dl in searchContent.dataList" wx:key="id">
-          <view class="dailySentencesContent" data-index="id">
-            <wordBox @tap="goToWord(dl.id)">
-              <view slot="vi">{{ dl.vi }}</view>
-              <view slot="ch">{{ dl.translationCh }}</view>
-              <view slot="en">{{ dl.translationEn }}</view>
-              <view slot="wordTag">{{ dl.tag }}</view>
-            </wordBox>
+        <view v-for="nl in searchContent.dataList" wx:key="id">
+          <view class="newsContent" data-index="id">
+            <newsBox @tap="goToNews(nl.id)">
+              <view slot="title">{{ nl.title }}</view>
+              <view slot="summary">{{ nl.summary }}</view>
+              <view slot="category1">{{ nl.category1 }}</view>
+              <view :wx-if="nl.category2" slot="category2">{{ nl.category2 }}</view>
+              <view slot="pubTime">{{ nl.pubTime }}</view>
+              <view slot="resources">
+                <image hspace="5" vspace="5" :src="nl.resources[0]" mode="scaleToFill" class="resourceImg" />
+              </view>
+              <view slot="websiteName">{{ nl.websiteName }}</view>
+            </newsBox>
           </view>
         </view>
       </view>
     </view>
   </view>
 </template>
+
 <script>
 import noContent from "@/components/noContent/noContent.vue";
 import foundContent from "@/components/foundContent/foundContent.vue";
 import tooManyContent from "@/components/tooManyContent/tooManyContent.vue";
-import wordBox from "@/components/word-box/word-box.vue";
+import newsBox from "@/components/news-box/news-box.vue";
 
 const app = getApp();
 const userApi = require('../../utils/userApi.js');
-const studyApi = require('../../utils/studyApi.js');
+const newsApi = require('../../utils/newsApi.js');
 const utils = require('../../utils/utils');
 
 export default {
   name: "search",
-  components: { noContent, foundContent, tooManyContent, wordBox },
+  components: { noContent, foundContent, tooManyContent, newsBox },
   props: {},
   data() {
     return {
       isLoading: false, // 节流阀
       isLogin: false,
-      currentPage: 1,
+      currentPage: 0,
       searchWords: "",
       isHasContent: false,
       searchContent: {
         "dataList": [
           {
-            id: 1,
-            isDeleted: 0,
-            pronunciation: undefined,
-            tag: undefined,
-            translationCh: undefined,
-            translationEn: undefined,
-            vi: undefined
+            category1: "",
+            category2: "",
+            id: undefined,
+            pubTime: undefined,
+            resources: [
+            ],
+            summary: "",
+            title: "",
+            websiteName: ""
           }
         ],
         "pageCount": 0,
@@ -88,8 +94,8 @@ export default {
           })
         }
         else {
-          this.currentPage = 1;
-          const res = await studyApi.getSearchContent(this.searchWords, 1, 10, 0, uni.getStorageSync('token'));
+          this.currentPage = 0;
+          const res = await newsApi.getSearchNewsResult(this.searchWords, 0, 10, uni.getStorageSync('token'));
           if (res == "未登录或登录状态已失效") {
             _this.token = undefined;
             app.globalData.token = undefined;
@@ -125,15 +131,15 @@ export default {
       }
     },
     // 去单词详情页
-    goToWord: function (id, $event) {
-      console.log("查看单词", id)
+    goToNews: function (id, $event) {
+      console.log("查看新闻", id)
       uni.navigateTo({
         url: '../../pages/word/word?id=' + id
       })
     },
     // 刷新新页面(加载新页面实际)
     flushLoadNewPage: async function (e) {
-      const res = await studyApi.getSearchContent(this.searchWords, this.currentPage + 1, 10, 0, uni.getStorageSync('token'));
+      const res = await newsApi.getSearchNewsResult(this.searchWords, this.currentPage + 1, 10, uni.getStorageSync('token'));
       return res;
     },
     // 加载新页面
@@ -173,7 +179,6 @@ export default {
             uni.hideLoading({
               noConflict: true
             });
-
             uni.showToast({
               mask: true,
               title: "没有其它结果啦~",
@@ -214,7 +219,7 @@ export default {
       let isLogin = app.globalData.isLogin;
       this.isLogin = isLogin;
       this.isHasContent = false;
-      this.currentPage = 1;
+      this.currentPage = 0;
       this.searchWords = "";
     }
   },
@@ -252,5 +257,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import './search.less';
+@import "../../pages/search/search.less";
+@import "../../pages/news_search/news_search.less";
 </style>

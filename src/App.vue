@@ -45,8 +45,23 @@ export default {
     }
   },
   onShow: async function () {
+    // if (!this.globalData.isFirstTimeLaunch) {
+    console.log("App Show");
+    //   await this.flushStatus();
+    // }
+    // setTimeout(async () => {
+    //   console.log("wait for 2s")
+    //   try {
+    //     await uni.showTabBar();
+    //   } catch {
+    //     console.log("有tabbar显示错误")
+    //   }
+    // }, 1000)
+    // console.log(this.globalData)
+  },
+  onHide: async function () {
     if (!this.globalData.isFirstTimeLaunch) {
-      console.log("App Show");
+      console.log("App Hide");
       await this.flushStatus();
     }
     setTimeout(async () => {
@@ -57,13 +72,6 @@ export default {
         console.log("有tabbar显示错误")
       }
     }, 1000)
-
-
-
-    // console.log(this.globalData)
-  },
-  onHide: function () {
-    console.log("App Hide");
   },
   components: {},
   methods: {

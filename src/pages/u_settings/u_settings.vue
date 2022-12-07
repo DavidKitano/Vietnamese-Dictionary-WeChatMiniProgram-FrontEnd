@@ -225,7 +225,7 @@ export default {
         default: this.timingDurationIndex = 0;
       }
       this.isLogin = isLogin
-      this.token = app.globalData.token;
+      this.token = uni.getStorageSync('token');
       this.picker = picker
       this.isWxUser = isWxUser;
       // console.log("初始化/刷新后的私有变量", this.picker)

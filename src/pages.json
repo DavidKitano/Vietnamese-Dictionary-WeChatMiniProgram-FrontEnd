@@ -55,6 +55,18 @@
 			"style": {
 				"navigationBarTitleText": "越南单词本 - 单词详情"
 			}
+		},
+		{
+			"path": "pages/news_search/news_search",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 新闻搜索"
+			}
+		},
+		{
+			"path": "pages/news_detail/news_detail",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 新闻详情"
+			}
 		}
 	],
 	"globalStyle": {
@@ -67,7 +79,7 @@
 	"tabBar": {
 		"color": "#A6D6FA",
 		"selectedColor": "#62BEFF",
-		"backgroundColor": "#f8ece9b4",
+		"backgroundColor": "#ffffffd6",
 		"list": [
 			{
 				"pagePath": "pages/index/index",

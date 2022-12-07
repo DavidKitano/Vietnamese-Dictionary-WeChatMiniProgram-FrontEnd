@@ -144,7 +144,7 @@ export default {
           title: res, icon: "none", duration: 3500, mask: true
         })
         setTimeout(function () {
-          app.onShow();
+          app.onHide();
           app.globalData.ifFirstTimeLaunch = true;
           uni.reLaunch({
             url: '../index/index'
@@ -219,7 +219,7 @@ export default {
                         title: fin_res, icon: "none", duration: 4000, mask: true
                       })
                       setTimeout(function () {
-                        app.onShow();
+                        app.onHide();
                         app.globalData.ifFirstTimeLaunch = true;
                         uni.reLaunch({
                           url: '../index/index'

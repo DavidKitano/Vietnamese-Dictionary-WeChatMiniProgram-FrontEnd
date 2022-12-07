@@ -1,0 +1,47 @@
+// 图片是直接传入一个元素，方便实现，对于图片的样式修改在 news.less | .resourceImg类
+
+.news-box {
+    box-sizing: border-box;
+    width: 100%;
+    border-top: solid 2px rgb(201, 201, 201, 0.673);
+    border-bottom: solid 2px rgba(201, 201, 201, 0.673);
+    min-height: 180rpx;
+    padding-left: 40rpx;
+    padding-right: 40rpx;
+    padding-top: 30rpx;
+    padding-bottom: 30rpx;
+    overflow: hidden;
+
+    .title {
+        font-size: 35rpx;
+        font-weight: 600;
+    }
+
+    .newsContent {
+        font-size: 28rpx;
+        margin-bottom: 20rpx;
+    }
+
+    .categories,
+    .pubTime,
+    .websiteName {
+        box-sizing: border-box;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        font-size: 26rpx;
+        font-weight: 600;
+    }
+
+    .split {
+        background-color: #e3e3e3;
+        width: 120rpx;
+        height: 15rpx;
+        border-radius: 50rem;
+        margin: 30rpx 0;
+    }
+}
+
+.wasTapped {
+    background-color: #e3e3e3;
+}

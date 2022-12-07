@@ -31,13 +31,12 @@ export default {
       userInfo: {
       },
       defaultPic: '../../static/images/icons/icon.jpg',
-      changeType: -1,
       inputValue: {},
-      errMsg: '',
     }
   },
   computed: {},
   methods: {
+    // 刷新状态
     flushStatus: function (e) {
       // console.log(app.globalData)
       let isLogin = app.globalData.isLogin
@@ -47,11 +46,13 @@ export default {
           avatar_pic: app.globalData.userInfo.avatar_pic,
           username: app.globalData.userInfo.username,
           isWxUser: app.globalData.userInfo.isWxUser,
-        }
+        };
+        this.defaultPic = false;
       }
       this.isLogin = isLogin
       this.userInfo = userInfo
     },
+    // 跳转到登录页
     login: function (e) {
       console.log("点击了登录，目前登录状态为" + this.isLogin);
       if (this.isLogin == false) {
@@ -68,6 +69,21 @@ export default {
           mask: true
         })
       }
+    },
+    // 点开看头像大图
+    previewAvatar: function (e) {
+      console.log("点击了头像", e);
+      uni.previewImage({
+        urls: [this.userInfo.avatar_pic],
+        current: "",
+        showmenu: false,
+        success: (result) => {
+          console.log("预览成功", result)
+        },
+        fail: (error) => {
+          console.log("预览失败", error)
+        }
+      })
     }
   },
   watch: {},

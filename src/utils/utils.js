@@ -69,7 +69,7 @@ function statusCodeExplainFunc(result) {
             case 0:
             case 400:
                 if (result.hasOwnProperty('data')) {
-                    // console.log("结果是个对象");
+                    // console.log("结果是个对象", result.data);
                     return {
                         msg: result.msg,
                         data: result.data
@@ -94,9 +94,40 @@ function statusCodeExplainFunc(result) {
     }
 }
 
+/**
+ * 上传图片API
+ * 
+ * @param {*} p 图片路径
+ * @param {*} t token
+ * @return 标准化后的结果 
+ */
+async function uploadImgApi(p, t) {
+    console.log("进入上传图片交互，参数", p);
+    const { data: res } = await wx.p.uploadFile({
+        // method: 'POST',
+        name: 'files',
+        filePath: p,
+        url: 'http://vi.wzf666.top/common/upload',
+        header: {
+            token: t,
+            'content-type': 'multipart/form-data'
+        },
+        formData: {
+            files: p
+        }
+    })
+    if (typeof res == "string") {
+        var real_res = {};
+        real_res = JSON.parse(res);
+    }
+    console.log("图片上传结果", real_res);
+    return (statusCodeExplainFunc(real_res));
+}
+
 module.exports = {
     statusCodeExplain: statusCodeExplainFunc,
     isObjectValueEqual: isObjectValueEqualFunc,
     underConstruction: underConstructionFunc,
-    errorFound: errorFunc
+    errorFound: errorFunc,
+    uploadImg: uploadImgApi
 }

@@ -9,7 +9,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
 
     .background {
         width: 100%;
@@ -52,10 +51,16 @@
         font-size: 34rpx;
     }
 
+    .header {
+        margin: 0 auto;
+        text-align: center;
+    }
+
     .avatar {
-        width: 160rpx;
-        height: 160rpx;
+        width: 160rpx !important;
+        height: 160rpx !important;
         border-radius: 50%;
+        clip-path: circle(50% at 50% 50%);
         border: solid 4rpx #e6e6e6;
         margin-top: 20rpx;
     }
@@ -65,5 +70,6 @@
         color: #ffffff;
         font-size: 44rpx;
         text-shadow: 2rpx 2rpx 2rpx #bfbfbf;
+        text-align: center;
     }
 }

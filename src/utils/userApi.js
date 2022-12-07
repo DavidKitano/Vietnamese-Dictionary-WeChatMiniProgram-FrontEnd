@@ -7,7 +7,9 @@ module.exports = {
     getProfiles: getProfilesApi,
     wxLogin: wxLoginApi,
     modUserSettings: modUserSettingsApi,
-    changePwd: changePwdApi
+    changePwd: changePwdApi,
+    changeUsername: changeUsernameApi,
+    changeAvatar: changeAvatarApi
 }
 
 // TODO 除了延时、蒙版以外还可以应用的防抖操作
@@ -210,11 +212,15 @@ async function modUserSettingsApi(obj, t) {
  * 
  * @param {*} obj 包含新旧密码内容的对象体
  * @param {*} t token
+ * @return 标准化的结果
  */
 async function changePwdApi(obj, t) {
     let _obj = {
         oldPassword: obj.oldPassword,
         newPassword: obj.newPassword
+    }
+    if (_obj.oldPassword == "" || _obj.newPassword == "") {
+        return;
     }
     const { data: res } = await wx.p.request({
         method: 'PUT',
@@ -225,4 +231,60 @@ async function changePwdApi(obj, t) {
         data: _obj
     })
     return (utils.statusCodeExplain(res));
+}
+
+/**
+ * 修改用户昵称API
+ * 
+ * @param {*} obj 含有用户名（和用户头像）的对象体，实际使用其中的newUsername字段
+ * @param {*} t token
+ * @returns 标准化后的结果
+ */
+async function changeUsernameApi(obj, t) {
+    let newUsername = obj.newUsername;
+    if (newUsername == "") {
+        return;
+    }
+    const { data: res } = await wx.p.request({
+        method: 'PUT',
+        url: 'http://vi.wzf666.top/user/info',
+        header: {
+            token: t
+        },
+        data: {
+            username: newUsername
+        }
+    })
+    console.log("修改用户名接口返回", res);
+    return (utils.statusCodeExplain(res));
+}
+
+/**
+ * 修改用户头像Api，会优先调用上传图片Api
+ * 
+ * @param {*} obj 含有用户头像（和用户名）的对象体，实际使用其中的newAvatar字段
+ * @param {*} t token
+ * @returns 标准化后的结果
+ */
+async function changeAvatarApi(obj, t) {
+    console.log("进入换头像交互");
+    let uploadRes = await utils.uploadImg(obj.newAvatar, t);
+    // console.log("换头像交互结果", uploadRes);
+    if (uploadRes.msg == "操作成功") {
+        console.log("上传成功");
+        let path = uploadRes.data[0];
+        const { data: res } = await wx.p.request({
+            method: 'PUT',
+            url: 'http://vi.wzf666.top/user/info',
+            header: {
+                token: t
+            },
+            data: {
+                avatar: path
+            }
+        })
+        console.log("换头像结果", res);
+        return (utils.statusCodeExplain(res));
+    }
+    return uploadRes;
 }
