@@ -7,7 +7,8 @@
       </view>
 
       <!-- 如果还未登录 -->
-      <view class="loginBtn" hover-class="loginBtnTapped" @tap="login" :wx-if="(!isLogin)">登&nbsp;&nbsp;&nbsp;录
+      <view class="loginBtn" hover-stay-time="100" hover-class="loginBtnTapped" @tap="login" :wx-if="(!isLogin)">
+        登&nbsp;&nbsp;&nbsp;录
       </view>
 
       <!-- 如果已经登录 -->

@@ -1,13 +1,18 @@
 <template>
   <view class="news">
     <view class="contentContainer" :wx-if="(!isLogin)">
-      <view class="loginBtn" hover-class="loginBtnTapped" @tap="login">登&nbsp;&nbsp;&nbsp;录
+      <view class="loginBtn" hover-stay-time="100" hover-class="loginBtnTapped" @tap="login">登&nbsp;&nbsp;&nbsp;录
       </view>
     </view>
     <view class="contentContainer" :wx-if="(isLogin)">
       <view class="header">
         <view class="headerInfoTitle">
           新闻一览
+        </view>
+        <view class="favBtn" data-type="search">
+          <image @tap="goToFavorite" hover-stay-time="50" hover-class="wasTapped"
+            src="../../static/images/svgs/Favorite.svg" mode="scaleToFill">
+          </image>
         </view>
         <view class="searchBtn" data-type="search">
           <image @tap="goToSearchNews" hover-stay-time="50" hover-class="wasTapped"
@@ -100,6 +105,22 @@ export default {
           icon: 'none',
           duration: 1500,
           mask: true
+        })
+      }
+    },
+    // 去收藏夹
+    goToFavorite: function (e) {
+      if (!this.isLogin) {
+        uni.showToast({
+          title: "您还未登录",
+          icon: "error",
+          mask: true,
+          duration: 1500
+        })
+      }
+      else {
+        uni.navigateTo({
+          url: '../../pages/favorite/favorite?type=1',
         })
       }
     },

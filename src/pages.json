@@ -67,6 +67,12 @@
 			"style": {
 				"navigationBarTitleText": "越南单词本 - 新闻详情"
 			}
+		},
+		{
+			"path": "pages/favorite/favorite",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 收藏夹"
+			}
 		}
 	],
 	"globalStyle": {

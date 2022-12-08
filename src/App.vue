@@ -10,6 +10,7 @@ export default {
      * 
      */
     isFirstTimeLaunch: false,
+    isFirstTimeShow: true,
     token: undefined,
     isLogin: false,
     learningStatus: {},
@@ -33,10 +34,16 @@ export default {
     }
   },
   onShow: async function () {
-    // if (!this.globalData.isFirstTimeLaunch) {
+    if (!this.globalData.isFirstTimeLaunch && !this.globalData.isFirstTimeShow) {
+      try {
+        uni.showTabBar();
+      }
+      catch {
+        console.log("在onShow周期函数时打开Tabber出现错误");
+      }
+    }
     console.log("App Show");
-    //   await this.flushStatus();
-    // }
+    this.globalData.isFirstTimeShow = false;
     // setTimeout(async () => {
     //   console.log("wait for 2s")
     //   try {

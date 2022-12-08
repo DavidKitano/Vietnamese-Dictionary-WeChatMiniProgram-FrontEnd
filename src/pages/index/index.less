@@ -104,6 +104,7 @@
     }
 
     .header {
+        box-sizing: border-box;
         border: solid 4px #F5F7F696;
         border-radius: 60rpx;
         display: flex;
@@ -121,8 +122,17 @@
         backdrop-filter: blur(200rpx);
         box-shadow: 6rpx 6rpx 6rpx 6rpx #979797a7;
 
+        .favBtn {
+            margin-right: 15rpx;
+
+            image {
+                width: 75rpx;
+                height: 75rpx;
+            }
+        }
+
         .headerInfoTitle {
-            width: 450rpx;
+            width: 400rpx;
         }
 
         .searchBtn {

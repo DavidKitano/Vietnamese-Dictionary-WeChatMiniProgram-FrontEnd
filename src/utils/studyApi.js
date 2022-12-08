@@ -1,6 +1,8 @@
 const utils = require('./utils.js');
 const userApi = require('./userApi.js');
 
+import { toInteger } from "lodash";
+
 module.exports = {
     getDailySentences: getDailySentencesApi,
     getWordsLearnNeeded: getWordsLearnNeededApi,
@@ -169,7 +171,8 @@ async function getSearchContentApi(keyword, currentPage, pageSize, type, t) {
     if (keyword == "") {
         return;
     }
-    if (type > 2 || type < 0 || typeof type != "number") {
+    type = toInteger(type);
+    if (type > 1 || type < 0 || typeof type != "number") {
         type = 0;
     }
     const { data: res } = await wx.p.request({

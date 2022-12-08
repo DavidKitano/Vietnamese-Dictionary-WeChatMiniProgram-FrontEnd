@@ -12,6 +12,11 @@
           </view>
           <view :wx-if="!isLogin">您好，请登录！</view>
         </view>
+        <view class="favBtn" data-type="favorite">
+          <image @tap="goToFavorite" hover-stay-time="50" hover-class="wasTapped"
+            src="../../static/images/svgs/Favorite.svg" mode="scaleToFill">
+          </image>
+        </view>
         <view class="searchBtn" data-type="search">
           <image @tap="toSearch" hover-stay-time="50" hover-class="wasTapped" src="../../static/images/svgs/search.svg"
             mode="scaleToFill">
@@ -42,7 +47,8 @@
 
       <!-- 如果还未登录 -->
       <view class="contentContainer">
-        <view class="loginBtn" hover-class="loginBtnTapped" @tap="login" :wx-if="(!isLogin)">登&nbsp;&nbsp;&nbsp;录
+        <view class="loginBtn" hover-stay-time="100" hover-class="loginBtnTapped" @tap="login" :wx-if="(!isLogin)">
+          登&nbsp;&nbsp;&nbsp;录
         </view>
         <template :wx-if="isLogin">
           <view :wx-if="isLogin" class="contentTitle">学习状态总览</view>
@@ -242,6 +248,22 @@ export default {
           icon: 'none',
           duration: 1500,
           mask: true
+        })
+      }
+    },
+    // 去收藏夹
+    goToFavorite: function (e) {
+      if (!this.isLogin) {
+        uni.showToast({
+          title: "您还未登录",
+          icon: "error",
+          mask: true,
+          duration: 1500
+        })
+      }
+      else {
+        uni.navigateTo({
+          url: '../../pages/favorite/favorite?type=0',
         })
       }
     },

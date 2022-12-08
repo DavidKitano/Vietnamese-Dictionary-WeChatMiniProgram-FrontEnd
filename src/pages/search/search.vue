@@ -43,6 +43,7 @@ import noContent from "@/components/noContent/noContent.vue";
 import foundContent from "@/components/foundContent/foundContent.vue";
 import tooManyContent from "@/components/tooManyContent/tooManyContent.vue";
 import wordBox from "@/components/word-box/word-box.vue";
+import { toInteger } from "lodash";
 
 const app = getApp();
 const userApi = require('../../utils/userApi.js');
@@ -237,7 +238,13 @@ export default {
 
   // 页面周期函数--监听页面加载
   onLoad(options) {
-    this.searchType = options.type;
+    options.type = toInteger(options.type);
+    if (options.type < 0 || options.type > 1 || typeof options.type != "number") {
+      this.searchType = 0;
+    }
+    else {
+      this.searchType = options.type;
+    }
     this.flushStatus();
   },
   // 页面周期函数--监听页面初次渲染完成
