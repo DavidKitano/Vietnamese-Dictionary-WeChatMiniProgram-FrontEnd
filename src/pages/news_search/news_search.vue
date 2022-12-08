@@ -21,8 +21,8 @@
         <view v-for="nl in searchContent.dataList" wx:key="id">
           <view class="newsContent" data-index="id">
             <newsBox @tap="goToNews(nl.id)">
-              <view slot="title">{{ nl.title }}</view>
-              <view slot="summary">{{ nl.summary }}</view>
+              <rich-text :nodes="nl.title" slot="title"></rich-text>
+              <rich-text :nodes="nl.summary" slot="summary"></rich-text>
               <view slot="category1">{{ nl.category1 }}</view>
               <view :wx-if="nl.category2" slot="category2">{{ nl.category2 }}</view>
               <view slot="pubTime">{{ nl.pubTime }}</view>
@@ -57,12 +57,13 @@ export default {
     return {
       isLoading: false, // 节流阀
       isLogin: false,
-      currentPage: 0,
+      currentPage: 1,
       searchWords: "",
       isHasContent: false,
       searchContent: {
         "dataList": [
           {
+            body: "",
             category1: "",
             category2: "",
             id: undefined,
@@ -94,8 +95,8 @@ export default {
           })
         }
         else {
-          this.currentPage = 0;
-          const res = await newsApi.getSearchNewsResult(this.searchWords, 0, 10, uni.getStorageSync('token'));
+          this.currentPage = 1;
+          const res = await newsApi.getSearchNewsResult(this.searchWords, 1, 10, uni.getStorageSync('token'));
           if (res == "未登录或登录状态已失效") {
             _this.token = undefined;
             app.globalData.token = undefined;
@@ -118,6 +119,9 @@ export default {
           }
           this.isHasContent = true;
           this.searchContent = res.data;
+          for (var tmp = 0; tmp < this.searchContent.dataList.length; tmp++) {
+            this.highlightKeywords(tmp);
+          }
           console.log(this.searchContent)
         }
       }
@@ -130,11 +134,11 @@ export default {
         })
       }
     },
-    // 去单词详情页
+    // 去新闻详情页
     goToNews: function (id, $event) {
       console.log("查看新闻", id)
       uni.navigateTo({
-        url: '../../pages/word/word?id=' + id
+        url: '../../pages/news_detail/news_detail?id=' + id
       })
     },
     // 刷新新页面(加载新页面实际)
@@ -221,6 +225,22 @@ export default {
       this.isHasContent = false;
       this.currentPage = 0;
       this.searchWords = "";
+    },
+    // 高亮关键词
+    highlightKeywords: function (n, $event) {
+      if (this.searchContent.dataList[n].title.indexOf("<em>") != -1) {
+        this.searchContent.dataList[n].title = this.searchContent.dataList[n].title.replace(/<em>/g, "<b style='background-color: gold;'>").replace(/<\/em>/g, "</b>")
+        return;
+      }
+      if (this.searchContent.dataList[n].summary.indexOf("<em>") != -1) {
+        this.searchContent.dataList[n].summary = "摘要中：" + this.searchContent.dataList[n].summary.replace(/<em>/g, "<b style='background-color: gold;'>").replace(/<\/em>/g, "</b>");
+        return;
+      }
+      if (this.searchContent.dataList[n].body.indexOf("<em>") != -1) {
+        let idx = this.searchContent.dataList[n].body.indexOf("<em>");
+        let res = "正文中：" + this.searchContent.dataList[n].body.substring(idx - 10, idx + 120).replace(/<em>/g, "<b style='background-color: gold;'>").replace(/<\/em>/g, "</b>");
+        this.searchContent.dataList[n].summary = res;
+      }
     }
   },
   watch: {},

@@ -82,11 +82,13 @@ export default {
   },
   computed: {},
   methods: {
+    // 刷新状态
     flushStatus: function (e) {
       let isLogin = app.globalData.isLogin;
       this.isLogin = isLogin;
       this.getWords();
     },
+    // 获取单词详情
     getWords: async function () {
       const res = await studyApi.getWordDetails(this.wordId, uni.getStorageSync("token"));
       if (res == "未登录或登录状态已失效") {
@@ -134,6 +136,7 @@ export default {
         }
       }
     },
+    // 播放音声
     playVoice: function (e) {
       // console.log("点击了声音播放事件", e);
       console.log(innerAudioContext.paused)
@@ -152,6 +155,7 @@ export default {
         innerAudioContext.stop();
       }
     },
+    // 收藏单词
     addFavorite: async function (e) {
       const res = await studyApi.favoriteWord(this.wordId, uni.getStorageSync("token"));
       if (res == "未登录或登录状态已失效") {
@@ -182,6 +186,7 @@ export default {
         }, 500);
       }
     },
+    // 移除收藏
     removeFavorite: async function (e) {
       const res = await studyApi.deFavoriteWord(this.wordId, uni.getStorageSync("token"));
       if (res == "未登录或登录状态已失效") {

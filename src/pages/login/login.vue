@@ -69,10 +69,12 @@ export default {
   },
   computed: {},
   methods: {
+    // 刷新状态
     flushStatus: function (e) {
       let isLogin = app.globalData.isLogin
       this.isLogin = isLogin
     },
+    // 注册
     register: async function (e) {
       if (!(this.checkEmptyField())) {
         // 优先级
@@ -99,6 +101,7 @@ export default {
         title: res, icon: "none", duration: 1600, mask: true
       })
     },
+    // 登录
     login: async function (e) {
       if (!(this.checkEmptyField())) {
         //优先级
@@ -155,6 +158,7 @@ export default {
         title: res, icon: "none", duration: 3500, mask: true
       })
     },
+    // 获取微信信息
     getWxUserInfo: function () {
       return new Promise((resolve, reject) => {
         uni.getUserProfile({
@@ -170,6 +174,7 @@ export default {
         })
       })
     },
+    // 微信登录
     wxLogin: async function (e) {
       var _this = this;
       console.log('微信登录')
@@ -241,6 +246,7 @@ export default {
         }
       })
     },
+    // 切换登录/注册
     changeType: function (e) {
       // 小tab
       this.setErrType(0);
@@ -252,6 +258,7 @@ export default {
         this.tab = 1;
       }
     },
+    // 设定错误信息
     setErrType: function (num) {
       // 对错误进行定义
       try {
@@ -261,6 +268,7 @@ export default {
         this.errtype = 1;
       }
     },
+    // 空字符串检查
     checkEmptyField: function (e) {
       // 检查非空
       let u = this.user;
@@ -280,6 +288,7 @@ export default {
       this.setErrType(2)
       return false
     },
+    // 密码格式检查
     checkPwd: function (e) {
       // 检查密码以及再次输入密码
       let pw = this.user.password;
@@ -311,6 +320,7 @@ export default {
       }
       return false
     },
+    // 邮箱格式检查
     checkEmail: function (e) {
       // 检查邮箱格式
       let regex_email = new RegExp(/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/);
@@ -334,6 +344,7 @@ export default {
       }
       return false;
     },
+    // 输入框监听
     handleInput: function (e) {
       // 监听输入框
       let inputtype = e.target.dataset.inputtype
@@ -348,7 +359,7 @@ export default {
     this.flushStatus();
     if (this.isLogin) {
       console.log("非法访问");
-      app.onShow();
+      app.onHide();
       app.globalData.ifFirstTimeLaunch = true;
       uni.reLaunch({
         url: '../index/index'

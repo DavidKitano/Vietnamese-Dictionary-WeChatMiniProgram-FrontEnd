@@ -44,14 +44,19 @@
       <view class="contentContainer">
         <view class="loginBtn" hover-class="loginBtnTapped" @tap="login" :wx-if="(!isLogin)">登&nbsp;&nbsp;&nbsp;录
         </view>
-        <view :wx-if="isLogin" class="contentTitle">学习状态总览</view>
-        <view class="split"></view>
-        <qiunDataCharts class="charts" type="ring" :opts="optsLearn" :chartData="chartDataLearn" :canvas2d="true"
-          canvasId="mIaUcjZIsRXkrfOyLHOaUoeLdaWGgCGy" />
-        <view :wx-if="isLogin" class="contentTitle">复习状态总览</view>
-        <view class="split"></view>
-        <qiunDataCharts class="charts" type="ring" :opts="optsReview" :chartData="chartDataReview" :canvas2d="true"
-          canvasId="mIaUcjZIsRXkrfOyLHOaUoeLdaWGgCG14" />
+        <template :wx-if="isLogin">
+          <view :wx-if="isLogin" class="contentTitle">学习状态总览</view>
+          <view class="split"></view>
+          <qiunDataCharts class="charts" type="ring" :opts="optsLearn" :chartData="chartDataLearn" :canvas2d="true"
+            canvasId="mIaUcjZIsRXkrfOyLHOaUoeLdaWGgCGy" />
+          <!-- 真机调试不支持canvas 2d，调试时换成非2d -->
+          <!-- <qiunDataCharts class="charts" type="ring" :opts="optsLearn" :chartData="chartDataLearn" /> -->
+          <view :wx-if="isLogin" class="contentTitle">复习状态总览</view>
+          <view class="split"></view>
+          <qiunDataCharts class="charts" type="ring" :opts="optsReview" :chartData="chartDataReview" :canvas2d="true"
+            canvasId="mIaUcjZIsRXkrfOyLHOaUoeLdaWGgCG14" />
+          <!-- <qiunDataCharts class="charts" type="ring" :opts="optsReview" :chartData="chartDataReview" /> -->
+        </template>
       </view>
     </view>
   </scroll-view>
@@ -70,6 +75,7 @@ export default {
       newComer: true,
       isLogin: false,
       userInfo: {},
+      learningStatus: {},
       dailySentences: [{
         index: 0,
         chSentence: "加载中...",
@@ -79,28 +85,14 @@ export default {
       presentDailySentence: 0,
 
       // 图表数据
-      chartDataLearn: {
-        series: [{
-          data: [
-            { "name": "已学习", "value": 0 },
-            { "name": "未学习", "value": 13902 }
-          ]
-        }]
-      },
-      chartDataReview: {
-        series: [{
-          data: [
-            { "name": "已复习", "value": 0 },
-            { "name": "未复习", "value": 13902 }
-          ]
-        }]
-      },
+      chartDataLearn: {},
+      chartDataReview: {},
       // 圆环图的配置
       optsLearn: {
         rotate: false,
         rotateLock: false,
         color: ["#1890FF", "#91CB74"],
-        padding: [0, 20, 0, 20],
+        padding: [0, 0, 0, 0],
         dataLabel: true,
         legend: {
           show: true,
@@ -113,7 +105,9 @@ export default {
           color: "#666666"
         },
         subtitle: {
-          name: ""
+          name: "",
+          fontSize: 13,
+          color: "pink"
         },
         extra: {
           ring: {
@@ -133,7 +127,7 @@ export default {
         rotate: false,
         rotateLock: false,
         color: ["#91CB74", "#1890FF"],
-        padding: [0, 20, 0, 20],
+        padding: [0, 0, 0, 0],
         dataLabel: true,
         legend: {
           show: true,
@@ -146,7 +140,9 @@ export default {
           color: "#666666"
         },
         subtitle: {
-          name: ""
+          name: "",
+          fontSize: 13,
+          color: "pink"
         },
         extra: {
           ring: {
@@ -227,7 +223,7 @@ export default {
       }
       else {
         uni.navigateTo({
-          url: '../../pages/search/search',
+          url: '../../pages/search/search?type=0',
         })
       }
     },
@@ -255,6 +251,29 @@ export default {
       let isLogin = app.globalData.isLogin;
       this.isLogin = isLogin;
       this.userInfo = app.globalData.userInfo;
+      this.learningStatus = app.globalData.learningStatus;
+      console.log("首页学习状态", app.globalData.learningStatus);
+      this.chartDataLearn = {
+        series: [{
+          data: [
+            { "name": "已学习", "value": this.learningStatus.learned },
+            { "name": "未学习", "value": this.learningStatus.unlearn }
+          ]
+        }]
+      };
+      let learnTotal = this.learningStatus.learned + this.learningStatus.unlearn;
+      let reviewTotal = this.learningStatus.reviewed + this.learningStatus.review;
+      // console.log(learnTotal, reviewTotal)
+      this.optsLearn.subtitle.name = String(this.learningStatus.learned) + "/" + String(learnTotal);
+      this.optsReview.subtitle.name = String(this.learningStatus.reviewed) + "/" + String(reviewTotal);
+      this.chartDataReview = {
+        series: [{
+          data: [
+            { "name": "已复习", "value": this.learningStatus.reviewed },
+            { "name": "未复习", "value": this.learningStatus.review }
+          ]
+        }]
+      };
     },
     // 检查是否是第一次进入的用户（或清过缓存的用户）
     newComerCheck: function (e) {

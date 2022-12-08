@@ -18,7 +18,7 @@ module.exports = {
 /**
  * 用户注册API
  * 
- * @param {*} d 包含邮箱和密码的对象体
+ * @param {{...}} d 包含邮箱和密码的对象体
  * @returns 标准化的结果
  */
 async function registerApi(d) {
@@ -48,7 +48,7 @@ async function registerApi(d) {
 /**
  * 用户登录API 
  * 
- * @param {*} d 包含邮箱和密码的对象体
+ * @param {{...}} d 包含邮箱和密码的对象体
  * @returns 标准化的结果
  */
 async function loginApi(d) {
@@ -77,7 +77,7 @@ async function loginApi(d) {
 /**
  * 微信登录API
  * 
- * @param {*} c 微信官方接口给出的唯一openId code值
+ * @param {string} c 微信官方接口给出的唯一openId code值
  * @returns 标准化的结果
  */
 async function wxLoginApi(c) {
@@ -105,7 +105,7 @@ async function wxLoginApi(c) {
 /**
  * 退出登录API
  * 
- * @param {*} t token
+ * @param {String} t token
  * @returns 标准化的结果
  */
 async function logoutApi(t) {
@@ -132,7 +132,7 @@ async function logoutApi(t) {
 /**
  * 获取账号个人信息及设置信息API
  * 
- * @param {*} t token
+ * @param {String} t token
  * @returns 普通结果
  */
 async function getProfilesApi(t) {
@@ -190,8 +190,8 @@ async function getProfilesApi(t) {
 /**
  * 修改用户设置API
  * 
- * @param {*} obj  包含完整设置内容的对象体
- * @param {*} t token
+ * @param {{...}} obj  包含完整设置内容的对象体
+ * @param {string} t token
  * @returns 标准化的结果
  */
 async function modUserSettingsApi(obj, t) {
@@ -210,8 +210,8 @@ async function modUserSettingsApi(obj, t) {
 /**
  * 修改密码API
  * 
- * @param {*} obj 包含新旧密码内容的对象体
- * @param {*} t token
+ * @param {{newPassword:String,oldPassword:String}} obj 包含新旧密码内容的对象体
+ * @param {string} t token
  * @return 标准化的结果
  */
 async function changePwdApi(obj, t) {
@@ -236,8 +236,8 @@ async function changePwdApi(obj, t) {
 /**
  * 修改用户昵称API
  * 
- * @param {*} obj 含有用户名（和用户头像）的对象体，实际使用其中的newUsername字段
- * @param {*} t token
+ * @param {{newAvatar:String,newUsername:String}} obj 含有用户名（和用户头像）的对象体，实际使用其中的newUsername字段
+ * @param {String} t token
  * @returns 标准化后的结果
  */
 async function changeUsernameApi(obj, t) {
@@ -262,8 +262,8 @@ async function changeUsernameApi(obj, t) {
 /**
  * 修改用户头像Api，会优先调用上传图片Api
  * 
- * @param {*} obj 含有用户头像（和用户名）的对象体，实际使用其中的newAvatar字段
- * @param {*} t token
+ * @param {{newAvatar:String,newUsername:String}} obj 含有用户头像（和用户名）的对象体，实际使用其中的newAvatar字段
+ * @param {String} t token
  * @returns 标准化后的结果
  */
 async function changeAvatarApi(obj, t) {

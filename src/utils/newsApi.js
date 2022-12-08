@@ -1,6 +1,4 @@
 const utils = require('./utils.js');
-const userApi = require('./userApi.js');
-const studyApi = require('./studyApi.js');
 
 module.exports = {
     addFavoriteNews: addFavoriteNewsApi,
@@ -16,9 +14,9 @@ module.exports = {
 /**
  * 获取新闻列表
  * 
- * @param {*} t token
- * @param {*} _page 页数
- * @param {*} _size 一页加载多少个
+ * @param {String} t token
+ * @param {Number} _page 页数
+ * @param {Number} _size 一页加载多少个
  * @returns 标准化的结果
  */
 async function getNewsListApi(_page, _size, t) {
@@ -37,8 +35,8 @@ async function getNewsListApi(_page, _size, t) {
 /**
  * 获取新闻详情
  * 
- * @param {*} _id 新闻id
- * @param {*} t token
+ * @param {Number} _id 新闻id
+ * @param {String} t token
  * @returns 标准化的结果
  */
 async function getNewsApi(_id, t) {
@@ -57,8 +55,8 @@ async function getNewsApi(_id, t) {
 /**
  * 收藏新闻
  * 
- * @param {*} t token
- * @param {*} _id 新闻id
+ * @param {String} t token
+ * @param {Number} _id 新闻id
  * @returns 标准化的结果
  */
 async function addFavoriteNewsApi(_id, t) {
@@ -81,8 +79,8 @@ async function addFavoriteNewsApi(_id, t) {
 /**
  * 取消收藏新闻
  * 
- * @param {*} t token
- * @param {*} _id 新闻id
+ * @param {String} t token
+ * @param {Number} _id 新闻id
  * @returns 标准化的结果
  */
 async function deFavoriteNewsApi(_id, t) {
@@ -105,18 +103,18 @@ async function deFavoriteNewsApi(_id, t) {
 /**
  * 搜索新闻结果Api
  * 
- * @param {*} _text 关键词文本，title，summary，body三个参数都有可能出现标签，标签里就是输入的关键词，可以if看下哪个参数有就呈现，比如在body，则summary就不用呈现
- * @param {*} _page 页码
- * @param {*} _size 一页多少条
- * @param {*} t token
+ * @param {String} _text 关键词文本，title，summary，body三个参数都有可能出现标签，标签里就是输入的关键词，可以if看下哪个参数有就呈现，比如在body，则summary就不用呈现
+ * @param {Number} _page 页码
+ * @param {Number} _size 一页多少条
+ * @param {String} t token
  * @returns 标准化后的结果
  */
 async function getSearchNewsResultApi(_text, _page, _size, t) {
-    console.log("传入参数", _text, _page, _size);
+    console.log("搜索新闻传入参数", _text, _page, _size);
     const { data: res } = await wx.p.request({
-        method: 'GET',
+        method: 'POST',
         url: 'https://vi.wzf666.top/news',
-        body: {
+        data: {
             text: _text,
             size: _size,
             page: _page
@@ -126,6 +124,7 @@ async function getSearchNewsResultApi(_text, _page, _size, t) {
             'content-type': 'application/x-www-form-urlencoded'
         }
     })
+    // console.log("搜索新闻传入参数2", _text, _page, _size);
     console.log("新闻搜索获取的结果", res);
     return utils.statusCodeExplain(res);
 }
@@ -133,9 +132,9 @@ async function getSearchNewsResultApi(_text, _page, _size, t) {
 /**
  * 获取收藏夹的新闻
  * 
- * @param {*} _page 页码
- * @param {*} _size 一页多少条
- * @param {*} t token
+ * @param {Number} _page 页码
+ * @param {Number} _size 一页多少条
+ * @param {String} t token
  * @returns 标准化结果
  */
 async function getFavoriteNewsApi(_page, _size, t) {

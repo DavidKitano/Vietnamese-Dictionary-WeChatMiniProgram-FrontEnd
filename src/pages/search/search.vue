@@ -8,6 +8,10 @@
           placeholder-class="placeHolder" @input="handleInput" @confirm="search" />
         <image src="../../static/images/svgs/search-puppy-62C6AC.svg" mode="scaleToFill" @tap="search"></image>
       </view>
+      <view :wx-if="(searchType == 1)" class="searchWarning">
+        <view>当前搜索模式：特定词书</view>
+        <view @tap="switchSearchMode" class="searchWarningSwitcher">&nbsp;切换为全局&nbsp;</view>
+      </view>
     </view>
     <view class="searchContainer">
       <view :wx-if="!isHasContent">
@@ -51,6 +55,7 @@ export default {
   props: {},
   data() {
     return {
+      searchType: 0,
       isLoading: false, // 节流阀
       isLogin: false,
       currentPage: 1,
@@ -75,6 +80,11 @@ export default {
   },
   computed: {},
   methods: {
+    // 切换搜索模式
+    switchSearchMode: function (e) {
+      this.searchType = 0;
+      console.log("当前搜索模式", this.searchType);
+    },
     // 搜索
     search: async function (e) {
       console.log(this.searchWords);
@@ -89,7 +99,7 @@ export default {
         }
         else {
           this.currentPage = 1;
-          const res = await studyApi.getSearchContent(this.searchWords, 1, 10, 0, uni.getStorageSync('token'));
+          const res = await studyApi.getSearchContent(this.searchWords, 1, 10, this.searchType, uni.getStorageSync('token'));
           if (res == "未登录或登录状态已失效") {
             _this.token = undefined;
             app.globalData.token = undefined;
@@ -133,7 +143,7 @@ export default {
     },
     // 刷新新页面(加载新页面实际)
     flushLoadNewPage: async function (e) {
-      const res = await studyApi.getSearchContent(this.searchWords, this.currentPage + 1, 10, 0, uni.getStorageSync('token'));
+      const res = await studyApi.getSearchContent(this.searchWords, this.currentPage + 1, 10, this.searchType, uni.getStorageSync('token'));
       return res;
     },
     // 加载新页面
@@ -226,7 +236,8 @@ export default {
   },
 
   // 页面周期函数--监听页面加载
-  onLoad() {
+  onLoad(options) {
+    this.searchType = options.type;
     this.flushStatus();
   },
   // 页面周期函数--监听页面初次渲染完成

@@ -36,11 +36,11 @@ async function getDailySentencesApi() {
 /**
  * 获取用户待学和需复习单词数量
  * 
- * @param {*} t token
- * @returns 
+ * @param {String} t token
+ * @returns 标准化结果
  */
 async function getWordsLearnNeededApi(t) {
-    // TO-DO 后端还没做好
+    // console.log("传入参数", t)
     const { data: res } = await wx.p.request({
         method: 'GET',
         url: 'https://vi.wzf666.top/learn/home/plan',
@@ -61,13 +61,13 @@ async function getWordsLearnNeededApi(t) {
 /**
  * 获取单词详情
  * 
- * @param {*} _id: 单词id
- * @param {*} t: token
+ * @param {Number} _id: 单词id
+ * @param {String} t: token
  * @returns 标准化的结果 
  */
 async function getWordDetailsApi(_id, t) {
     // 用onLoad: function(options){}获得参数，必要时可以通过this.setData({query:options})将参数全局化
-    console.log("检查传入参数", _id, t);
+    // console.log("检查传入参数", _id, t);
     const { data: res } = await wx.p.request({
         method: 'GET',
         url: 'https://vi.wzf666.top/learn/word/' + _id,
@@ -82,12 +82,12 @@ async function getWordDetailsApi(_id, t) {
 /**
  * 收藏单词
  * 
- * @param {*} _id: 单词id
- * @param {*} t: token
+ * @param {Number} _id: 单词id
+ * @param {String} t: token
  * @returns 标准化的结果 
  */
 async function favoriteWordApi(_id, t) {
-    console.log("检查传入参数", _id, t);
+    // console.log("检查传入参数", _id, t);
     const { data: res } = await wx.p.request({
         method: 'POST',
         url: 'https://vi.wzf666.top/learn/word/collection',
@@ -106,8 +106,8 @@ async function favoriteWordApi(_id, t) {
 /**
  * 取消收藏单词
  * 
- * @param {*} _id: 单词id
- * @param {*} t: token
+ * @param {Number} _id: 单词id
+ * @param {String} t: token
  * @returns 标准化的结果 
  */
 async function deFavoriteWordApi(_id, t) {
@@ -129,7 +129,7 @@ async function deFavoriteWordApi(_id, t) {
 /**
  * 获取收藏夹单词列表
  * 
- * @param {*} t token
+ * @param {String} t token
  * @returns 结果 
  */
 async function getFavoriteCollectionApi(t) {
@@ -157,16 +157,20 @@ async function getFavoriteCollectionApi(t) {
 /**
  * 查找单词
  * 
- * @param {*} keyword 查询关键词
- * @param {*} currentPage 当前页
- * @param {*} pageSize 页大小
- * @param {*} type 类型 0 为全词库检索 1为选择的词书中检索
- * @param {*} t token
+ * @param {String} keyword 查询关键词
+ * @param {Number} currentPage 当前页
+ * @param {Number} pageSize 页大小
+ * @param {Number} type 类型 0 为全词库检索 1为选择的词书中检索
+ * @param {String} t token
  * @return 标准化的结果
  */
 async function getSearchContentApi(keyword, currentPage, pageSize, type, t) {
+    // console.log("搜索单词传入参数检查", keyword, currentPage, pageSize, type);
     if (keyword == "") {
         return;
+    }
+    if (type > 2 || type < 0 || typeof type != "number") {
+        type = 0;
     }
     const { data: res } = await wx.p.request({
         method: 'GET',

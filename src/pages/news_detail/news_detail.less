@@ -1,1 +1,92 @@
-/**/
+.news_detail {
+    background: linear-gradient(180deg, #62C6AC, #62C6AC, #62C6AC, white);
+    width: 100%;
+    height: 105%;
+    min-height: 105vh;
+    overflow: hidden;
+}
+
+.split {
+    background-color: #e3e3e3;
+    width: 180rpx;
+    height: 15rpx;
+    border-radius: 50rem;
+    margin: 30rpx 0;
+    margin-left: 70rpx;
+}
+
+.favImage {
+    width: 8vw;
+    height: 8vw;
+    margin: 0rpx 70rpx;
+}
+
+.contentContainer {
+    // width: 85%;
+    box-sizing: border-box;
+    margin-top: 50rpx;
+    margin-bottom: 60rpx;
+    margin-left: 50rpx;
+    margin-right: 50rpx;
+    border: solid 4px #F5F7F696;
+    border-radius: 60rpx;
+    padding: 40rpx 10rpx;
+    background: #F5F7F6;
+    backdrop-filter: blur(200rpx);
+    box-shadow: 6rpx 6rpx 6rpx 6rpx #979797a7;
+
+    .contentTitle {
+        font-family: 'Microsoft YaHei';
+        text-align: left;
+        font-size: 44rpx;
+        font-weight: 800;
+        margin: 20rpx 70rpx;
+        margin-bottom: 0rpx;
+        // 利用背景颜色裁切 + 文字透明来获取渐变色 配色太阴间 取消！！
+        // background-image: linear-gradient(45deg, #f6e4c6, rgb(251, 182, 113), rgb(255, 94, 0), red);
+        background: rgb(64, 64, 64);
+        background-clip: text;
+        color: transparent;
+    }
+
+    .contentSubProperties {
+        display: flex;
+        font-size: 25rpx;
+        font-weight: 600;
+        margin: 20rpx 70rpx;
+    }
+
+    .columnTitle {
+        text-indent: 0rem;
+        margin-bottom: 20rpx;
+        font-size: 33rpx;
+        font-weight: 600;
+    }
+
+    .contentSummary {
+        text-indent: 1rem;
+        font-size: 28rpx;
+        font-weight: 500;
+        margin: 20rpx 70rpx;
+    }
+
+    .contentBody {
+        text-indent: 1rem;
+        font-size: 30rpx;
+        font-weight: 500;
+        margin: 20rpx 70rpx;
+    }
+
+    .imgContent {
+        float: right;
+        margin-right: 20rpx;
+        margin-bottom: 10rpx;
+        margin-left: 20rpx;
+
+        image {
+            clip-path: circle(50%);
+            width: 320rpx;
+            height: 200rpx;
+        }
+    }
+}

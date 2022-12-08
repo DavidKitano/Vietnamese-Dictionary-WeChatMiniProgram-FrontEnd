@@ -29,7 +29,7 @@
             <view :wx-if="nl.category2" slot="category2">{{ nl.category2 }}</view>
             <view slot="pubTime">{{ nl.pubTime }}</view>
             <view slot="resources">
-              <image hspace="5" vspace="5" :src="nl.resources[0]" mode="scaleToFill" class="resourceImg" />
+              <image alt="摘要图" hspace="5" vspace="5" :src="nl.resources[0]" mode="scaleToFill" class="resourceImg" />
             </view>
             <view slot="websiteName">{{ nl.websiteName }}</view>
           </newsBox>
@@ -58,7 +58,7 @@ export default {
     return {
       isLoading: false, // 节流阀
       isLogin: false,
-      currentPage: 0,
+      currentPage: 1,
       isHasContent: false,
       newsList: [
         {
@@ -238,7 +238,9 @@ export default {
   // onPullDownRefresh() { uni.stopPullDownRefresh(); },
   // 页面处理函数--监听用户上拉触底
   onReachBottom(e) {
-    this.loadNewPage();
+    if (this.isLogin) {
+      this.loadNewPage();
+    }
   },
   // 页面处理函数--监听页面滚动(not-nvue)
   // onPageScroll(event) {},

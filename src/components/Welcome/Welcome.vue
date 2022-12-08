@@ -78,6 +78,7 @@ export default {
   onLoad() {
   },
   methods: {
+    // 点击“好耶”
     welcomeBtnTap: function (e) {
       // var wc = $('#welcomeContent');
       // console.log("点击了好耶");

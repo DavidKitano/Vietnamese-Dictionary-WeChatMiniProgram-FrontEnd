@@ -34,10 +34,12 @@ export default {
   },
   computed: {},
   methods: {
+    // 刷新状态
     flushStatus: function (e) {
       let isLogin = app.globalData.isLogin
       this.isLogin = isLogin
     },
+    // 页面重载（未使用）
     reload() {
       // 页面重载
       const pages = getCurrentPages()
