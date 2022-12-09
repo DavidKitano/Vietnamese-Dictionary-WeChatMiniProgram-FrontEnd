@@ -176,7 +176,7 @@ export default {
         console.log("开始检查昵称是否为空的情况");
         // TODO 更改信息的非空判断
         let obj = this.changeProfile;
-        console.log(obj);
+        // console.log(obj);
         if (obj.newUsername != null && typeof obj.newUsername !== undefined && String(obj.newUsername).trim() != "") {
           this.setErrType(0);
           return true;
@@ -568,7 +568,7 @@ export default {
           }
           else {
             _this.changeProfile.newAvatar = res.tempFiles[0].tempFilePath;
-            console.log(_this.changeProfile.newAvatar);
+            // console.log(_this.changeProfile.newAvatar);
           }
         },
         error(err) {

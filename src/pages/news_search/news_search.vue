@@ -174,7 +174,7 @@ export default {
         // console.log(res);
         let result = res.data.dataList;
         // let result = res
-        console.log(result.length)
+        // console.log(result.length)
         if (result.length == 0) {
           uni.showLoading({
             mask: true

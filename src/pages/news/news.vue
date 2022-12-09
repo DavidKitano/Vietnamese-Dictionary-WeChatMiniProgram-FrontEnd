@@ -34,7 +34,8 @@
             <view :wx-if="nl.category2" slot="category2">{{ nl.category2 }}</view>
             <view slot="pubTime">{{ nl.pubTime }}</view>
             <view slot="resources">
-              <image alt="摘要图" hspace="5" vspace="5" :src="nl.resources[0]" mode="scaleToFill" class="resourceImg" />
+              <image :lazy-load="true" alt="摘要图" hspace="5" vspace="5" :src="nl.resources[0]" mode="scaleToFill"
+                class="resourceImg" />
             </view>
             <view slot="websiteName">{{ nl.websiteName }}</view>
           </newsBox>

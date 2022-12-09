@@ -36,7 +36,7 @@ function errorFunc(e) {
  * @returns 结果，布尔值
  */
 function isObjectValueEqualFunc(a, b) {
-    console.log("传参检查", a, b);
+    // console.log("传参检查", a, b);
     let aType = typeof a;
     let bType = typeof b;
     if (aType !== bType) {
@@ -107,7 +107,7 @@ async function uploadImgApi(p, t) {
         // method: 'POST',
         name: 'files',
         filePath: p,
-        url: 'http://vi.wzf666.top/common/upload',
+        url: 'https://vi.wzf666.top/common/upload',
         header: {
             token: t,
             'content-type': 'multipart/form-data'

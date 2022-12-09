@@ -1,0 +1,54 @@
+.contentForBook {
+    position: relative;
+    padding-left: 60rpx;
+    padding-right: 60rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+
+    button {
+        width: 120rpx;
+        height: 75rpx;
+        font-size: 28rpx;
+        background-color: #62C6AC;
+        line-height: 75rpx;
+    }
+
+    .longerBtn {
+        width: 170rpx;
+    }
+}
+
+.charts {
+    z-index: 5;
+    position: relative;
+}
+
+.bookModal {
+    min-height: 100vh;
+    width: 100vw;
+    box-sizing: border-box;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999999999;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    .contentContainerHeader {
+        float: right;
+        font-weight: 800;
+        font-size: 50rpx;
+        color: gray;
+        margin-right: 30rpx;
+    }
+
+    .contentForBook {
+        flex-direction: column;
+    }
+}

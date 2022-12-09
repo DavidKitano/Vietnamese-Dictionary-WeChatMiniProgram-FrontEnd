@@ -73,6 +73,12 @@
 			"style": {
 				"navigationBarTitleText": "越南单词本 - 收藏夹"
 			}
+		},
+		{
+			"path": "pages/book_detail/book_detail",
+			"style": {
+				"navigationBarTitleText": "越南单词本 - 词书详情"
+			}
 		}
 	],
 	"globalStyle": {

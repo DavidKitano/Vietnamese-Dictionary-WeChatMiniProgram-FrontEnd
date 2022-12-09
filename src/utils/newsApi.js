@@ -20,7 +20,7 @@ module.exports = {
  * @returns 标准化的结果
  */
 async function getNewsListApi(_page, _size, t) {
-    console.log("传入参数", _page, _size);
+    // console.log("传入参数", _page, _size);
     const { data: res } = await wx.p.request({
         method: 'GET',
         url: 'https://vi.wzf666.top/news?page=' + _page + '&size=' + _size,
@@ -28,7 +28,7 @@ async function getNewsListApi(_page, _size, t) {
             token: t
         }
     })
-    console.log("新闻列表获取的结果", res);
+    // console.log("新闻列表获取的结果", res);
     return utils.statusCodeExplain(res);
 }
 
@@ -40,7 +40,7 @@ async function getNewsListApi(_page, _size, t) {
  * @returns 标准化的结果
  */
 async function getNewsApi(_id, t) {
-    console.log("传入参数-新闻详情获取", _id);
+    // console.log("传入参数-新闻详情获取", _id);
     const { data: res } = await wx.p.request({
         method: 'GET',
         url: 'https://vi.wzf666.top/news/' + _id,
@@ -48,7 +48,7 @@ async function getNewsApi(_id, t) {
             token: t
         }
     })
-    console.log("新闻详情获取的结果", res);
+    // console.log("新闻详情获取的结果", res);
     return utils.statusCodeExplain(res);
 }
 
@@ -60,7 +60,7 @@ async function getNewsApi(_id, t) {
  * @returns 标准化的结果
  */
 async function addFavoriteNewsApi(_id, t) {
-    console.log("收藏新闻传入参数", _id);
+    // console.log("收藏新闻传入参数", _id);
     const { data: res } = await wx.p.request({
         method: 'POST',
         url: 'https://vi.wzf666.top/news/collection',
@@ -72,7 +72,7 @@ async function addFavoriteNewsApi(_id, t) {
             newsId: _id
         }
     })
-    console.log("收藏新闻的结果", res);
+    // console.log("收藏新闻的结果", res);
     return utils.statusCodeExplain(res);
 }
 
@@ -84,7 +84,7 @@ async function addFavoriteNewsApi(_id, t) {
  * @returns 标准化的结果
  */
 async function deFavoriteNewsApi(_id, t) {
-    console.log("取消收藏新闻传入参数", _id);
+    // console.log("取消收藏新闻传入参数", _id);
     const { data: res } = await wx.p.request({
         method: 'DELETE',
         url: 'https://vi.wzf666.top/news/collection',
@@ -96,7 +96,7 @@ async function deFavoriteNewsApi(_id, t) {
             newsId: _id
         }
     })
-    console.log("取消收藏新闻的结果", res);
+    // console.log("取消收藏新闻的结果", res);
     return utils.statusCodeExplain(res);
 }
 
@@ -110,7 +110,7 @@ async function deFavoriteNewsApi(_id, t) {
  * @returns 标准化后的结果
  */
 async function getSearchNewsResultApi(_text, _page, _size, t) {
-    console.log("搜索新闻传入参数", _text, _page, _size);
+    // console.log("搜索新闻传入参数", _text, _page, _size);
     const { data: res } = await wx.p.request({
         method: 'POST',
         url: 'https://vi.wzf666.top/news',
@@ -125,7 +125,7 @@ async function getSearchNewsResultApi(_text, _page, _size, t) {
         }
     })
     // console.log("搜索新闻传入参数2", _text, _page, _size);
-    console.log("新闻搜索获取的结果", res);
+    // console.log("新闻搜索获取的结果", res);
     return utils.statusCodeExplain(res);
 }
 
@@ -138,7 +138,7 @@ async function getSearchNewsResultApi(_text, _page, _size, t) {
  * @returns 标准化结果
  */
 async function getFavoriteNewsApi(_page, _size, t) {
-    console.log("传入参数", _page, _size);
+    // console.log("传入参数", _page, _size);
     const { data: res } = await wx.p.request({
         method: 'GET',
         url: 'https://vi.wzf666.top/news/collection',
@@ -151,6 +151,6 @@ async function getFavoriteNewsApi(_page, _size, t) {
             size: _size
         }
     })
-    console.log("收藏新闻获取的结果", res);
+    // console.log("收藏新闻获取的结果", res);
     return utils.statusCodeExplain(res);
 }

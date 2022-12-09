@@ -325,20 +325,22 @@ export default {
       secondType: newSecondType,
       thirdType: newThirdType,
       groupSize: newGroupSize,
-      timingDuration: newTimingDuration
+      timingDuration: newTimingDuration,
+      bookId: app.globalData.userInfo.settings.bookId
     }
     if (!utils.isObjectValueEqual(newObj, app.globalData.userInfo.settings)) {
-      modTmp(this.token, this);
+      modTmp(this.token, this, newObj);
     }
     else {
       console.log("未作出任何设置改动");
     }
-    async function modTmp(t, _this) {
+    async function modTmp(t, _this, newObj) {
       let res = await userApi.modUserSettings(newObj, t);
       if (res) {
         // console.log("修改用户设置结果为", res)
         if (res == "操作成功") {
           app.onShow();
+          app.globalData.userInfo.settings = newObj;
         }
         if (res == "未登录或登录状态已失效") {
           _this.token = undefined;

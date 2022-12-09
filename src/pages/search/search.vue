@@ -88,7 +88,7 @@ export default {
     },
     // 搜索
     search: async function (e) {
-      console.log(this.searchWords);
+      // console.log(this.searchWords);
       if (this.isLogin) {
         if (this.searchWords == "") {
           uni.showToast({
@@ -100,7 +100,14 @@ export default {
         }
         else {
           this.currentPage = 1;
-          const res = await studyApi.getSearchContent(this.searchWords, 1, 10, this.searchType, uni.getStorageSync('token'));
+          var res = undefined;
+          if (this.searchType == 1) {
+            res = await studyApi.getSearchContent(this.searchWords, 1, 10, 1, uni.getStorageSync('token'), this.bookId);
+          }
+          else {
+            res = await studyApi.getSearchContent(this.searchWords, 1, 10, 0, uni.getStorageSync('token'));
+          }
+
           if (res == "未登录或登录状态已失效") {
             _this.token = undefined;
             app.globalData.token = undefined;
@@ -123,7 +130,7 @@ export default {
           }
           this.isHasContent = true;
           this.searchContent = res.data;
-          console.log(this.searchContent)
+          // console.log(this.searchContent)
         }
       }
       else {
@@ -175,7 +182,7 @@ export default {
         // console.log(res);
         let result = res.data.dataList;
         // let result = res
-        console.log(result.length)
+        // console.log(result.length)
         if (result.length == 0) {
           uni.showLoading({
             mask: true
@@ -239,6 +246,9 @@ export default {
   // 页面周期函数--监听页面加载
   onLoad(options) {
     options.type = toInteger(options.type);
+    if (options.bookId) {
+      this.bookId = toInteger(options.bookId);
+    }
     if (options.type < 0 || options.type > 1 || typeof options.type != "number") {
       this.searchType = 0;
     }

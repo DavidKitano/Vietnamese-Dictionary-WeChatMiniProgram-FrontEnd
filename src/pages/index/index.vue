@@ -200,7 +200,7 @@ export default {
     // 点击播放声音
     playVoice: function (e) {
       // console.log("点击了声音播放事件", e);
-      console.log(innerAudioContext.paused)
+      // console.log(innerAudioContext.paused)
       let sentenceAudio = this.dailySentences[this.presentDailySentence].audio;
 
       if (innerAudioContext.paused) {
@@ -236,20 +236,20 @@ export default {
     // 去登录页
     login: function (e) {
       // console.log("点击了登录，目前登录状态为" + this.isLogin);
-      if (this.isLogin == false) {
-        console.log("即将跳转到登录页");
-        uni.navigateTo({
-          url: '../../pages/login/login',
-        })
-      }
-      else {
-        uni.showToast({
-          title: '非法操作，请清除缓存并重启小程序重试',
-          icon: 'none',
-          duration: 1500,
-          mask: true
-        })
-      }
+      // if (this.isLogin == false) {
+      console.log("即将跳转到登录页");
+      uni.navigateTo({
+        url: '../../pages/login/login',
+      })
+      // }
+      // else {
+      //   uni.showToast({
+      //     title: '非法操作，请清除缓存并重启小程序重试',
+      //     icon: 'none',
+      //     duration: 1500,
+      //     mask: true
+      //   })
+      // }
     },
     // 去收藏夹
     goToFavorite: function (e) {
@@ -274,7 +274,7 @@ export default {
       this.isLogin = isLogin;
       this.userInfo = app.globalData.userInfo;
       this.learningStatus = app.globalData.learningStatus;
-      console.log("首页学习状态", app.globalData.learningStatus);
+      // console.log("首页学习状态", app.globalData.learningStatus);
       this.chartDataLearn = {
         series: [{
           data: [
@@ -336,6 +336,9 @@ export default {
     })
     this.newComer = this.newComerCheck();
     this.flushStatus();
+    if (this.newComer == "notNew") {
+      uni.showTabBar();
+    }
   },
   // 页面周期函数--监听页面初次渲染完成
   onReady() {

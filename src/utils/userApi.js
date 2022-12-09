@@ -116,7 +116,7 @@ async function logoutApi(t) {
     // console.log("进入登出交互")
     const { data: res } = await wx.p.request({
         method: 'DELETE',
-        url: 'http://vi.wzf666.top/user/logout',
+        url: 'https://vi.wzf666.top/user/logout',
         header: {
             token: t
         }
@@ -147,7 +147,7 @@ async function getProfilesApi(t) {
     })
     const { data: res } = await wx.p.request({
         method: 'GET',
-        url: 'http://vi.wzf666.top/user/information',
+        url: 'https://vi.wzf666.top/user/information',
         header: {
             token: t
         }
@@ -198,7 +198,7 @@ async function modUserSettingsApi(obj, t) {
     // console.log("传入参数检查", obj);
     const { data: res } = await wx.p.request({
         method: 'PUT',
-        url: 'http://vi.wzf666.top/user/information',
+        url: 'https://vi.wzf666.top/user/information',
         header: {
             token: t
         },
@@ -224,7 +224,7 @@ async function changePwdApi(obj, t) {
     }
     const { data: res } = await wx.p.request({
         method: 'PUT',
-        url: 'http://vi.wzf666.top/user/password',
+        url: 'https://vi.wzf666.top/user/password',
         header: {
             token: t
         },
@@ -247,7 +247,7 @@ async function changeUsernameApi(obj, t) {
     }
     const { data: res } = await wx.p.request({
         method: 'PUT',
-        url: 'http://vi.wzf666.top/user/info',
+        url: 'https://vi.wzf666.top/user/info',
         header: {
             token: t
         },
@@ -255,7 +255,7 @@ async function changeUsernameApi(obj, t) {
             username: newUsername
         }
     })
-    console.log("修改用户名接口返回", res);
+    // console.log("修改用户名接口返回", res);
     return (utils.statusCodeExplain(res));
 }
 
@@ -275,7 +275,7 @@ async function changeAvatarApi(obj, t) {
         let path = uploadRes.data[0];
         const { data: res } = await wx.p.request({
             method: 'PUT',
-            url: 'http://vi.wzf666.top/user/info',
+            url: 'https://vi.wzf666.top/user/info',
             header: {
                 token: t
             },
@@ -283,7 +283,7 @@ async function changeAvatarApi(obj, t) {
                 avatar: path
             }
         })
-        console.log("换头像结果", res);
+        // console.log("换头像结果", res);
         return (utils.statusCodeExplain(res));
     }
     return uploadRes;

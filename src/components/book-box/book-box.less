@@ -1,0 +1,50 @@
+.book-box {
+    display: flex;
+    overflow: hidden;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.contentImg {
+    width: 240rpx;
+
+    image {
+        // 指定标签选择器将浏览器加上的一些莫名其妙的样式冲掉，组件一般不这样写
+        display: block;
+        width: 240rpx !important;
+    }
+}
+
+
+
+.contentText {
+    margin-left: 30rpx;
+    width: 240rpx;
+    font-size: 32rpx;
+
+    .contentTextTitle {
+        font-weight: 600;
+        margin-bottom: 20rpx;
+    }
+
+    .contentTextContent {
+        margin-bottom: 20rpx;
+    }
+}
+
+.switchBtn {
+    border-radius: 10rpx;
+    background-color: #62c6ac;
+    width: 120rpx;
+    height: 60rpx;
+    font-size: 30rpx;
+    line-height: 60rpx;
+    color: white;
+}
+
+.wasTapped {
+    background-color: #54ab93;
+    color: rgb(213, 213, 213)
+}

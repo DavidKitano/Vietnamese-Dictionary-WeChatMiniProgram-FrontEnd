@@ -164,7 +164,7 @@ export default {
         uni.getUserProfile({
           desc: '信息用于快捷登录及个人信息',
           success: (res) => {
-            console.log(res)
+            // console.log(res)
             resolve(res)
           },
           fail: (err) => {

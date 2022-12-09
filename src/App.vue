@@ -22,14 +22,19 @@ export default {
   onLaunch: async function () {
     this.globalData.isFirstTimeLaunch = true;
     try {
-      await uni.hideTabBar();
+      uni.hideTabBar();
     } catch {
       console.log("有tabbar隐藏错误")
     }
     if (this.globalData.isFirstTimeLaunch) {
       console.log("App Launch");
-
       await this.flushStatus();
+      try {
+        uni.showTabBar();
+      }
+      catch {
+        console.log("在onLaunch周期函数时打开Tabber出现错误");
+      }
       this.globalData.isFirstTimeLaunch = false;
     }
   },
@@ -62,7 +67,7 @@ export default {
     setTimeout(async () => {
       console.log("wait for 2s")
       try {
-        await uni.showTabBar();
+        uni.showTabBar();
       } catch {
         console.log("有tabbar显示错误")
       }
@@ -110,10 +115,9 @@ export default {
     getProfiles: async function (e) {
       let res = await userApi.getProfiles(uni.getStorageSync('token'));
       if (res.code == 0 && res.msg == "操作成功") {
-        console.log("从服务器获取设置和个人信息中", res)
+        // console.log("从服务器获取设置和个人信息中", res)
         let profile = res.data.user;
         let settings = res.data.userConfig;
-
         /** 
          *
          * 由于后台当时的传参不完整导致在微信登录和普通登录初始化时得到的参数不一样，通用的写法会抛出错误
@@ -122,7 +126,6 @@ export default {
          * ※ 追记：后端已修正，可以通用统一用对象赋值初始化了 
          * 
          * **/
-
         try { this.globalData.userInfo.avatar_pic = "https://vi.wzf666.top" + profile.avatar; } catch { console.log("在初始化头像时出现错误") }
         try { this.globalData.userInfo.username = profile.username; } catch { console.log("在初始化用户名时出现错误") }
         // try { this.globalData.userInfo.user_id = profile.user_id; } catch { console.log("在初始化用户id时出现错误") }
@@ -142,6 +145,9 @@ export default {
         try {
           this.globalData.userInfo.settings.timingDuration = settings.timingDuration; //看词识义 看义识词持续时间
         } catch { console.log("在看义识词持续时间时出现错误"); }
+        try {
+          this.globalData.userInfo.settings.bookId = settings.bookId; // 当前选择词书
+        } catch { console.log("在选择词书时出现错误"); }
         // console.log("全局变量", this.globalData)
         // console.log("获取到的信息", profile)
       }
@@ -165,7 +171,6 @@ export default {
       if (res.msg == "操作成功") {
         // console.log("从服务器获取学习情况中", res)
         this.globalData.learningStatus = res.data;
-
       }
       else {
         this.globalData.token = undefined;

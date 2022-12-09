@@ -112,6 +112,8 @@ export default {
   },
   computed: {},
   methods: {
+    // 后台没有传单词的触底加载，而是一次性给完了，就暂时没做，要做的话就和触底加载新闻差不多
+
     // 刷新状态
     flushStatus: function (e) {
       this.isLogin = app.globalData.isLogin;
@@ -287,7 +289,7 @@ export default {
           // console.log(res);
           let result = res.data.dataList;
           // let result = res
-          console.log(result.length)
+          // console.log(result.length)
           if (result.length == 0) {
             uni.showLoading({
               mask: true
