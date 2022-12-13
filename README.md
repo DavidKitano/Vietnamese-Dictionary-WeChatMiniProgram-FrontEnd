@@ -13,6 +13,12 @@
 
 <br>
 
+## TO-DO LIST
+
+> 防抖
+> 学习页的功能
+> 更规范的封装和复用
+
 ## 基本介绍
 
 > 参考&nbsp;[*学不会单词 (UnlearnableWord) by Mint-green*](https://github.com/Mint-green/UnlearnableWord)&nbsp;的样式和部分功能创作的一款越南语学习微信小程序<del>，换句话说也有点<strong>不背单词</strong>APP的意思了</del>
