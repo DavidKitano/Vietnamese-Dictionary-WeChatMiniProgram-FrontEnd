@@ -23,7 +23,7 @@
 
 > 参考&nbsp;[*学不会单词 (UnlearnableWord) by Mint-green*](https://github.com/Mint-green/UnlearnableWord)&nbsp;的样式和部分功能创作的一款越南语学习微信小程序<del>，换句话说也有点<strong>不背单词</strong>APP的意思了</del>
 >
-* 使用 *Uniapp* + *Vite* + *Vue3.0* (+ *uCharts*) 重构开发
+* 使用 *Uniapp* + *Vite* + *Vue3.0* (+ *uCharts* + 部分原生小程序代码段) 重构开发
 * 部分代码定向支持微信小程序客户端（如 部分代码段使用了微信原生小程序、使用专门为微信小程序封装的Promise化等）
 * 功能大改，后端从云函数转为request后端域名API （后台项目跳转：正在考虑中）
 * 音声调用来自谷歌翻译API
