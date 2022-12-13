@@ -76,7 +76,7 @@ export default {
           ],
           summary: "",
           title: "",
-          websiteName: ""
+          websiteName: "空"
         },
       ],
       userInfo: {},
@@ -159,6 +159,9 @@ export default {
           return;
         }
         else {
+          if (res.data.websiteName == "" || typeof res.data.websiteName == undefined) {
+            res.data.websiteName = "空";
+          }
           this.newsList = res.data;
           this.isHasContent = true;
           // console.log("获取后的新闻列表", this.newsList);
